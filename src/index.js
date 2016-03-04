@@ -18,7 +18,10 @@ app.use(require("./router/upload"));
 app.use(require("./router/view"));
 
 // Put the server on listening status
-app.listen(8081, function() {
+app.set('port', process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8081);
+app.set('ip', process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
+
+app.listen(app.get('port'), app.get('ip'), function() {
   console.log("Server listening on port " + this.address().port);
 });
 
