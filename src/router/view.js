@@ -1,11 +1,11 @@
 var express = require("express");
 var expressJwt = require("express-jwt");
 var jwt = require("jsonwebtoken");
-var browserify = require("browserify");
-var React = require("react");
-var ReactDOMServer = require("react-dom/server");
+
+var renderer = require(__dirname + "/../util/react-renderer");
 
 var AuthenticationForm = require("../comps/Authentication.jsx");
+var RegistrationForm = require("../comps/Registration.jsx");
 
 var config = require("./../config");
 
@@ -20,7 +20,9 @@ router.get("/", function(req, res) {
     jwt.verify(token, config.secret, function(err, decoded) {
       if(err) {
         // Show login view
-        var html = AuthenticationForm.renderToString();
+        return renderer(__dirname + "/../view/template.html", {
+          content: AuthenticationForm.renderToString()
+        }, res);
       }
       else {
         // Show user's timeline
@@ -30,9 +32,17 @@ router.get("/", function(req, res) {
   }
   else {
     // Show login view
-    var html = AuthenticationForm.renderToString();
+    return renderer(__dirname + "/../view/template.html", {
+      content: AuthenticationForm.renderToString()
+    }, res);
   }
-  return res.sendStatus(200);
+});
+
+// Registration form
+router.get("/register", function(req, res) {
+  return renderer(__dirname + "/../view/template.html", {
+    content: RegistrationForm.renderToString()
+  }, res);
 });
 
 // Users profiles

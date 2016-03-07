@@ -15,12 +15,15 @@
     "express-jwt": "^3.3.0",
     "gridfs-storage-engine": "^0.2.3",
     "gridfs-stream": "^1.1.1",
+    "handlebars": "^4.0.5",
     "jsonwebtoken": "^5.7.0",
     "mongoose": "^4.4.5",
     "morgan": "^1.7.0",
     "multer": "^1.1.0",
     "node-jsx": "^0.13.3",
     "react": "^0.14.7",
+    "react-addons-css-transition-group": "^0.14.7",
+    "react-bootstrap": "^0.28.3",
     "react-dom": "^0.14.7"
   }
 }
