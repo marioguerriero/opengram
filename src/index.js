@@ -1,6 +1,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var morgan = require("morgan");
+var jsx = require("node-jsx").install({ extension: ".jsx" });
 
 var db = require("./db");
 db.init();

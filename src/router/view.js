@@ -1,6 +1,11 @@
 var express = require("express");
 var expressJwt = require("express-jwt");
 var jwt = require("jsonwebtoken");
+var browserify = require("browserify");
+var React = require("react");
+var ReactDOMServer = require("react-dom/server");
+
+var AuthenticationForm = require("../comps/Authentication.jsx");
 
 var config = require("./../config");
 
@@ -15,6 +20,7 @@ router.get("/", function(req, res) {
     jwt.verify(token, config.secret, function(err, decoded) {
       if(err) {
         // Show login view
+        var html = AuthenticationForm.renderToString();
       }
       else {
         // Show user's timeline
@@ -24,6 +30,7 @@ router.get("/", function(req, res) {
   }
   else {
     // Show login view
+    var html = AuthenticationForm.renderToString();
   }
   return res.sendStatus(200);
 });
