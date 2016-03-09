@@ -42,7 +42,7 @@ var AuthenticationForm = React.createClass({
 
   render: function() {
     return(
-      <form onSubmit={ this.handleSubmit}>
+      <form onSubmit={ this.handleSubmit }>
         <Input type="text" label="Username" placeholder="Enter username"
           value={this.state.username} onChange={this.handleUsernameChange} />
 
@@ -53,11 +53,11 @@ var AuthenticationForm = React.createClass({
 
         <Row className="show-grid">
           <Col xs={9} md={6}>
-            <Button onClick={this.handleSubmit} block={true}>Register</Button>
+            <Button onClick={ this.handleSubmit } href="register" block="true">Register</Button>
           </Col>
           <Col xs={9} md={6}>
             <ButtonInput bsStyle="primary"
-              type="submit" block={true} value="Login" />
+              type="submit" block="true" value="Login" />
           </Col>
         </Row>
       </form>

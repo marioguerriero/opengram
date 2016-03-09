@@ -2,6 +2,10 @@ var express = require("express");
 var expressJwt = require("express-jwt");
 var jwt = require("jsonwebtoken");
 
+var browserify = require("browserify");
+var literalify = require("literalify");
+var reactify = require("reactify");
+
 var renderer = require(__dirname + "/../util/react-renderer");
 
 var AuthenticationForm = require("../comps/Authentication.jsx");
@@ -20,7 +24,7 @@ router.get("/", function(req, res) {
     jwt.verify(token, config.secret, function(err, decoded) {
       if(err) {
         // Show login view
-        return renderer(__dirname + "/../view/template.html", {
+        return renderer(__dirname + "/../view/index.html", {
           content: AuthenticationForm.renderToString()
         }, res);
       }
@@ -32,10 +36,20 @@ router.get("/", function(req, res) {
   }
   else {
     // Show login view
-    return renderer(__dirname + "/../view/template.html", {
+    return renderer(__dirname + "/../view/index.html", {
       content: AuthenticationForm.renderToString()
     }, res);
   }
+});
+
+// JS files for home page
+router.get("/script/bundle-index.js", function(req, res) {
+  res.setHeader("Content-Type", "text/javascript");
+  browserify()
+      .add(__dirname + "/../view/script/bundle-index.js")
+      .transform(reactify, {global: true})
+      .bundle()
+      .pipe(res);
 });
 
 // Registration form

@@ -5,9 +5,11 @@ You should have a node interpeter and mongodb installed on your system in order 
 * `git clone https://github.com/marioguerriero/social-network`
 * `cd social-network`
 * `npm install`
-* Now use `npm start` or `node src/index.js` to run
+* Now use `npm start` or `NODE_ENV=development node src/index.js` to run
 * You will see a message like `Server listening on port PORT`
 * Now perform an HTTP GET request to http://localhost:PORT to use it
+
+I still did not understand why we need `NODE_ENV=development`. It is quite poorly documented but I experienced it is necessary if I want real server side rendering.
 
 # Used technologies
 * [Node.js](https://nodejs.org/)

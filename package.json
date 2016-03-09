@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./src/index.js",
   "scripts": {
-    "start": "node ./src/index.js"
+    "start": "NODE_ENV=development node ./src/index.js"
   },
   "author": "Mario Guerriero",
   "license": "ISC",
@@ -17,6 +17,7 @@
     "gridfs-stream": "^1.1.1",
     "handlebars": "^4.0.5",
     "jsonwebtoken": "^5.7.0",
+    "literalify": "^0.4.0",
     "mongoose": "^4.4.5",
     "morgan": "^1.7.0",
     "multer": "^1.1.0",
@@ -24,6 +25,8 @@
     "react": "^0.14.7",
     "react-addons-css-transition-group": "^0.14.7",
     "react-bootstrap": "^0.28.3",
-    "react-dom": "^0.14.7"
+    "react-bootstrap-validation": "^0.1.11",
+    "react-dom": "^0.14.7",
+    "reactify": "^1.1.1"
   }
 }
