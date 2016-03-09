@@ -4,6 +4,8 @@ var React = require("react");
 var ReactDOMServer = require("react-dom/server");
 var bootstrap = require("react-bootstrap");
 
+var request = require("superagent");
+
 var Input = bootstrap.Input;
 var Button = bootstrap.Button;
 var ButtonInput = bootstrap.ButtonInput;
@@ -34,15 +36,19 @@ var AuthenticationForm = React.createClass({
       password: this.state.password
     }
 
-    this.setState({
-      username:"yolo"
-    });
-
+    request
+      .post('/login')
+      .send(user)
+      .set('Accept', 'application/json')
+      .end(function(err, res){
+        // If status code is 200 res.text contains the response
+        var body = JSON.parse(res.text);
+      }.bind(this));
   },
 
   render: function() {
     return(
-      <form onSubmit={ this.handleSubmit}>
+      <form onSubmit={this.handleSubmit}>
         <Input type="text" label="Username" placeholder="Enter username"
           value={this.state.username} onChange={this.handleUsernameChange} />
 
@@ -53,7 +59,7 @@ var AuthenticationForm = React.createClass({
 
         <Row className="show-grid">
           <Col xs={9} md={6}>
-            <Button onClick={this.handleSubmit} block={true}>Register</Button>
+            <Button href="register" block={true}>Register</Button>
           </Col>
           <Col xs={9} md={6}>
             <ButtonInput bsStyle="primary"

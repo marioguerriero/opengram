@@ -59,6 +59,7 @@ api.post("/login", function(req, res) {
       var token = jwt.sign({username:req.body.username}, config.secret, {
         expiresIn: "7d"
       });
+      res.append("Set-Cookie", "token=" + token + "; HttpOnly");
       res.json({
         user: user._id,
         token: token
