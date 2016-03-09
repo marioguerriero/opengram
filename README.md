@@ -23,4 +23,4 @@ And much more...
 # TODO
 * [x] REST API with Node.js and Express
 * [ ] Send a cookie after authentication
-* [ ] View with React
+* [x] Server side view rendering with React

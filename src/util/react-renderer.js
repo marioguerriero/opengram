@@ -5,8 +5,6 @@ var ReactDOMServer = require("react-dom/server");
 var browserify = require("browserify");
 var literalify = require("literalify");
 
-var AuthenticationForm = require(__dirname + "/../comps/Authentication.jsx");
-
 var renderer = function(templatePath, components, response) {
   // Read the file first
   fs.readFile(templatePath, "utf-8", function(err , data) {
