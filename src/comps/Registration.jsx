@@ -26,7 +26,7 @@ var AuthenticationForm = React.createClass({
         </Row>
         <Input type="checkbox" label="I agree with terms and conditions" />
 
-        <ButtonInput bsStyle="primary" type="submit" value="Register" block="true" />
+        <ButtonInput bsStyle="primary" type="submit" value="Register" block />
       </form>
     );
   }

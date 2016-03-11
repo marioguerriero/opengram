@@ -19,6 +19,8 @@ app.use(morgan("dev"));
 app.use(require("./router/api"));
 app.use(require("./router/upload"));
 app.use(require("./router/view"));
+app.use("/assets", express.static(__dirname + "/view/assets"));
+app.use("/css", express.static(__dirname + "/view/css"));
 
 // Put the server on listening status
 app.set("port", process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8081);

@@ -37,7 +37,7 @@ var AuthenticationForm = React.createClass({
     }
 
     request
-      .post('/login')
+      .post('/api/login')
       .send(user)
       .set('Accept', 'application/json')
       .end(function(err, res){
@@ -59,11 +59,11 @@ var AuthenticationForm = React.createClass({
 
         <Row className="show-grid">
           <Col xs={9} md={6}>
-            <Button href="register" block={true}>Register</Button>
+            <Button href="register" block>Register</Button>
           </Col>
           <Col xs={9} md={6}>
             <ButtonInput bsStyle="primary"
-              type="submit" block={true} value="Login" />
+              type="submit" block value="Login" />
           </Col>
         </Row>
       </form>

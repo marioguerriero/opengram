@@ -8,6 +8,7 @@ var reactify = require("reactify");
 
 var renderer = require(__dirname + "/../util/react-renderer");
 
+var HeaderBar = require("../comps/HeaderBar.jsx");
 var AuthenticationForm = require("../comps/Authentication.jsx");
 var RegistrationForm = require("../comps/Registration.jsx");
 
@@ -37,6 +38,7 @@ router.get("/", function(req, res) {
   else {
     // Show login view
     return renderer(__dirname + "/../view/index.html", {
+      header: HeaderBar.renderToString(),
       content: AuthenticationForm.renderToString()
     }, res);
   }
@@ -55,8 +57,13 @@ router.get("/script/bundle-index.js", function(req, res) {
 // Registration form
 router.get("/register", function(req, res) {
   return renderer(__dirname + "/../view/template.html", {
+    header: HeaderBar.renderToString(),
     content: RegistrationForm.renderToString()
   }, res);
+});
+
+router.get("/login", function(req, res) {
+  res.redirect("/");
 });
 
 // Users profiles
@@ -71,6 +78,11 @@ router.route("/p/:id")
 .all(expressJwt({secret:config.secret}))
 .get(function(req, res) {
   var id = req.params.id;
+});
+
+// Error handling
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
 });
 
 module.exports = router;

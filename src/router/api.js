@@ -14,7 +14,7 @@ var api = express.Router();
 api.use(bodyParser.urlencoded({extended:false}));
 api.use(bodyParser.json());
 
-api.post("/registration", function(req, res){
+api.post("/api/registration", function(req, res){
   if(!req.body.username || !req.body.password) {
     return res.sendStatus(400); // Bad Request
   }
@@ -39,7 +39,7 @@ api.post("/registration", function(req, res){
 });
 
 // Authentication end point
-api.post("/login", function(req, res) {
+api.post("/api/login", function(req, res) {
   if(!req.body.username || !req.body.password) {
     return res.sendStatus(400); // Bad Request
   }
@@ -69,9 +69,9 @@ api.post("/login", function(req, res) {
 });
 
 // Filter for restricted resources
-api.all("/r/*", expressJwt({secret:config.secret}));
+api.all("/api/r/*", expressJwt({secret:config.secret}));
 
-api.get("/r/posts", function(req, res) {
+api.get("/api/r/posts", function(req, res) {
   Post.find({publisher:req.body.username}, function(err, posts) {
     return res.json({
       posts: posts
@@ -79,14 +79,14 @@ api.get("/r/posts", function(req, res) {
   });
 });
 
-api.get("/r/post/:id", function(req, res) {
+api.get("/api/r/post/:id", function(req, res) {
   Post.findOne({_id:req.params.id}, function(err, post) {
     if(err) return res.sendStatus(404);
     else return res.json(post);
   });
 });
 
-api.post("/r/posts", function(req, res) {
+api.post("/api/r/posts", function(req, res) {
   // Create and save the post
   var post = new Post({
     publisher: req.body.username,
@@ -102,7 +102,7 @@ api.post("/r/posts", function(req, res) {
   });
 });
 
-api.get("/r/user/:id", function(req, res) {
+api.get("/api/r/user/:id", function(req, res) {
   Post.findOne({_id:req.params.id}, function(err, user) {
     if(err) return res.sendStatus(404);
     else return res.json(user);
