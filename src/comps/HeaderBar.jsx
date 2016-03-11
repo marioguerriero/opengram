@@ -17,10 +17,10 @@ var Image = bootstrap.Image;
 
 var HeaderBarUserButton = React.createClass({
   render: function() {
-    if(!this.props.user) {
+    if(this.props.user) {
       return (
         <Nav pullRight>
-          <NavItem href={"/u/" + "this.props.user.username"}>
+          <NavItem href={"/u/" + this.props.user.username}>
             <Image src="/assets/user-thumb.png" responsive circle />
           </NavItem>
         </Nav>
