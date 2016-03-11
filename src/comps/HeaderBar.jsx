@@ -54,12 +54,16 @@ var HeaderBar = React.createClass({
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-          <Nav>
-            <Navbar.Form pullLeft>
-              <Input type="text" placeholder="Search"/>
-              <Button type="submit">Submit</Button>
-            </Navbar.Form>
-          </Nav>
+          {(() => {
+            if(this.props.users) {
+              return(<Nav>
+                <Navbar.Form pullLeft>
+                  <Input type="text" placeholder="Search"/>
+                  <Button type="submit">Submit</Button>
+                </Navbar.Form>
+              </Nav>);
+            }
+          })()}
 
           <HeaderBarUserButton user={this.props.user} />
         </Navbar.Collapse>

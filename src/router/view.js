@@ -81,8 +81,9 @@ router.route("/p/:id")
 });
 
 // Error handling
-app.use(function(err, req, res, next) {
-  console.error(err.stack);
+router.use(function(err, req, res, next) {
+  console.log(err.stack);
+  res.sendStatus(404);
 });
 
 module.exports = router;

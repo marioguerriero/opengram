@@ -41,8 +41,12 @@ var AuthenticationForm = React.createClass({
       .send(user)
       .set('Accept', 'application/json')
       .end(function(err, res){
+        if(err) {
+          // Redirect
+        }
         // If status code is 200 res.text contains the response
         var body = JSON.parse(res.text);
+        console.log(res.text);
       }.bind(this));
   },
 
