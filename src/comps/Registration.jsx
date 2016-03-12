@@ -4,6 +4,8 @@ var React = require("react");
 var ReactDOMServer = require("react-dom/server");
 var bootstrap = require("react-bootstrap");
 
+var emailValidator = require("email-validator");
+
 var Input = bootstrap.Input;
 var Button = bootstrap.Button;
 var ButtonInput = bootstrap.ButtonInput;
@@ -26,7 +28,8 @@ var AuthenticationForm = React.createClass({
   },
 
   emailValidation: function() {
-
+    if(emailValidator.validate(this.state.email)) return "success";
+    else return "error";
   },
 
   passwordValidation: function() {
