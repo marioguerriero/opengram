@@ -1,6 +1,7 @@
 var express = require("express");
 var expressJwt = require("express-jwt");
 var jwt = require("jsonwebtoken");
+var jwtCookie = require("./../util/express-jwt-cookie-validator");
 
 var browserify = require("browserify");
 var literalify = require("literalify");
@@ -68,14 +69,21 @@ router.get("/login", function(req, res) {
 
 // Users profiles
 router.route("/u/:username")
-.all(expressJwt({secret:config.secret}))
+.all(expressJwt({
+  secret: config.secret,
+  getToken: jwtCookie
+}))
 .get(function(req, res) {
   var username = req.params.username;
+  res.sendStatus(200).end();
 });
 
 // Posts
 router.route("/p/:id")
-.all(expressJwt({secret:config.secret}))
+.all(expressJwt({
+  secret: config.secret,
+  getToken: jwtCookie
+}))
 .get(function(req, res) {
   var id = req.params.id;
 });

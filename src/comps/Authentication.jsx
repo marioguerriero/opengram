@@ -5,6 +5,7 @@ var ReactDOMServer = require("react-dom/server");
 var bootstrap = require("react-bootstrap");
 
 var request = require("superagent");
+var fetch = require("fetch");
 
 var Input = bootstrap.Input;
 var Button = bootstrap.Button;
@@ -43,10 +44,13 @@ var AuthenticationForm = React.createClass({
       .end(function(err, res){
         if(err) {
           // Redirect
+          return;
         }
         // If status code is 200 res.text contains the response
         var body = JSON.parse(res.text);
-        console.log(res.text);
+
+        // Redirect
+        window.location = "/u/" + body.username;
       }.bind(this));
   },
 
