@@ -1,6 +1,6 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var bcrypt = require("bcrypt");
+var bcrypt = require("bcrypt-nodejs");
 var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
 

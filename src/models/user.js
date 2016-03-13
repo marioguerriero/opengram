@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-var bcrypt = require("bcrypt");
+var bcrypt = require("bcrypt-nodejs");
 
 var Schema = mongoose.Schema;
 
@@ -18,7 +18,7 @@ user_schema.pre("save", function(next) {
   var user = this;
 
   bcrypt.genSalt(10, function(err, salt) {
-    bcrypt.hash(user.password, salt, function(err, hash) {
+    bcrypt.hash(user.password, salt, null, function(err, hash) {
       if(err) return next(err);
       // Override clear text password with the hashed one
       user.password = hash;
