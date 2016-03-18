@@ -13,9 +13,12 @@ var reactify = require("reactify");
 
 var renderer = require(__dirname + "/../util/react-renderer");
 
+var cookieExtractor = require("./../util/cookie-extractor");
+
 var HeaderBar = require("../comps/HeaderBar.jsx");
 var AuthenticationForm = require("../comps/Authentication.jsx");
 var RegistrationForm = require("../comps/Registration.jsx");
+var UserDetails = require("../comps/User.jsx");
 
 var User = require("./../models/user");
 var Post = require("./../models/post");
@@ -46,14 +49,31 @@ router.get("/", function(req, res) {
   }
 });
 
-// JS files for home page
-router.get("/script/bundle-index.js", function(req, res) {
+// React DOM Javascript files
+var sendBrowserifiedScript = function(res, script) {
   res.setHeader("Content-Type", "text/javascript");
   browserify()
-      .add(__dirname + "/../view/script/bundle-index.js")
+      .add(script)
       .transform(reactify, {global: true})
       .bundle()
       .pipe(res);
+};
+
+router.get("/script/bundle-frame.js", function(req, res) {
+  sendBrowserifiedScript(res,
+    __dirname + "/../view/script/bundle-frame.js");
+});
+router.get("/script/bundle-content-main.js", function(req, res) {
+  sendBrowserifiedScript(res,
+    __dirname + "/../view/script/bundle-content-main.js");
+});
+router.get("/script/bundle-content-timeline.js", function(req, res) {
+  sendBrowserifiedScript(res,
+    __dirname + "/../view/script/bundle-content-timeline.js");
+});
+router.get("/script/bundle-content-user.js", function(req, res) {
+  sendBrowserifiedScript(res,
+    __dirname + "/../view/script/bundle-content-user.js");
 });
 
 // Registration form
@@ -72,7 +92,6 @@ router.get("/login", function(req, res) {
     content: AuthenticationForm.renderToString()
   }, res);
 });
-
 router.post("/login", function(req, res) {
   var status = 200;
   // If the user is trying to login then try it!
@@ -109,9 +128,21 @@ router.post("/login", function(req, res) {
 });
 
 // User's timeline
-router.get("/timeline", function(req, res) {
-  return renderer(__dirname + "/../view/index.html", {
-    header: HeaderBar.renderToString()
+router.route("/timeline")
+.all(expressJwt({
+  secret: config.secret,
+  getToken: jwtCookie
+}))
+.get(function(req, res) {
+  var token = cookieExtractor(req.headers.cookie, "token");
+  var username = jwt.decode(token).username;
+
+  var user = {
+    username: username
+  };
+
+  return renderer(__dirname + "/../view/timeline.html", {
+    header: HeaderBar.renderToString(user)
     }, res);
 });
 
@@ -123,7 +154,17 @@ router.route("/u/:username")
 }))
 .get(function(req, res) {
   var username = req.params.username;
-  res.sendStatus(200).end();
+
+  User.findOne({username: username}, function(err, user) {
+    if(err || !user) {
+      return res.sendStatus(401); // Unauthorized
+    }
+
+    return renderer(__dirname + "/../view/user.html", {
+      header: HeaderBar.renderToString(user),
+      content: UserDetails.renderToString(user)
+      }, res);
+  });
 });
 
 // Posts

@@ -24,3 +24,5 @@ And much more...
 * [x] REST API with Node.js and Express
 * [x] Send a cookie after authentication
 * [x] Server side view rendering with React
+* [ ] Write an Express middleware which add an user object to the request one
+* [ ] Write an Express middleware to automatically browserify/reactify Javascript files

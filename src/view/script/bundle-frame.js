@@ -7,11 +7,5 @@ var HeaderBar = React.createElement(
 
 ReactDOM.render(HeaderBar, document.getElementById("header"));
 
-// Content
-var AuthenticationForm = React.createElement(
-  require("./../../comps/Authentication.jsx").AuthenticationForm);
-
-ReactDOM.render(AuthenticationForm, document.getElementById("content"));
-
 // Footer
 // ...
