@@ -21,7 +21,8 @@ var HeaderBarUserButton = React.createClass({
       return (
         <Nav pullRight>
           <NavItem href={"/u/" + this.props.user.username}>
-            <Image src="/assets/user-thumb.png" responsive circle />
+            { /*<Image src="/assets/user-thumb.png" responsive circle /> */}
+            {this.props.user.username}
           </NavItem>
         </Nav>
       );
