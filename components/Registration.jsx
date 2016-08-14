@@ -1,10 +1,6 @@
-/** @jsx React.DOM */
-
 var React = require("react");
-var ReactDOMServer = require("react-dom/server");
+var ReactDOM = require("react-dom");
 var bootstrap = require("react-bootstrap");
-
-var emailValidator = require("email-validator");
 
 var Input = bootstrap.Input;
 var Button = bootstrap.Button;
@@ -28,7 +24,8 @@ var AuthenticationForm = React.createClass({
   },
 
   emailValidation: function() {
-    if(emailValidator.validate(this.state.email)) return "success";
+    // TODO
+    if(true) return "success";
     else return "error";
   },
 
@@ -111,5 +108,5 @@ var AuthenticationForm = React.createClass({
 
 module.exports = AuthenticationForm;
 module.exports.renderToString = function() {
-  return ReactDOMServer.renderToString(<AuthenticationForm />);
+  return ReactDOM.renderToString(<AuthenticationForm />);
 }

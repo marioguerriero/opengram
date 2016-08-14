@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var React = require("react");
 var ReactDOMServer = require("react-dom/server");
 var bootstrap = require("react-bootstrap");
