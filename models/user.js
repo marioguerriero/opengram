@@ -1,5 +1,5 @@
-var mongoose = require("mongoose");
-var bcrypt = require("bcrypt-nodejs");
+var mongoose = require('mongoose');
+var bcrypt = require('bcrypt-nodejs');
 
 var Schema = mongoose.Schema;
 
@@ -8,13 +8,13 @@ var user_schema = new Schema({
   name: String,
   username: String,
   password: String,
-  avatar: { type: Schema.Types.ObjectId, ref: "File" },
+  avatar: { type: Schema.Types.ObjectId, ref: 'File' },
   birthday: Date,
-  following: [ { type: Schema.Types.ObjectId, ref: "User" } ]
+  following: [ { type: Schema.Types.ObjectId, ref: 'User' } ]
 }, {versionKey: false});
 
 // Hash user's password
-user_schema.pre("save", function(next) {
+user_schema.pre('save', function(next) {
   var user = this;
 
   bcrypt.genSalt(10, function(err, salt) {
@@ -27,6 +27,4 @@ user_schema.pre("save", function(next) {
   });
 });
 
-var User = mongoose.model("User", user_schema);
-
-module.exports = User;
+module.exports = User = mongoose.model('User', user_schema);;
