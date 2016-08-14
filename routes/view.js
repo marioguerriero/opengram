@@ -1,6 +1,7 @@
 var express = require('express');
 var expressJwt = require('express-jwt');
 var jwt = require('jsonwebtoken');
+var jwtCookie = require('../util/express-jwt-cookie-validator');
 
 var bcrypt = require('bcrypt-nodejs');
 
@@ -25,10 +26,6 @@ var Post = require('./../models/post');
 var config = require('./../config');
 
 var router = express.Router();
-
-var jwtCookie = function(req) {
-    // TODO
-};
 
 // Home page
 router.get('/', function(req, res) {
