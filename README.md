@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/marioguerriero/opengram.svg?branch=master)](https://travis-ci.org/marioguerriero/opengram)
+
 Just a personal attempt to replicate an Instragram like open source social network which features server side DOM rendering using React.
 
 # Usage
