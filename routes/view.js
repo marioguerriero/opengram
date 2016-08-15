@@ -15,7 +15,7 @@ var renderer = require(__dirname + '/../util/react-renderer');
 var cookieExtractor = require('./../util/cookie-extractor');
 
 require('node-require-jsx').install();
-var HeaderBar = require('../components/HeaderBar.jsx');
+var HeaderBar = require('../components/HeaderBar');
 var AuthenticationForm = require('../components/Authentication.jsx');
 var RegistrationForm = require('../components/Registration.jsx');
 var UserDetails = require('../components/User.jsx');
@@ -61,24 +61,33 @@ var sendBrowserifiedScript = function(res, script) {
 
 router.get('/script/bundle-frame.js', function(req, res) {
     sendBrowserifiedScript(res,
-        __dirname + '/../view/script/bundle-frame.js');
+        './views/script/bundle-frame.js');
 });
 router.get('/script/bundle-content-main.js', function(req, res) {
     sendBrowserifiedScript(res,
-        __dirname + '/../view/script/bundle-content-main.js');
+        './views/script/bundle-content-main.js');
 });
 router.get('/script/bundle-content-timeline.js', function(req, res) {
     sendBrowserifiedScript(res,
-        __dirname + '/../view/script/bundle-content-timeline.js');
+       './views/script/bundle-content-timeline.js');
 });
 router.get('/script/bundle-content-user.js', function(req, res) {
     sendBrowserifiedScript(res,
-        __dirname + '/../view/script/bundle-content-user.js');
+       './views/script/bundle-content-user.js');
 });
+
+/*router.get('/script/jquery.min.js', function(req, res) {
+    sendBrowserifiedScript(res,
+        './views/script/jquery.min.js');
+});
+router.get('/script/bootstrap.min.js', function(req, res) {
+    sendBrowserifiedScript(res,
+        './views/script/bootstrap.min.js');
+});*/
 
 // Registration form
 router.get('/register', function(req, res) {
-    return renderer(__dirname + '/../view/template.html', {
+    return renderer(__dirname + '/../views/template.html', {
         header: HeaderBar.renderToString(),
         content: RegistrationForm.renderToString()
     }, res);
@@ -87,11 +96,12 @@ router.get('/register', function(req, res) {
 // Login
 router.get('/login', function(req, res) {
     // Show login view
-    return renderer(__dirname + '/../view/index.html', {
+    return renderer(__dirname + '/../views/index.html', {
         header: HeaderBar.renderToString(),
         content: AuthenticationForm.renderToString()
     }, res);
 });
+
 router.post('/login', function(req, res) {
     var status = 200;
     // If the user is trying to login then try it!
@@ -141,7 +151,7 @@ router.route('/timeline')
             username: username
         };
 
-        return renderer(__dirname + '/../view/timeline.html', {
+        return renderer(__dirname + '/../views/timeline.html', {
             header: HeaderBar.renderToString(user)
         }, res);
     });
@@ -160,7 +170,7 @@ router.route('/u/:username')
                 return res.sendStatus(401); // Unauthorized
             }
 
-            return renderer(__dirname + '/../view/user.html', {
+            return renderer(__dirname + '/../views/user.html', {
                 header: HeaderBar.renderToString(user),
                 content: UserDetails.renderToString(user)
             }, res);

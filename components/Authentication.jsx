@@ -4,9 +4,10 @@ var bootstrap = require("react-bootstrap");
 
 var request = require("superagent");
 
-var Input = bootstrap.Input;
+var Form = bootstrap.Form;
+var FormControl = bootstrap.FormControl;
 var Button = bootstrap.Button;
-var ButtonInput = bootstrap.ButtonInput;
+var Checkbox = bootstrap.Checkbox;
 var Row = bootstrap.Row;
 var Col = bootstrap.Col;
 
@@ -45,25 +46,25 @@ var AuthenticationForm = React.createClass({
 
   render: function() {
     return(
-      <form onSubmit={this.handleSubmit}>
-        <Input type="text" label="Username" placeholder="Enter username"
+      <Form onSubmit={this.handleSubmit}>
+        <FormControl type="text" label="Username" placeholder="Enter username"
           value={this.state.username} onChange={this.handleUsernameChange} />
 
-        <Input type="password" label="Password"
+        <FormControl type="password" label="Password"
           value={this.state.password} onChange={this.handlePasswordChange} />
 
-        <Input type="checkbox" label="Stay logged in" checked readOnly />
+        <Checkbox>Stay logged in</Checkbox>
 
         <Row className="show-grid">
           <Col xs={9} md={6}>
             <Button href="register" block>Register</Button>
           </Col>
           <Col xs={9} md={6}>
-            <ButtonInput bsStyle="primary"
-              type="submit" block value="Login" />
+            <Button bsStyle="primary"
+              type="submit" block>Login</Button>
           </Col>
         </Row>
-      </form>
+      </Form>
     );
   }
 });
@@ -72,4 +73,4 @@ module.exports.AuthenticationForm = AuthenticationForm;
 
 module.exports.renderToString = function() {
   return ReactDOMServer.renderToString(<AuthenticationForm />);
-}
+};

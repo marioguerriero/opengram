@@ -37,6 +37,10 @@ app.use('/api', api);
 app.use('/upload', upload);
 app.use('/', view);
 
+app.use("/assets", express.static(__dirname + "/views/assets"));
+app.use("/script", express.static(__dirname + "/views/script"));
+app.use("/css", express.static(__dirname + "/views/css"));
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

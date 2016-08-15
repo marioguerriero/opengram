@@ -1,7 +1,5 @@
 var fs = require("fs");
 var handlebars = require("handlebars");
-var React = require("react");
-var browserify = require("browserify");
 
 var renderer = function(templatePath, components, response) {
   // Read the file first

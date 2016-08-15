@@ -1,5 +1,5 @@
 var React = require("react");
-var ReactDOM = require("react-dom");
+var ReactDOMServer = require("react-dom/server");
 var bootstrap = require("react-bootstrap");
 
 var request = require("superagent");
@@ -74,5 +74,5 @@ var HeaderBar = React.createClass({
 module.exports.HeaderBar = HeaderBar;
 
 module.exports.renderToString = function(user) {
-  return ReactDOM.renderToString(<HeaderBar user={user} />);
+  return ReactDOMServer.renderToString(<HeaderBar user={user} />);
 };

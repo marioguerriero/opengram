@@ -1,10 +1,11 @@
 var React = require("react");
-var ReactDOM = require("react-dom");
+var ReactDOMServer = require("react-dom/server");
 var bootstrap = require("react-bootstrap");
 
+var FormControl = bootstrap.FormControl;
 var Input = bootstrap.Input;
 var Button = bootstrap.Button;
-var ButtonInput = bootstrap.ButtonInput;
+var Checkbox = bootstrap.Checkbox;
 var Row = bootstrap.Row;
 var Col = bootstrap.Col;
 
@@ -66,41 +67,41 @@ var AuthenticationForm = React.createClass({
       <form action="registration" method="POST" >
         <Row className="show-grid">
           <Col xs={9} md={6}>
-            <Input type="text" label="First name" placeholder="First name"
+            <FormControl type="text" label="First name" placeholder="First name"
             value={this.state.firstname} onChange={this.handleFirstnameChange} />
           </Col>
 
           <Col xs={9} md={6}>
-            <Input type="text" label="Last name" placeholder="Last name"
+            <FormControl type="text" label="Last name" placeholder="Last name"
               value={this.state.lastname} onChange={this.handleLastnameChange}/>
           </Col>
         </Row>
 
-        <Input type="text" label="Username" placeholder="Username"
+        <FormControl type="text" label="Username" placeholder="Username"
           bsStyle={this.usernameValidation()}
           value={this.state.username} onChange={this.handleUsernameChange}/>
 
-        <Input type="email" label="Email address" placeholder="Email address"
+        <FormControl type="email" label="Email address" placeholder="Email address"
           bsStyle={this.emailValidation()}
           value={this.state.email} onChange={this.handleEmailChange} />
 
         <Row className="show-grid">
           <Col xs={9} md={6}>
-            <Input type="password" bsStyle={this.passwordValidation()}
+            <FormControl type="password" bsStyle={this.passwordValidation()}
               value={this.state.password} onChange={this.handlePasswordChange}
               label="Password" />
           </Col>
 
           <Col xs={9} md={6}>
-            <Input type="password" bsStyle={this.passwordMatchValidation()}
+            <FormControl type="password" bsStyle={this.passwordMatchValidation()}
               value={this.state.passwordConfirm} onChange={this.handlePasswordConfirmChange}
               label="Confirm Password" />
           </Col>
         </Row>
 
-        <Input type="checkbox" label="I agree with terms and conditions" />
+        <Checkbox>I agree with terms and conditions</Checkbox>
 
-        <ButtonInput bsStyle="primary" type="submit" value="Register" block />
+        <Button bsStyle="primary" type="submit" block>Register</Button>
       </form>
     );
   }
@@ -108,5 +109,5 @@ var AuthenticationForm = React.createClass({
 
 module.exports = AuthenticationForm;
 module.exports.renderToString = function() {
-  return ReactDOM.renderToString(<AuthenticationForm />);
-}
+  return ReactDOMServer.renderToString(<AuthenticationForm />);
+};
