@@ -5,7 +5,8 @@
   "main": "./bin/www",
   "scripts": {
     "start": "node ./bin/www",
-    "browserify": "browserify ./public/script/bundle-frame.js | uglifyjs > ./public/script/bundle.js"
+    "browserify": "browserify ./public/script/bundle-frame.js | uglifyjs > ./public/script/bundle.js",
+    "test": "mocha test --recursive --watch"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
@@ -35,6 +36,8 @@
   },
   "devDependencies": {
     "browserify": "^13.1.0",
+    "chai": "^3.5.0",
+    "supertest": "^2.0.0",
     "uglify-js": "^2.7.1"
   }
 }
