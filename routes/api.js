@@ -14,7 +14,7 @@ var api = express.Router();
 api.use(bodyParser.urlencoded({extended:false}));
 api.use(bodyParser.json());
 
-api.post("/registration", function(req, res){
+api.post("/register", function(req, res){
     if(!req.body.username || !req.body.password) {
         return res.sendStatus(400); // Bad Request
     }
@@ -66,6 +66,11 @@ api.post("/login", function(req, res) {
             });
         });
     });
+});
+
+api.put('/users', function(req, res) {
+    res.json(req.body);
+    res.end();
 });
 
 // Filter for restricted resources
