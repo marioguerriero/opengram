@@ -1,6 +1,12 @@
 language: node_js
 node_js:
 - '6'
+
+before_install:
+  npm install --only=dev
+install:
+  npm install
+
 deploy:
   provider: heroku
   skip_cleanup: true
