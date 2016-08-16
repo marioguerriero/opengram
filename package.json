@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "browserify": "browserify ./public/script/bundle-frame.js | uglifyjs > ./public/script/bundle.js",
-    "test": "./node_modules/mocha/bin/mocha test --recursive --watch"
+    "test": "./node_modules/mocha/bin/mocha test --recursive"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
