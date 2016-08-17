@@ -8,13 +8,15 @@ var app = require('../server');
 var debug = require('debug')('opengram:server');
 var http = require('http');
 
+var config = require('./../config');
+
 /**
  * Connect to database
  */
 var mongoose = require('mongoose');
 
 var dbname = 'opengram';
-mongoose.connect('mongodb://localhost/' + dbname);
+mongoose.connect(config.dbhost + '/' + dbname);
 
 /**
  * Get port from environment and store in Express.
