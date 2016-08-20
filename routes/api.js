@@ -14,6 +14,9 @@ var api = express.Router();
 api.use(bodyParser.urlencoded({extended:false}));
 api.use(bodyParser.json());
 
+api.use(require('api_user'));
+api.use(require('api_post'));
+
 api.post("/register", function(req, res){
     if(!req.body.username || !req.body.password) {
         return res.sendStatus(400); // Bad Request

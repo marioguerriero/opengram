@@ -10,7 +10,7 @@ var mongoose = require('mongoose');
 // Connect to database
 require('./test_util/db-connector')();
 // Launch server
-require('./test_util/server-starter')();
+var server = require('./test_util/server-starter')();
 
 var user = {
     name: "Mario Guerriero",
@@ -89,5 +89,6 @@ describe('UsersTest', function() {
 
     after(function() {
         mongoose.connection.close();
+        server.close();
     });
 });
