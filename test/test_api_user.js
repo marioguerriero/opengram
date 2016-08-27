@@ -7,8 +7,11 @@ var request = require('supertest');
 
 var mongoose = require('mongoose');
 
+var config = require('./config_test');
+
 // Connect to database
 require('./test_util/db-connector')();
+
 // Launch server
 var server = require('./test_util/server-starter')();
 
@@ -18,8 +21,10 @@ var user = {
     password: "samplepassword"
 };
 
+var token = null;
+
 describe('UsersTest', function() {
-    var url = 'http://localhost:5000';
+    var url = 'http://localhost:' + config.testport;
 
     it('Register a new user', function(done) {
         request(url)
@@ -53,6 +58,13 @@ describe('UsersTest', function() {
                 if(err)
                     throw err;
                 assert.equal(200, res.status);
+
+                user._id = res.body._id;
+                assert.isNotNull(user._id);
+
+                token = res.body.token;
+                assert.isNotNull(token);
+
                 done();
             });
     });
@@ -62,7 +74,7 @@ describe('UsersTest', function() {
         user.birthday = birthdate;
 
         request(url)
-            .put('/api/users')
+            .put('/api/user/' + user._id)
             .send(user)
             .end(function(err, res) {
                 if(err)
@@ -76,8 +88,7 @@ describe('UsersTest', function() {
 
     it('Delete user', function(done) {
         request(url)
-            .delete('/api/users')
-            .send(user)
+            .delete('/api/user/' + user._id)
             .end(function(err, res) {
                 if(err)
                     throw err;
