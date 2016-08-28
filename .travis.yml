@@ -2,6 +2,8 @@ language: node_js
 node_js:
 - '6'
 
+service: mongodb
+
 before_install:
   npm install --only=dev
 install:
