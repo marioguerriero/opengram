@@ -1,7 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var bcrypt = require('bcrypt-nodejs');
-var jwt = require("jsonwebtoken");
+var expressJwt = require('express-jwt');
 
 var config = require("./../config");
 
@@ -12,8 +11,15 @@ var router = express.Router();
 router.use(bodyParser.urlencoded({extended:false}));
 router.use(bodyParser.json());
 
+var jwtMiddleware = expressJwt({
+    secret: config.secret,
+    getToken: function(req) {
+        return req.body.token || req.query.token || req.headers['x-access-token'];
+    }
+});
+
 // Get user's details
-router.get('/user/:id', function(req, res) {
+router.get('/user/:id', jwtMiddleware, function(req, res) {
     var id = req.params.id;
 
     if(!id)
@@ -54,7 +60,7 @@ router.post("/users", function(req, res){
 });
 
 // Edit user details
-router.put('/user/:id', function(req, res) {
+router.put('/user/:id', jwtMiddleware, function(req, res) {
     var id = req.params.id;
 
     if(!id)
@@ -74,7 +80,7 @@ router.put('/user/:id', function(req, res) {
 });
 
 // Delete user
-router.delete("/user/:id", function(req, res){
+router.delete("/user/:id", jwtMiddleware, function(req, res){
     var id = req.params.id;
 
     if(!id)
@@ -86,36 +92,6 @@ router.delete("/user/:id", function(req, res){
         else {
             res.sendStatus(200);
         }
-    });
-});
-
-// Authentication end point
-router.post("/login", function(req, res) {
-    if(!req.body.username || !req.body.password) {
-        return res.sendStatus(400); // Bad Request
-    }
-
-    User.findOne({username: req.body.username}, function(err, user) {
-        if(err || !user) {
-            return res.sendStatus(401); // Unauthorized
-        }
-
-        // Check if password match
-        bcrypt.compare(req.body.password, user.password, function(err, result) {
-            if(err || !result) {
-                return res.sendStatus(401); // Unauthorized
-            }
-
-            // Valid credentials, let's generate a token
-            var token = jwt.sign({username:req.body.username}, config.secret, {
-                expiresIn: "7d"
-            });
-            res.json({
-                _id: user._id,
-                username: user.username,
-                token: token
-            });
-        });
     });
 });
 

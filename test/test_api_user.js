@@ -75,6 +75,7 @@ describe('UsersTest', function() {
 
         request(url)
             .put('/api/user/' + user._id)
+            .set('x-access-token', token)
             .send(user)
             .end(function(err, res) {
                 if(err)
@@ -89,6 +90,7 @@ describe('UsersTest', function() {
     it('Delete user', function(done) {
         request(url)
             .delete('/api/user/' + user._id)
+            .set('x-access-token', token)
             .end(function(err, res) {
                 if(err)
                     throw err;
