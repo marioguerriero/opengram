@@ -8,9 +8,9 @@ var request = require('supertest');
 var mongoose = require('mongoose');
 
 // Connect to database
-//require('./test_util/db-connector')();
+require('./test_util/db-connector')();
 // Launch server
-//require('./test_util/server-starter')();
+require('./test_util/server-starter')();
 
 var user = {
     name: "Mario Guerriero",
