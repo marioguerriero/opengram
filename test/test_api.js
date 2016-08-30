@@ -173,7 +173,7 @@ describe('Test API', function() {
                 assert.equal(200, res.status);
 
                 var localPost = res.body;
-                asser.equal(newMessage, localPost.message);
+                assert.equal(newMessage, localPost.message);
 
                 done();
             });

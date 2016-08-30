@@ -20,7 +20,7 @@ var jwtMiddleware = expressJwt({
 
 // Query posts
 router.get("/posts", jwtMiddleware, function(req, res) {
-    if(!req.body)
+    if(!req.body || !req.body.publisher)
         return res.sendStatus(400); // Bad request
 
     Post.find(req.body, function(err, posts) {
