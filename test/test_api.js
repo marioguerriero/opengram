@@ -23,7 +23,10 @@ var user = {
 
 var token = null;
 
-var post = null;
+var post = {
+    message: 'This is a sample post',
+    date: new Date()
+};
 
 describe('Test API', function() {
     var url = 'http://localhost:' + config.testport;
@@ -90,7 +93,89 @@ describe('Test API', function() {
             });
     });
 
-    it('Delete user', function(done) {
+    // Test Posts
+    it('Post creation without publisher', function(done) {
+        request(url)
+            .post('/api/post')
+            .set('x-access-token', token)
+            .send(post)
+            .end(function(err, res) {
+                if(err)
+                    throw err;
+
+                assert.equal(400, res.status);
+                done();
+            });
+    });
+
+    it('Post creation without token', function(done) {
+        post.publisher = user._id;
+
+        request(url)
+            .post('/api/post')
+            .send(post)
+            .end(function(err, res) {
+                if(err)
+                    throw err;
+
+                assert.equal(401, res.status);
+                done();
+            });
+    });
+
+    it('Post creation', function(done) {
+        request(url)
+            .post('/api/post')
+            .set('x-access-token', token)
+            .send(post)
+            .end(function(err, res) {
+                if(err)
+                    throw err;
+
+                assert.equal(200, res.status);
+
+                post._id = res.body._id;
+                assert.isNotNull(post._id);
+
+                done();
+            });
+    });
+
+    it('Edit post', function(done) {
+        var newMessage = 'I want to edit this post\'s message';
+        post.message = newMessage;
+
+        request(url)
+            .put('/api/post/' + post._id)
+            .set('x-access-token', token)
+            .send(post)
+            .end(function(err, res) {
+                if(err)
+                    throw err;
+
+                assert.equal(200, res.status);
+
+                var localPost = res.body;
+                asser.equal(newMessage, localPost.message);
+
+                done();
+            });
+    });
+
+    after(function() {
+        // Delete created post
+        request(url)
+            .delete('/api/post/' + post._id)
+            .set('x-access-token', token)
+            .send(post)
+            .end(function(err, res) {
+                if(err)
+                    throw err;
+
+                assert.equal(200, res.status);
+                done();
+            });
+        // Delete created user
         request(url)
             .delete('/api/user/' + user._id)
             .set('x-access-token', token)
@@ -101,24 +186,9 @@ describe('Test API', function() {
                 assert.equal(200, res.status);
                 done();
             });
-    });
-
-    // Test Posts
-    it('Post creation', function(done) {
-        done();
-    });
-
-    it('Edit post', function(done) {
-        done();
-    });
-
-    it('Delete post', function(done) {
-        done();
-    });
-
-
-    after(function() {
+        // Close db connection
         mongoose.connection.close();
+        // Close server
         server.close();
     });
 });
