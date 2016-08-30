@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var expressJwt = require('express-jwt');
 
 var Post = require("./../models/post");
 
