@@ -20,7 +20,7 @@ var jwtMiddleware = expressJwt({
 
 // Query posts
 router.get("/posts", jwtMiddleware, function(req, res) {
-    if(!req.body || !req.body.publisher)
+    if(!req.body)
         return res.sendStatus(400); // Bad request
 
     Post.find(req.body, function(err, posts) {
@@ -32,7 +32,7 @@ router.get("/posts", jwtMiddleware, function(req, res) {
 
 // Create posts
 router.post("/posts", jwtMiddleware, function(req, res) {
-    if(!req.body)
+    if(!req.body || !req.body.publisher)
         return res.sendStatus(400); // Bad request
 
     new Post(req.body).save(function(err, post) {
