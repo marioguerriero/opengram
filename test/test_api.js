@@ -23,9 +23,12 @@ var user = {
 
 var token = null;
 
-describe('UsersTest', function() {
+var post = null;
+
+describe('Test API', function() {
     var url = 'http://localhost:' + config.testport;
 
+    // Test users
     it('Register a new user', function(done) {
         request(url)
             .post('/api/users')
@@ -99,6 +102,20 @@ describe('UsersTest', function() {
                 done();
             });
     });
+
+    // Test Posts
+    it('Post creation', function(done) {
+        done();
+    });
+
+    it('Edit post', function(done) {
+        done();
+    });
+
+    it('Delete post', function(done) {
+        done();
+    });
+
 
     after(function() {
         mongoose.connection.close();
