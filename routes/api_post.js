@@ -2,6 +2,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var expressJwt = require('express-jwt');
 
+var config = require("./../config");
+
 var Post = require("./../models/post");
 
 var router = express.Router();
