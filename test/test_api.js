@@ -96,7 +96,7 @@ describe('Test API', function() {
     // Test Posts
     it('Post creation without publisher', function(done) {
         request(url)
-            .post('/api/post')
+            .post('/api/posts')
             .set('x-access-token', token)
             .send(post)
             .end(function(err, res) {
@@ -112,7 +112,7 @@ describe('Test API', function() {
         post.publisher = user._id;
 
         request(url)
-            .post('/api/post')
+            .post('/api/posts')
             .send(post)
             .end(function(err, res) {
                 if(err)
@@ -125,7 +125,7 @@ describe('Test API', function() {
 
     it('Post creation', function(done) {
         request(url)
-            .post('/api/post')
+            .post('/api/posts')
             .set('x-access-token', token)
             .send(post)
             .end(function(err, res) {
@@ -136,6 +136,23 @@ describe('Test API', function() {
 
                 post._id = res.body._id;
                 assert.isNotNull(post._id);
+
+                done();
+            });
+    });
+
+    it('Query posts for user', function(done) {
+        request(url)
+            .get('/api/posts')
+            .set('x-access-token', token)
+            .send({ publisher: user._id })
+            .end(function(err, res) {
+                if(err)
+                    throw err;
+
+                assert.equal(200, res.status);
+
+                assert.equal(1, res.body.posts.length);
 
                 done();
             });

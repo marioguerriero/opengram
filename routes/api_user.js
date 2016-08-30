@@ -62,11 +62,10 @@ router.post("/users", function(req, res){
 // Edit user details
 router.put('/user/:id', jwtMiddleware, function(req, res) {
     var id = req.params.id;
-
-    if(!id)
-        return res.sendStatus(400); // Bad Request
-
     var user = req.body;
+
+    if(!id || !user)
+        return res.sendStatus(400); // Bad Request
 
     // Id must not be updated in any way
     delete user._id;

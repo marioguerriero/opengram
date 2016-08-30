@@ -8,34 +8,78 @@ var router = express.Router();
 router.use(bodyParser.urlencoded({extended:false}));
 router.use(bodyParser.json());
 
-router.get("/r/posts", function(req, res) {
-    Post.find({publisher:req.body.username}, function(err, posts) {
+var jwtMiddleware = expressJwt({
+    secret: config.secret,
+    getToken: function(req) {
+        return req.body.token || req.query.token || req.headers['x-access-token'];
+    }
+});
+
+// Query posts
+router.get("/posts", jwtMiddleware, function(req, res) {
+    if(!req.body)
+        return res.sendStatus(400); // Bad request
+
+    Post.find(req.body, function(err, posts) {
         return res.json({
             posts: posts
         });
     });
 });
 
-router.get("/r/post/:id", function(req, res) {
-    Post.findOne({_id:req.params.id}, function(err, post) {
+// Create posts
+router.post("/posts", jwtMiddleware, function(req, res) {
+    if(!req.body)
+        return res.sendStatus(400); // Bad request
+
+    new Post(req.body).save(function(err, post) {
+        if (err) return res.sendStatus(500); // Internal Server
+        return res.json(post);
+    });
+});
+
+// Get post details
+router.get("/post/:id", jwtMiddleware, function(req, res) {
+    var id = req.params.id;
+
+    if(!id)
+        return res.sendStatus(400); // Bad Request
+
+    Post.findOne({ _id: req.params.id }, function(err, post) {
         if(err) return res.sendStatus(404);
         else return res.json(post);
     });
 });
 
-router.post("/r/posts", function(req, res) {
-    // Create and save the post
-    var post = new Post({
-        publisher: req.body.username,
-        media: req.body.media,
-        message: req.body.message,
-        mentions: req.body.mentions,
-        tags: req.body.tags
-    });
+// Edit post details
+router.put("/post/:id", jwtMiddleware, function(req, res) {
+    var id = req.params.id;
+    var post = req.body;
 
-    post.save(function(err, post) {
-        if(err) return res.sendStatus(500); // Internal Server
-        return res.sendStatus(200);
+    if(!id || !post)
+        return res.sendStatus(400); // Bad Request
+
+    // Id must not be updated in any way
+    delete post._id;
+
+    Post.findOneAndUpdate({ _id: id}, post, { new: true }, function (err, user) {
+        if(err)
+            res.sendStatus(500);
+        else
+            res.json(post);
+    });
+});
+
+// Delete post
+router.delete("/post/:id", jwtMiddleware, function(req, res) {
+    var id = req.params.id;
+
+    if(!id)
+        return res.sendStatus(400); // Bad Request
+
+    Post.remove({ _id: id }, function (err) {
+        if(err) res.sendStatus(404);
+        else res.sendStatus(200);
     });
 });
 
