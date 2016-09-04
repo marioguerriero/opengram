@@ -25,6 +25,7 @@
     "react": "^15.3.0",
     "react-bootstrap": "^0.30.2",
     "react-dom": "^15.3.0",
+    "react-router": "^2.7.0",
     "reactify": "^1.1.1",
     "serve-favicon": "~2.3.0",
     "superagent": "^2.2.0"
