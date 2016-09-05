@@ -11,8 +11,6 @@ var NotFoundPage = require('./../components/NotFoundPage');
 
 var router = express.Router();
 
-router.engine();
-
 router.get('*', function(req, res) {
     match({ routes: routes, location: req.url }, function(error, redirectLocation, renderProps) {
         // in case of error display the error message

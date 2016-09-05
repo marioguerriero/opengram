@@ -1,3 +1,4 @@
+var React = require('react');
 var Route = require('react-router').Route;
 var IndexRoute = require('react-router').IndexRoute;
 

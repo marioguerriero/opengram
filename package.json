@@ -1,11 +1,13 @@
 {
   "name": "opengram",
+  "author": "Mario Guerriero",
+  "repository": "git@github.com:marioguerriero/opengram.git",
   "version": "0.0.1",
   "private": true,
   "main": "./bin/www",
   "scripts": {
-    "start": "node ./bin/www",
-    "browserify": "browserify ./public/script/bundle-frame.js | uglifyjs > ./public/script/bundle.js",
+    "start": "NODE_ENV=production node_modules/.bin/babel-node --presets 'react' ./bin/www",
+    "build": "NODE_ENV=production node_modules/.bin/webpack -p",
     "test": "./node_modules/mocha/bin/mocha test --recursive"
   },
   "dependencies": {
@@ -30,16 +32,22 @@
     "serve-favicon": "~2.3.0",
     "superagent": "^2.2.0"
   },
-  "browserify": {
-    "transform": [
-      "reactify"
+  "babel": {
+    "presets": [
+      "react"
     ]
   },
   "devDependencies": {
-    "browserify": "^13.1.0",
+    "babel-cli": "^6.14.0",
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-react": "^6.11.1",
     "chai": "^3.5.0",
+    "css-loader": "^0.24.0",
     "mocha": "^3.0.2",
+    "style-loader": "^0.13.1",
     "supertest": "^2.0.0",
-    "uglify-js": "^2.7.1"
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.15.1"
   }
 }
