@@ -3,6 +3,7 @@ var config = require('./../config');
 
 var routes = require('../component_routes');
 
+var React = require('react');
 var RouterContext = require('react-router').RouterContext;
 var renderToString = require('react-dom/server').renderToString;
 var match = require('react-router').match;
@@ -14,7 +15,7 @@ var router = express.Router();
 router.get('*', function(req, res) {
     match({ routes: routes, location: req.url }, function(error, redirectLocation, renderProps) {
         // in case of error display the error message
-        if(err)
+        if(error)
             return res.status(500);
 
         // in case of redirect propagate the redirect to the browser
@@ -23,7 +24,7 @@ router.get('*', function(req, res) {
 
         // generate the React markup for the current route
         var markup;
-        if(renderProps) {
+        if(!renderProps) {
             // if the current route matched we have renderProps
             markup = renderToString(<RouterContext {...renderProps}/>);
         } else {
