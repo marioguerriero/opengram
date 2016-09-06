@@ -3,6 +3,7 @@
   "author": "Mario Guerriero",
   "repository": "git@github.com:marioguerriero/opengram.git",
   "version": "0.0.1",
+  "license": "GPL-3.0",
   "private": true,
   "main": "./bin/www",
   "scripts": {
