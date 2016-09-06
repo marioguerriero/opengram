@@ -24,7 +24,7 @@ router.get('*', function(req, res) {
 
         // generate the React markup for the current route
         var markup;
-        if(!renderProps) {
+        if(renderProps) {
             // if the current route matched we have renderProps
             markup = renderToString(<RouterContext {...renderProps}/>);
         } else {
