@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/marioguerriero/opengram.svg?branch=master)](https://travis-ci.org/marioguerriero/opengram)
-[![License](http://img.shields.io/:license-gpl3-green.svg?style=flat-square)](http://www.gnu.org/licenses/gpl-3.0.html)
+[![License](http://img.shields.io/:license-gpl3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0.html)
+[![Heroku](https://heroku-badge.herokuapp.com/?app=opengram)]
 
 Just a personal attempt to replicate an Instragram like open source social network which features server side DOM rendering using React.
 
