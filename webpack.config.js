@@ -9,7 +9,7 @@ module.exports = {
         Post: './app.js'
     },
     output: {
-        path: 'build',
+        path: path.join(__dirname, 'static', 'script'),
         filename: '[name].js'
     },
     module: {
