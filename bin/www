@@ -15,8 +15,7 @@ var config = require('./../config');
  */
 var mongoose = require('mongoose');
 
-var dbname = 'opengram';
-mongoose.connect(config.dbhost + '/' + dbname);
+mongoose.connect(config.dbhost + '/' + config.dbname);
 
 /**
  * Get port from environment and store in Express.
