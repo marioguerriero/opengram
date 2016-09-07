@@ -2,10 +2,16 @@ var express = require('express');
 var expressJwt = require('express-jwt');
 var multer = require('multer');
 
+var parse = require('url-parse');
+
 var config = require('./../config');
 
+var url = parse(config.dbhost);
+
 var gridfs = require('gridfs-storage-engine')({
-    url: config.dbhost + config.dbname
+    database: config.dbname,
+    hostname: (url.auth ? url.auth + '@' : '') + url.hostname,
+    port: url.port
 });
 
 var upload = multer(({
