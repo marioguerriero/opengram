@@ -5,7 +5,7 @@ var multer = require('multer');
 var config = require('./../config');
 
 var gridfs = require('gridfs-storage-engine')({
-    database: config.db
+    database: config.dbhost
 });
 
 var upload = multer(({
