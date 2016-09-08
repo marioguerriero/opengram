@@ -34,7 +34,7 @@ router.get('*', function(req, res) {
         }
 
         // render the index template with the embedded React markup
-        return res.render('index', { markup });
+        return res.render('index', { markup: markup });
     })
 });
 

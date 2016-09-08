@@ -1,17 +1,23 @@
 var React = require('react');
 
+var App = require('grommet').App;
+var Button = require('grommet').Button;
+
+var Header = require('./Header');
+var Footer = require('./Footer');
+
 module.exports = React.createClass({
     render: function () {
-        return <div className='app-container'>
-            <header>
+        return <App>
+            <Header>
 
-            </header>
+            </Header>
             <div className='app-content'>
                 {this.props.children}
             </div>
-            <footer>
+            <Footer>
 
-            </footer>
-        </div>;
+            </Footer>
+        </App>;
     }
 });
