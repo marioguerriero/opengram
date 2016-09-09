@@ -6,6 +6,6 @@ var routes = require('../component_routes');
 
 module.exports = React.createClass({
     render: function() {
-        return <Router history={browserHistory} routes={routes} onUpdate={() => window.scrollTo(0, 0)}/>;
+        return <Router history={browserHistory} routes={routes}/>;
     }
 });

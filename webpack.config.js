@@ -1,7 +1,6 @@
 // TODO: create multiple entry point files
 
 var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var path = require('path');
 
@@ -14,7 +13,8 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
-            { test: /\.scss$/, loader: 'style!css!sass?outputStyle=compressed' }
+            { test: /\.scss$/, loader: 'style!css!sass?outputStyle=compressed' },
+            { test: /\.json$/, loader: "json-loader" }
         ]
     },
     sassLoader: {
