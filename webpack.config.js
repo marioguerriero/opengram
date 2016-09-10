@@ -13,7 +13,7 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
-            { test: /\.scss$/, loader: 'style!css!sass?outputStyle=compressed' },
+            { test: /\.scss$/, exclude: /node_modules/, loader: 'style!css!sass?outputStyle=compressed' },
             { test: /\.json$/, loader: "json-loader" }
         ]
     },

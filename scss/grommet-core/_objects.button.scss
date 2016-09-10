@@ -1,0 +1,169 @@
+// (C) Copyright 2014-2016 Hewlett Packard Enterprise Development LP
+
+$button-vertical-padding: round($inuit-base-spacing-unit / 3) - $button-border-width;
+$button-horizontal-padding: round($inuit-base-spacing-unit) - $button-border-width;
+
+@mixin basic-button {
+  padding: $button-vertical-padding $button-horizontal-padding;
+  background-color: transparent;
+  border: $button-border-width solid $button-border-color;
+  border-radius: $border-radius;
+  color: $button-text-color;
+  @include inuit-font-size($control-font-size, $inuit-base-spacing-unit);
+  font-weight: $button-font-weight;
+  cursor: pointer;
+  text-align: center;
+  outline: none;
+  min-width: $button-min-width;
+  max-width: $button-max-width;
+
+  &:focus:not(.#{$grommet-namespace}button--disabled) {
+    border-color: $focus-border-color;
+    box-shadow: 0 0 1px 1px $focus-border-color;
+  }
+
+  @include media-query(lap-and-up) {
+    transition: 0.1s ease-in-out;
+  }
+}
+
+.grommet {
+  input[type="button"],
+  input[type="submit"],
+  button:not(.#{$grommet-namespace}button) {
+    @include basic-button();
+  }
+
+  a.#{$grommet-namespace}button {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.#{$grommet-namespace}button {
+  @include basic-button();
+
+  &__icon {
+    display: inline-block;
+    padding: halve($inuit-base-spacing-unit);
+
+    svg {
+      vertical-align: top;
+    }
+  }
+
+  &:hover {
+    .#{$grommet-namespace}control-icon {
+      @include icon-color($active-icon-color);
+      transition: none;
+    }
+  }
+
+  &--icon,
+  &__icon {
+    &:hover {
+      .#{$grommet-namespace}control-icon {
+        @include icon-color($active-icon-color);
+        transition: none;
+      }
+    }
+  }
+
+  &:not(.#{$grommet-namespace}button--plain) {
+    .#{$grommet-namespace}button__icon {
+      padding: 0;
+      margin-right: halve($inuit-base-spacing-unit);
+    }
+  }
+
+  &--primary {
+    border-color: $brand-color;
+    background-color: $brand-color;
+    color: $active-colored-text-color;
+
+    // used for control icons (e.g. in video)
+    .#{$grommet-namespace}control-icon {
+      @include icon-color($colored-icon-color);
+    }
+
+    &:hover:not(.#{$grommet-namespace}button--disabled) {
+      color: $active-colored-text-color;
+
+     .#{$grommet-namespace}button__icon .#{$grommet-namespace}control-icon {
+        @include icon-color($active-colored-icon-color)
+      }
+    }
+  }
+
+  &--secondary {
+    border-color: $button-secondary-color;
+  }
+
+  &--accent {
+    border-color: $button-accent-color;
+  }
+
+  &--align-start {
+    text-align: left;
+
+    html.rtl & {
+      text-align: right;
+    }
+  }
+
+  &--plain {
+    border: none;
+    padding: 0;
+    width: auto;
+    height: auto;
+    min-width: 0;
+    max-width: none;
+    font-weight: inherit;
+
+    &.#{$grommet-namespace}button--primary {
+      background-color: $brand-color;
+    }
+
+    > span:not(.#{$grommet-namespace}button__icon) {
+
+      &:first-child {
+        margin-left: halve($inuit-base-spacing-unit);
+      }
+
+      &:last-child {
+        margin-right: halve($inuit-base-spacing-unit);
+      }
+    }
+
+    @include dark-background-context-icon();
+  }
+
+  &--disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  &--icon,
+  &:not(.#{$grommet-namespace}button--fill) {
+    flex: 0 0 auto;
+  }
+
+  &--fill {
+    width: 100%;
+    max-width: none;
+    //used to add full height for button inside a flex container
+    flex-grow: 1;
+  }
+}
+
+#{$dark-background-context} .#{$grommet-namespace}button:not(.#{$grommet-namespace}button--primary) {
+  border-color: $button-colored-border-color;
+  color: $colored-text-color;
+
+  &.#{$grommet-namespace}button--accent {
+    border-color: $button-accent-color;
+  }
+}

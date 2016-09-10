@@ -1,0 +1,28 @@
+h1.#{$grommet-namespace}heading,
+h2.#{$grommet-namespace}heading,
+h3.#{$grommet-namespace}heading,
+h4.#{$grommet-namespace}heading,
+h5.#{$grommet-namespace}heading,
+h6.#{$grommet-namespace}heading {
+  margin-bottom: halve($inuit-base-spacing-unit);
+
+  &--large {
+    font-size: 125%;
+  }
+
+  &--small {
+    font-size: 75%;
+  }
+
+  &--strong {
+    font-weight: 600;
+  }
+
+  &--uppercase {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+
+  @include text-align();
+  @include margin();
+}
