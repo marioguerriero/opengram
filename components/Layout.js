@@ -1,7 +1,6 @@
 var React = require('react');
 
 var App = require('grommet').App;
-var Button = require('grommet').Button;
 
 var Header = require('./Header');
 var Footer = require('./Footer');
