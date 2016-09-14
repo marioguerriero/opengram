@@ -34,9 +34,11 @@ api.post("/login", function(req, res) {
             }
 
             // Valid credentials, let's generate a token
+            user = user.toObject();
             user.token = jwt.sign({username: req.body.username}, config.secret, {
                 expiresIn: "7d"
             });
+            console.log(user)
             res.send(user).end();
         });
     });
