@@ -34,12 +34,10 @@ api.post("/login", function(req, res) {
             }
 
             // Valid credentials, let's generate a token
-            var token = jwt.sign({username:req.body.username}, config.secret, {
+            user.token = jwt.sign({username: req.body.username}, config.secret, {
                 expiresIn: "7d"
             });
-
-            user.token = token;
-            res.json(token);
+            res.send(user).end();
         });
     });
 });

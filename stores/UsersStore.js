@@ -1,5 +1,5 @@
 import AppDispatcher from './../dispatcher/AppDispatcher'
-import AuthCostants from './../util/AuthConstants'
+import UsersConstants from '../util/UsersConstants'
 import EventEmitter from 'events';
 
 const CHANGE_EVENT = 'change';
@@ -48,14 +48,19 @@ const AuthStore = new AuthStoreClass();
 
 AuthStore.dispatch = AppDispatcher.register(action => {
     switch(action.actionType) {
-        case AuthCostants.LOGIN_USER:
+        case UsersConstants.LOGIN_USER:
             setUser(action.profile, action.token);
             AuthStore.emitChange();
             break;
-        case AuthCostants.LOGOUT_USER:
+
+        case UsersConstants.LOGOUT_USER:
             removeUser();
             AuthStore.emitChange();
             break;
+
+        case UsersConstants.REGISTER_USER:
+            break;
+
         default:
     }
 });

@@ -1,12 +1,12 @@
 import React from 'react';
 
-import AuthActions from './../actions/AuthActions';
+import UsersActions from '../actions/UsersActions';
 
 import { LoginForm } from './Forms';
 
 module.exports = React.createClass({
     onLogin: function(credentials) {
-        AuthActions.logUserIn(credentials);
+        UsersActions.logUserIn(credentials);
     },
 
     render: function() {
