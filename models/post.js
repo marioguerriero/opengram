@@ -15,4 +15,4 @@ var post_schema = new Schema({
   tags: [ String ]
 }, { versionKey: false });
 
-module.exports = Post = mongoose.model('Post', post_schema);
+module.exports = mongoose.model('Post', post_schema);

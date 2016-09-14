@@ -27,4 +27,4 @@ user_schema.pre('save', function(next) {
   });
 });
 
-module.exports = User = mongoose.model('User', user_schema);;
+module.exports = mongoose.model('User', user_schema);;

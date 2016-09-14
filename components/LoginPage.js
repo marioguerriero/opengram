@@ -1,10 +1,12 @@
-var React = require('react');
+import React from 'react';
 
-var LoginForm = require('./Forms').LoginForm;
+import AuthActions from './../actions/AuthActions';
+
+import { LoginForm } from './Forms';
 
 module.exports = React.createClass({
-    onLogin: function() {
-
+    onLogin: function(credentials) {
+        AuthActions.logUserIn(credentials);
     },
 
     render: function() {
