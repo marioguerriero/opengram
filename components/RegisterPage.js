@@ -1,13 +1,15 @@
-var React = require('react');
+import React from 'react';
 
-var RegisterForm = require('./Forms').RegisterForm;
+import UsersAction from './../actions/UsersActions';
 
-module.exports = React.createClass({
-    onRegister: function() {
+import { RegisterForm } from './Forms';
 
-    },
+export default class RegisterPage extends React.Component {
+    onRegister(req) {
+        UsersAction.registerUser(req);
+    }
 
-    render: function() {
+    render() {
         return <RegisterForm onSubmit={this.onRegister}/>;
     }
-});
+}

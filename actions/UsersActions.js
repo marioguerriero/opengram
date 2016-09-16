@@ -33,7 +33,7 @@ export default {
         request
             .post('/api/users')
             .send(profile)
-            .end(function(err, res) {
+            .end(function(err) {
                 if(err)
                     throw err;
 

@@ -59,6 +59,7 @@ AuthStore.dispatch = AppDispatcher.register(action => {
             break;
 
         case UsersConstants.REGISTER_USER:
+
             break;
 
         default:
