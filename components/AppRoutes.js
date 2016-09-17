@@ -1,10 +1,9 @@
-var React = require('react');
-var Router = require('react-router').Router;
-var browserHistory = require('react-router').browserHistory;
+import React from 'react';
+import {Router} from 'react-router';
+import {browserHistory} from 'react-router';
+import routes from '../component_routes';
 
-var routes = require('../component_routes');
-
-module.exports = React.createClass({
+export default React.createClass({
     render: function() {
         return <Router history={browserHistory} routes={routes}/>;
     }

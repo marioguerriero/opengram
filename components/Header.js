@@ -1,28 +1,41 @@
-var React = require('react');
+import React from 'react';
 
-var Link = require('react-router').Link;
+import { Link } from 'react-router';
 
-var Header = require('grommet').Header;
-var Box = require('grommet').Box;
-var Title = require('grommet').Title;
-var Menu = require('grommet').Menu;
-var Search = require('grommet').Search;
-var Anchor = require('grommet').Anchor;
-var Button = require('grommet').Button;
-var Image = require('grommet').Image;
+import autobind from 'autobind-decorator';
 
-var UserSettings = require('grommet/components/icons/base/UserSettings');
+import { Header, Box, Title, Menu, Search,
+    Anchor, Button, Image } from 'grommet';
 
-var Logo = require('./Logo');
+import UserSettings from 'grommet/components/icons/base/UserSettings';
 
-module.exports = React.createClass({
-    renderUserContent: function() {
-        if(this.props.user) {
+import Logo from './Logo';
+
+import UsersStore from './../stores/UsersStore';
+
+export default class extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: UsersStore.getUser()
+        };
+
+        UsersStore.addChangeListener(this.onUsersStoreChange);
+    }
+
+    @autobind
+    onUsersStoreChange() {
+        this.setState({ user: UsersStore.getUser() });
+    }
+
+    @autobind
+    renderUserContent() {
+        if(this.state.user) {
             return <Box direction='row' justify='between' pad='small'>
                 <Search inline={true} className='flex' placeHolder='Search' />
                 <Menu direction='row' align='center' responsive={false}>
                     <Anchor href='#'>
-                        <Image size='thumb' src={this.props.user.avatar} />
+                        <Image size='thumb' src={this.state.user.avatar} />
                     </Anchor>
                     <Anchor href='#'>
                         <UserSettings />
@@ -37,9 +50,9 @@ module.exports = React.createClass({
             </Menu>
         }
 
-    },
+    }
 
-    render: function() {
+    render() {
         return <Header justify='between'>
             <Link to='/'>
                 <Title>
@@ -50,4 +63,4 @@ module.exports = React.createClass({
             {this.renderUserContent()}
         </Header>;
     }
-});
+}

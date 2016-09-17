@@ -1,6 +1,6 @@
-var React = require('react');
+import React from 'react';
 
-module.exports = React.createClass({
+export default React.createClass({
     render: function() {
         return <h1>404 ERROR: Not Found</h1>;
     }

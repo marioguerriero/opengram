@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
+import app from './../server';
+import debug from 'debug';
+import http from 'http';
 
-var app = require('../server');
-var debug = require('debug')('opengram:server');
-var http = require('http');
-
-var config = require('./../config');
+import config from './../config';
 
 /**
  * Connect to database
  */
-var mongoose = require('mongoose');
-
+import mongoose from 'mongoose';
 mongoose.connect(config.dbhost + '/' + config.dbname);
+
+/**
+ * Setup debugging
+ */
+debug('opengram:server');
 
 /**
  * Get port from environment and store in Express.

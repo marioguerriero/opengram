@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-var bcrypt = require('bcrypt-nodejs');
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt-nodejs';
 
 var Schema = mongoose.Schema;
 
@@ -27,4 +27,4 @@ user_schema.pre('save', function(next) {
   });
 });
 
-module.exports = mongoose.model('User', user_schema);;
+export default mongoose.model('User', user_schema);

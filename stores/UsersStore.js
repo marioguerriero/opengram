@@ -4,20 +4,27 @@ import EventEmitter from 'events';
 
 const CHANGE_EVENT = 'change';
 
+function isClient() {
+    return (typeof window != 'undefined' && window.document);
+}
+
 function setUser(profile, token) {
-    if (!localStorage.getItem('id_token')) {
-        localStorage.setItem('profile', JSON.stringify(profile));
-        localStorage.setItem('id_token', token);
-    }
+    if(isClient())
+        if (!localStorage.getItem('id_token')) {
+            localStorage.setItem('profile', JSON.stringify(profile));
+            localStorage.setItem('id_token', token);
+        }
 }
 
 function removeUser() {
-    localStorage.removeItem('profile');
-    localStorage.removeItem('id_token');
+    if(isClient()) {
+        localStorage.removeItem('profile');
+        localStorage.removeItem('id_token');
+    }
 }
 
 
-class AuthStoreClass extends EventEmitter {
+class UsersStoreClass extends EventEmitter {
     emitChange() {
         this.emit(CHANGE_EVENT);
     }
@@ -31,31 +38,34 @@ class AuthStoreClass extends EventEmitter {
     }
 
     isAuthenticated() {
-        return (localStorage.getItem('id_token'));
+        if(isClient())
+            return (localStorage.getItem('id_token'));
     }
 
 
     getUser() {
-        return localStorage.getItem('profile');
+        if(isClient())
+            return localStorage.getItem('profile');
     }
 
     getJwt() {
-        return localStorage.getItem('id_token');
+        if(isClient())
+            return localStorage.getItem('id_token');
     }
 }
 
-const AuthStore = new AuthStoreClass();
+const UsersStore = new UsersStoreClass();
 
-AuthStore.dispatch = AppDispatcher.register(action => {
+UsersStore.dispatch = AppDispatcher.register(action => {
     switch(action.actionType) {
         case UsersConstants.LOGIN_USER:
             setUser(action.profile, action.token);
-            AuthStore.emitChange();
+            UsersStore.emitChange();
             break;
 
         case UsersConstants.LOGOUT_USER:
             removeUser();
-            AuthStore.emitChange();
+            UsersStore.emitChange();
             break;
 
         case UsersConstants.REGISTER_USER:
@@ -66,4 +76,4 @@ AuthStore.dispatch = AppDispatcher.register(action => {
     }
 });
 
-export default AuthStore;
+export default UsersStore;

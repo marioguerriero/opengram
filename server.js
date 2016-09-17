@@ -1,13 +1,13 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+import express from 'express';
 
-var api = require('./routes/api');
-var upload = require('./routes/upload');
-var view = require('./routes/view');
+import path from 'path';
+import logger from 'morgan';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+
+import api from './routes/api';
+import upload from './routes/upload';
+import view from './routes/view';
 
 var app = express();
 
@@ -27,4 +27,4 @@ app.use('/', view);
 
 app.use(express.static('public'));
 
-module.exports = app;
+export default app;

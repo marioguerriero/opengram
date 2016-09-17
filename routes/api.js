@@ -1,20 +1,20 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-var bcrypt = require("bcrypt-nodejs");
-var jwt = require("jsonwebtoken");
+import express from "express";
+import bodyParser from "body-parser";
+import bcrypt from "bcrypt-nodejs";
+import jwt from "jsonwebtoken";
+import config from "./../config";
+import User from "./../models/user";
 
-var config = require("./../config");
-
-var User = require("./../models/user");
-var Post = require("./../models/post");
+import api_user from './api_user';
+import api_post from './api_post';
 
 var api = express.Router();
 
 api.use(bodyParser.urlencoded({extended:false}));
 api.use(bodyParser.json());
 
-api.use(require('./api_user'));
-api.use(require('./api_post'));
+api.use(api_user);
+api.use(api_post);
 
 // Authentication end point
 api.post("/login", function(req, res) {
@@ -38,10 +38,9 @@ api.post("/login", function(req, res) {
             user.token = jwt.sign({username: req.body.username}, config.secret, {
                 expiresIn: "7d"
             });
-            console.log(user)
             res.send(user).end();
         });
     });
 });
 
-module.exports = api;
+export default api;

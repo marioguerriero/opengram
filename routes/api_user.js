@@ -1,10 +1,8 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var expressJwt = require('express-jwt');
-
-var config = require("./../config");
-
-var User = require("./../models/user");
+import express from 'express';
+import bodyParser from 'body-parser';
+import expressJwt from 'express-jwt';
+import config from "./../config";
+import User from "./../models/user";
 
 var router = express.Router();
 
@@ -94,4 +92,4 @@ router.delete("/user/:id", jwtMiddleware, function(req, res){
     });
 });
 
-module.exports = router;
+export default router;

@@ -1,14 +1,11 @@
-var express = require('express');
-var config = require('./../config');
-
-var routes = require('../component_routes');
-
-var React = require('react');
-var RouterContext = require('react-router').RouterContext;
-var renderToString = require('react-dom/server').renderToString;
-var match = require('react-router').match;
-
-var NotFoundPage = require('./../components/NotFoundPage');
+import express from 'express';
+import config from './../config';
+import routes from '../component_routes';
+import React from 'react';
+import {RouterContext} from 'react-router';
+import {renderToString} from 'react-dom/server';
+import {match} from 'react-router';
+import NotFoundPage from './../components/NotFoundPage';
 
 var router = express.Router();
 
@@ -38,4 +35,4 @@ router.get('*', function(req, res) {
     })
 });
 
-module.exports = router;
+export default router;

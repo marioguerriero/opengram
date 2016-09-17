@@ -1,16 +1,15 @@
-var React = require('react');
-var Route = require('react-router').Route;
-var IndexRoute = require('react-router').IndexRoute;
+import React from 'react';
+import { Route, IndexRoute } from 'react-router';
 
-var Layout = require('./components/Layout');
-var IndexPage = require('./components/IndexPage');
-var UserPage = require('./components/UserPage');
-var PostPage = require('./components/PostPage');
-var NotFoundPage = require('./components/NotFoundPage');
+import Layout from './components/Layout';
+import IndexPage from './components/IndexPage';
+import UserPage from './components/UserPage';
+import PostPage from './components/PostPage';
+import NotFoundPage from './components/NotFoundPage';
 import RegisterPage from './components/RegisterPage';
-var LoginPage = require('./components/LoginPage');
+import LoginPage from './components/LoginPage';
 
-var routes = (
+export default (
     <Route path="/" component={Layout}>
         <IndexRoute component={IndexPage}/>
         <Route path="register" component={RegisterPage}/>
@@ -20,5 +19,3 @@ var routes = (
         <Route path="*" component={NotFoundPage}/>
     </Route>
 );
-
-module.exports = routes;

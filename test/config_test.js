@@ -1,6 +1,6 @@
-var config = require('./../config');
+import config from './../config';
 
-module.exports = {
+export default {
     testdb: 'opengramtest',
     dbhost: config.dbhost,
     testport: 5000

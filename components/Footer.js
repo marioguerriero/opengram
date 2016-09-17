@@ -1,8 +1,7 @@
-var React = require('react');
+import React from 'react';
+import {Footer} from 'grommet';
 
-var Footer = require('grommet').Footer;
-
-module.exports = React.createClass({
+export default React.createClass({
     render: function() {
         return <Footer></Footer>;
     }

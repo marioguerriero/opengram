@@ -1,11 +1,10 @@
-var React = require('react');
+import React from 'react';
 
-var App = require('grommet').App;
+import { App } from 'grommet';
+import Header from './Header';
+import Footer from './Footer';
 
-var Header = require('./Header');
-var Footer = require('./Footer');
-
-module.exports = React.createClass({
+export default React.createClass({
     render: function () {
         return <App>
             <Header>

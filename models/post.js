@@ -1,7 +1,9 @@
-var mongoose = require('mongoose');
-var gsf = require('./gfs'); /*  This is not directly used but it is imported
-                              so that the models it contains are declared */
-var User = require('./user');
+import mongoose from 'mongoose';
+import gsf from './gfs';
+
+/*  This is not directly used but it is imported
+  so that the models it contains are declared */
+import User from './user';
 
 var Schema = mongoose.Schema;
 
@@ -15,4 +17,4 @@ var post_schema = new Schema({
   tags: [ String ]
 }, { versionKey: false });
 
-module.exports = mongoose.model('Post', post_schema);
+export default mongoose.model('Post', post_schema);

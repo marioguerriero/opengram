@@ -1,6 +1,6 @@
-var config = require('../config_test');
+import config from './../config_test';
+import mongoose from 'mongoose';
 
-module.exports = function() {
-    var mongoose = require('mongoose');
+export default function() {
     mongoose.connect(config.dbhost + '/' + config.testdb);
 };

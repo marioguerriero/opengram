@@ -1,8 +1,7 @@
-var React = require('react');
+import React from 'react';
+import { Image } from 'grommet';
 
-var Image = require('grommet').Image;
-
-module.exports = React.createClass({
+export default React.createClass({
     render: function() {
         return <Image src='/assets/logo.png' size={this.props.size} />;
     }

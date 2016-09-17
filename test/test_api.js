@@ -1,13 +1,12 @@
 /**
  * Test register and login processes along with user profile editing and deleting
  */
-var chai = require('chai');
+import chai from 'chai';
+
 var assert = chai.assert;
-var request = require('supertest');
-
-var mongoose = require('mongoose');
-
-var config = require('./config_test');
+import request from 'supertest';
+import mongoose from 'mongoose';
+import config from './config_test';
 
 // Connect to database
 require('./test_util/db-connector')();
