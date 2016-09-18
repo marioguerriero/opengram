@@ -3,16 +3,20 @@
  */
 import chai from 'chai';
 
-var assert = chai.assert;
+import serverStarter from './test_util/server-starter';
+import dbConnector from './test_util/db-connector';
+
 import request from 'supertest';
 import mongoose from 'mongoose';
 import config from './config_test';
 
+var assert = chai.assert;
+
 // Connect to database
-require('./test_util/db-connector')();
+dbConnector();
 
 // Launch server
-var server = require('./test_util/server-starter')();
+var server = serverStarter();
 
 var user = {
     name: "Mario Guerriero",
