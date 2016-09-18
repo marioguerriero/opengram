@@ -3,6 +3,9 @@ import UsersConstants from '../util/UsersConstants'
 import EventEmitter from 'events';
 
 const CHANGE_EVENT = 'change';
+const LOGIN_EVENT = 'login';
+const LOGIN_FAILED_EVENT = 'login-failed';
+const REGISTER_EVENT = 'register';
 
 function isClient() {
     return (typeof window != 'undefined' && window.document);
@@ -25,23 +28,14 @@ function removeUser() {
 
 
 class UsersStoreClass extends EventEmitter {
-    emitChange() {
-        this.emit(CHANGE_EVENT);
-    }
-
-    addChangeListener(callback) {
-        this.on(CHANGE_EVENT, callback)
-    }
-
-    removeChangeListener(callback) {
-        this.removeListener(CHANGE_EVENT, callback)
+    addListener(eventName, cb) {
+        this.on(eventName, cb)
     }
 
     isAuthenticated() {
         if(isClient())
             return (localStorage.getItem('id_token'));
     }
-
 
     getUser() {
         if(isClient())
@@ -60,16 +54,20 @@ UsersStore.dispatch = AppDispatcher.register(action => {
     switch(action.actionType) {
         case UsersConstants.LOGIN_USER:
             setUser(action.profile, action.token);
-            UsersStore.emitChange();
+            UsersStore.emit(LOGIN_EVENT);
             break;
 
         case UsersConstants.LOGOUT_USER:
             removeUser();
-            UsersStore.emitChange();
+            UsersStore.emit(CHANGE_EVENT);
             break;
 
         case UsersConstants.REGISTER_USER:
+            UsersStore.emit(REGISTER_EVENT);
+            break;
 
+        case UsersConstants.LOGIN_FAILED:
+            UsersStore.emit(LOGIN_FAILED_EVENT, action.errorMessage);
             break;
 
         default:

@@ -9,17 +9,25 @@ export default {
             .post('/api/login')
             .send(credentials)
             .end(function(err, res) {
-                if(err)
-                    throw err;
+                switch(res.statusCode) {
+                    case 200:
+                        let profile = res.body;
+                        let token = profile.token;
 
-                let profile = res.body;
-                let token = profile.token;
-
-                AppDispatcher.dispatch({
-                    actionType: UsersConstants.LOGIN_USER,
-                    profile: profile,
-                    token: token
-                });
+                        AppDispatcher.dispatch({
+                            actionType: UsersConstants.LOGIN_USER,
+                            profile: profile,
+                            token: token
+                        });
+                        break;
+                    case 400:
+                    case 401:
+                        AppDispatcher.dispatch({
+                            actionType: UsersConstants.LOGIN_FAILED,
+                            errorMessage: 'Invalid username or password'
+                        });
+                        break;
+                }
             });
     },
 

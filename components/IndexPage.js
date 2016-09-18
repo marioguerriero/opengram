@@ -10,7 +10,7 @@ export default class IndexPage extends React.Component {
         this.state = {
             user: UsersStore.getUser()
         };
-        UsersStore.addChangeListener(this.onUsersStoreChange);
+        UsersStore.addListener('change', this.onUsersStoreChange);
     }
 
     @autobind

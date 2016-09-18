@@ -20,7 +20,7 @@ export default class extends React.Component{
             user: UsersStore.getUser()
         };
 
-        UsersStore.addChangeListener(this.onUsersStoreChange);
+        UsersStore.addListener('change', this.onUsersStoreChange);
     }
 
     @autobind
