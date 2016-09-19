@@ -1,5 +1,7 @@
 import React from 'react';
 
+import NewsFeed from './NewsFeed';
+
 import autobind from 'autobind-decorator';
 
 import UsersStore from './../stores/UsersStore';
@@ -21,7 +23,7 @@ export default class IndexPage extends React.Component {
     render() {
         if(this.state.user) {
             return (<div>
-                <h1>Welcome, {this.state.user.username}</h1>
+                <NewsFeed/>
             </div>);
         }
         else {
