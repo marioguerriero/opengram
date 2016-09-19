@@ -2,28 +2,23 @@ import AppDispatcher from './../dispatcher/AppDispatcher'
 import UsersConstants from '../util/UsersConstants'
 import EventEmitter from 'events';
 
+import cookie from 'react-cookie';
+
 const CHANGE_EVENT = 'change';
 const LOGIN_EVENT = 'login';
 const LOGIN_FAILED_EVENT = 'login-failed';
 const REGISTER_EVENT = 'register';
 
-function isClient() {
-    return (typeof window != 'undefined' && window.document);
-}
-
 function setUser(profile, token) {
-    if(isClient())
-        if (!localStorage.getItem('id_token')) {
-            localStorage.setItem('profile', JSON.stringify(profile));
-            localStorage.setItem('id_token', token);
-        }
+    if (!cookie.load('id_token')) {
+        cookie.save('profile', JSON.stringify(profile));
+        cookie.save('id_token', token);
+    }
 }
 
 function removeUser() {
-    if(isClient()) {
-        localStorage.removeItem('profile');
-        localStorage.removeItem('id_token');
-    }
+    cookie.remove('profile');
+    cookie.remove('id_token');
 }
 
 
@@ -33,18 +28,15 @@ class UsersStoreClass extends EventEmitter {
     }
 
     isAuthenticated() {
-        if(isClient())
-            return (localStorage.getItem('id_token'));
+        return (cookie.load('id_token'));
     }
 
     getUser() {
-        if(isClient())
-            return localStorage.getItem('profile');
+        return cookie.load('profile');
     }
 
     getJwt() {
-        if(isClient())
-            return localStorage.getItem('id_token');
+        return cookie.load('id_token');
     }
 }
 
