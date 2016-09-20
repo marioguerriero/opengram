@@ -52,6 +52,10 @@ export default class extends React.Component{
 
     }
 
+    componentWillUnmount() {
+        UsersStore.removeListener('change', this.onUsersStoreChange);
+    }
+
     render() {
         return <Header justify='between'>
             <Link to='/'>

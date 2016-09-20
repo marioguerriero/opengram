@@ -20,6 +20,10 @@ export default class IndexPage extends React.Component {
         this.setState({ user: UsersStore.getUser() });
     }
 
+    componentWillUnmount() {
+        UsersStore.removeListener('change', this.onUsersStoreChange);
+    }
+
     render() {
         if(this.state.user) {
             return (<div>

@@ -10,16 +10,22 @@ import { LoginForm } from './Forms';
 export default class extends React.Component {
     constructor(props) {
         super(props);
-        UsersStore.addListener('login', () => {
-            browserHistory.push('/');
-        });
+        UsersStore.addListener('login', this.onLogin);
     }
 
-    onLogin(credentials) {
+    onLogin() {
+        browserHistory.push('/');
+    }
+
+    onLoginCb(credentials) {
         UsersActions.logUserIn(credentials);
     }
 
+    componentWillUnmount() {
+        UsersStore.removeListener('login', this.onLogin);
+    }
+
     render() {
-        return <LoginForm onSubmit={this.onLogin} />;
+        return <LoginForm onSubmit={this.onLoginCb} />;
     }
 }

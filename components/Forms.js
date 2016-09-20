@@ -24,7 +24,8 @@ class RegisterForm extends React.Component {
 
     handleStateChange(key, ev) {
         var change = {};
-        change[key] = ev.target.value;
+        change[key] = (ev.target.value === 'true' || ev.target.value === 'false') ?
+            (ev.target.value == 'true') : ev.target.value;
         this.setState(change);
     }
 
@@ -76,6 +77,10 @@ class LoginForm extends React.Component{
     @autobind
     onLoginFailed(err) {
         this.setState({ errorMessage: err });
+    }
+
+    componentWillUnmount() {
+        UsersStore.removeListener('login-failed', this.onLoginFailed);
     }
 
     render() {

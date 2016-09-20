@@ -12,14 +12,21 @@ export default class ComposeBox extends React.Component {
         this.state = {
             user: UsersStore.getUser()
         };
-        UsersStore.addListener('change', () => {
-            this.setState({ user: UsersStore.getUser() });
-        });
+        UsersStore.addListener('change', this.onChangeListener);
+    }
+
+    @autobind
+    onChangeListener() {
+        this.setState({ user: UsersStore.getUser() });
     }
 
     @autobind
     onPost() {
 
+    }
+
+    componentWillUnmount() {
+        UsersStore.removeListener('change', this.onChangeListener);
     }
 
     render() {
