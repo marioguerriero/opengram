@@ -21,7 +21,6 @@ function removeUser() {
     cookie.remove('id_token');
 }
 
-
 class UsersStoreClass extends EventEmitter {
     addListener(eventName, cb) {
         this.on(eventName, cb)

@@ -27,7 +27,7 @@ export default class IndexPage extends React.Component {
     render() {
         if(this.state.user) {
             return (<div>
-                <NewsFeed/>
+                <NewsFeed />
             </div>);
         }
         else {

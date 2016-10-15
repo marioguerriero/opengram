@@ -24,9 +24,13 @@ class RegisterForm extends React.Component {
 
     handleStateChange(key, ev) {
         var change = {};
-        change[key] = (ev.target.value === 'true' || ev.target.value === 'false') ?
-            (ev.target.value == 'true') : ev.target.value;
+        change[key] = ev.target.value;
         this.setState(change);
+    }
+
+    @autobind
+    handleConditionsAgreementChange() {
+        this.setState({ conditionsAgreement: !this.state.conditionsAgreement });
     }
 
     render() {
@@ -56,10 +60,12 @@ class RegisterForm extends React.Component {
             <Footer align='start' size='small' direction='column'
                     pad={{vertical: 'medium', between: 'medium'}}>
                 <Box direction="row" align="start">
-                    <CheckBox id='terms-cb' checked={this.state.conditionsAgreement} label='I agree with' onChange={this.handleStateChange.bind(this, 'conditionsAgreement')}/>
+                    <CheckBox id='terms-cb' checked={this.state.conditionsAgreement} label='I agree with' onChange={this.handleConditionsAgreementChange}/>
                     <Link to='terms-and-conditions'>terms and conditions</Link>
                 </Box>
-                <Button label="Register" primary={true} strong={true} onClick={this.onSubmit} />
+                <Button label="Register" primary={true} strong={true} disabled={!this.state.fullname ||
+                        !this.state.username || !this.state.email || !this.state.password ||
+                        !this.state.confirmPassword || !this.state.conditionsAgreement} onClick={this.props.onSubmit} />
             </Footer>
         </Form>;
     }
