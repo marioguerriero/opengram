@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link } from 'react-router';
+import { IndexLink, Link } from 'react-router';
 
 import autobind from 'autobind-decorator';
 
@@ -13,7 +13,7 @@ import Logo from './Logo';
 
 import UsersStore from './../stores/UsersStore';
 
-export default class extends React.Component{
+export default class extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -57,13 +57,13 @@ export default class extends React.Component{
     }
 
     render() {
+        console.log('render');
+
         return <Header justify='between'>
-            <Link to='/'>
-                <Title>
-                    <Logo size='thumb' />
-                    Opengram
-                </Title>
-            </Link>
+            <Title>
+                <Logo size='thumb' />
+                <IndexLink to='/'>Opengram</IndexLink>
+            </Title>
             {this.renderUserContent()}
         </Header>;
     }

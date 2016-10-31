@@ -4,8 +4,16 @@ import { App } from 'grommet';
 import Header from './Header';
 import Footer from './Footer';
 
-export default React.createClass({
-    render: function () {
+import UsersStore from './../stores/UsersStore';
+
+export default class extends React.Component {
+    constructor(props) {
+        super(props);
+
+        UsersStore.init();
+    }
+
+    render() {
         return <App>
             <Header>
 
@@ -18,4 +26,4 @@ export default React.createClass({
             </Footer>
         </App>;
     }
-});
+};

@@ -12,7 +12,7 @@ export default class IndexPage extends React.Component {
         this.state = {
             user: UsersStore.getUser()
         };
-        UsersStore.addListener('change', this.onUsersStoreChange);
+        UsersStore.addListener('login', this.onUsersStoreChange);
     }
 
     @autobind

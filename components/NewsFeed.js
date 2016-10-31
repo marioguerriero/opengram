@@ -14,7 +14,7 @@ export default class NewsFeed extends React.Component {
         this.state = {
             posts: null
         };
-        PostsStore.on('timeline-load', onTimelineUpdate);
+        PostsStore.on('timeline-load', this.onTimelineUpdate);
     }
 
     @autobind

@@ -10,11 +10,12 @@ import { LoginForm } from './Forms';
 export default class extends React.Component {
     constructor(props) {
         super(props);
-        UsersStore.addListener('login', this.onLogin);
+        UsersStore.addListener('change', this.onLogin);
     }
 
     onLogin() {
-        browserHistory.push('/');
+        if(UsersStore.getUser()) // If login was successful
+            browserHistory.push('/');
     }
 
     onLoginCb(credentials) {

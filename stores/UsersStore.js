@@ -2,10 +2,11 @@ import AppDispatcher from './../dispatcher/AppDispatcher'
 import UsersConstants from '../util/UsersConstants'
 import EventEmitter from 'events';
 
+import autobind from 'autobind-decorator';
+
 import cookie from 'react-cookie';
 
 const CHANGE_EVENT = 'change';
-const LOGIN_EVENT = 'login';
 const LOGIN_FAILED_EVENT = 'login-failed';
 const REGISTER_EVENT = 'register';
 
@@ -37,6 +38,19 @@ class UsersStoreClass extends EventEmitter {
     getJwt() {
         return cookie.load('id_token');
     }
+
+    /**
+     * Initialize UsersStore handled content (eg user's profile and token)
+     */
+    @autobind
+    init() {
+        let profile = this.getUser();
+        let token = this.getJwt();
+        if(profile && token) {
+            setUser(profile, token);
+            UsersStore.emit(CHANGE_EVENT);
+        }
+    }
 }
 
 const UsersStore = new UsersStoreClass();
@@ -45,7 +59,7 @@ UsersStore.dispatch = AppDispatcher.register(action => {
     switch(action.actionType) {
         case UsersConstants.LOGIN_USER:
             setUser(action.profile, action.token);
-            UsersStore.emit(LOGIN_EVENT);
+            UsersStore.emit(CHANGE_EVENT);
             break;
 
         case UsersConstants.LOGOUT_USER:
