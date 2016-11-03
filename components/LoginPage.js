@@ -2,7 +2,7 @@ import React from 'react';
 
 import { browserHistory } from 'react-router';
 
-import UsersActions from '../actions/UsersActions';
+import UserActions from '../actions/UserActions';
 import UsersStore from '../stores/UsersStore';
 
 import { LoginForm } from './Forms';
@@ -19,7 +19,7 @@ export default class extends React.Component {
     }
 
     onLoginCb(credentials) {
-        UsersActions.logUserIn(credentials);
+        UserActions.logUserIn(credentials);
     }
 
     componentWillUnmount() {

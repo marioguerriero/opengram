@@ -35,7 +35,7 @@ class UsersStoreClass extends EventEmitter {
         return cookie.load('profile');
     }
 
-    getJwt() {
+    getAuthToken() {
         return cookie.load('id_token');
     }
 
@@ -45,7 +45,7 @@ class UsersStoreClass extends EventEmitter {
     @autobind
     init() {
         let profile = this.getUser();
-        let token = this.getJwt();
+        let token = this.getAuthToken();
         if(profile && token) {
             setUser(profile, token);
             UsersStore.emit(CHANGE_EVENT);

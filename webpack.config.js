@@ -10,10 +10,9 @@ module.exports = {
         path: path.join(__dirname, 'public', 'script'),
         filename: 'bundle.js'
     },
-    cache: true,
     module: {
         loaders: [
-            { test: /\.js$/, exclude: path.resolve(__dirname, 'node_modules'), loader: 'babel-loader?cacheDirectory' },
+            { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
             { test: /\.scss$/, loader: 'style!css!sass?outputStyle=compressed' },
             { test: /\.json$/, loader: "json-loader" }
         ]

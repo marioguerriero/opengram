@@ -2,7 +2,7 @@ import React from 'react';
 
 import { browserHistory } from 'react-router';
 
-import UsersAction from './../actions/UsersActions';
+import UserAction from '../actions/UserActions';
 import UsersStore from '../stores/UsersStore';
 
 import { RegisterForm } from './Forms';
@@ -16,7 +16,7 @@ export default class RegisterPage extends React.Component {
     }
 
     onRegister(req) {
-        UsersAction.registerUser(req);
+        UserAction.registerUser(req);
     }
 
     render() {
