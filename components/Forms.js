@@ -33,6 +33,16 @@ class RegisterForm extends React.Component {
         this.setState({ conditionsAgreement: !this.state.conditionsAgreement });
     }
 
+    @autobind
+    handleSubmitClick() {
+        this.props.onSubmit({
+            name: this.state.fullname,
+            username: this.state.username,
+            email: this.state.email,
+            password: this.state.password
+        });
+    }
+
     render() {
         return <Form onSubmit={this.props.onSubmit}>
             <Heading strong={true}>
@@ -65,7 +75,7 @@ class RegisterForm extends React.Component {
                 </Box>
                 <Button label="Register" primary={true} strong={true} disabled={!this.state.fullname ||
                         !this.state.username || !this.state.email || !this.state.password ||
-                        !this.state.confirmPassword || !this.state.conditionsAgreement} onClick={this.props.onSubmit} />
+                        !this.state.confirmPassword || !this.state.conditionsAgreement} onClick={this.handleSubmitClick} />
             </Footer>
         </Form>;
     }
