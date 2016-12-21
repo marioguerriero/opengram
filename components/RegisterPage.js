@@ -16,6 +16,9 @@ export default class RegisterPage extends React.Component {
         UsersStore.addListener('login', () => {
             browserHistory.push('/login');
         });
+        UsersStore.addListener('register', () => {
+            browserHistory.push('/login');
+        });
     }
 
     onRegister(req) {
