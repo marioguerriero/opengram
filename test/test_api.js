@@ -203,6 +203,7 @@ describe('Test API', function() {
                 if(err)
                     throw err;
 
+                assert.isOk(post._id == res.body._id);
                 assert.equal(200, res.status);
                 done();
             });

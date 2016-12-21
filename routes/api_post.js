@@ -78,9 +78,19 @@ router.delete("/post/:id", jwtMiddleware, function(req, res) {
     if(!id)
         return res.sendStatus(400); // Bad Request
 
-    Post.remove({ _id: id }, function (err) {
-        if(err) res.sendStatus(404);
-        else res.sendStatus(200);
+    // Look for the post to delete
+    Post.findOneAndUpdate({ _id: id}, post, { new: true }, function (err, user) {
+        if(err)
+            res.sendStatus(500);
+        else {
+            Post.remove({ _id: id }, function (err) {
+                if(err)
+                    res.sendStatus(404);
+                else {
+                    res.json(post);
+                }
+            });
+        }
     });
 });
 
