@@ -24,7 +24,16 @@ var user = {
     password: "samplepassword"
 };
 
+// This user will be used just to help with timeline testing
+var user2 = {
+    name: "Winston Smith",
+    username: "winstonsmith",
+    password: "winstonsmithPass"
+};
+
 var token = null;
+
+var token2 = null;
 
 var post = {
     message: 'This is a sample post',
@@ -47,6 +56,18 @@ describe('Test API', function() {
             });
     });
 
+    it('Register a second new user user', function(done) {
+        request(url)
+            .post('/api/users')
+            .send(user2)
+            .end(function(err, res) {
+                if(err)
+                    throw err;
+                assert.equal(200, res.status);
+                done();
+            });
+    });
+
     it('Register an user with an already existing username', function(done) {
         request(url)
             .post('/api/users')
@@ -59,7 +80,7 @@ describe('Test API', function() {
             });
     });
 
-    it('Login', function(done) {
+    it('Login first user', function(done) {
         request(url)
             .post('/api/login')
             .send(user)
@@ -72,6 +93,25 @@ describe('Test API', function() {
                 assert.isNotNull(user._id);
 
                 token = res.body.token;
+                assert.isNotNull(token);
+
+                done();
+            });
+    });
+
+    it('Login second user', function(done) {
+        request(url)
+            .post('/api/login')
+            .send(user2)
+            .end(function(err, res) {
+                if(err)
+                    throw err;
+                assert.equal(200, res.status);
+
+                user2._id = res.body._id;
+                assert.isNotNull(user2._id);
+
+                token2 = res.body.token;
                 assert.isNotNull(token);
 
                 done();
@@ -92,6 +132,24 @@ describe('Test API', function() {
 
                 var localUser = res.body;
                 assert.equal(birthdate, localUser.birthday);
+                done();
+            });
+    });
+
+    it('Second user starts following the first one', function(done) {
+        request(url)
+            .put('/api/user/follow/' + user._id)
+            .set('x-access-token', token2)
+            .send(user)
+            .end(function(err, res) {
+                if(err)
+                    throw err;
+
+                assert.equal(200, res.status);
+
+                var localUser = res.body;
+                assert.equal(user._id, localUser.following[0]);
+
                 done();
             });
     });
@@ -195,7 +253,7 @@ describe('Test API', function() {
                 assert.equal(200, res.status);
                 done();
             });
-        // Delete created user
+        // Delete created users
         request(url)
             .delete('/api/user/' + user._id)
             .set('x-access-token', token)
@@ -204,6 +262,16 @@ describe('Test API', function() {
                     throw err;
 
                 assert.isOk(post._id == res.body._id);
+                assert.equal(200, res.status);
+                done();
+            });
+        request(url)
+            .delete('/api/user/' + user2._id)
+            .set('x-access-token', token2)
+            .end(function(err, res) {
+                if(err)
+                    throw err;
+
                 assert.equal(200, res.status);
                 done();
             });
