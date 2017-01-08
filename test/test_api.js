@@ -138,7 +138,7 @@ describe('Test API', function() {
 
     it('Second user starts following the first one', function(done) {
         request(url)
-            .put('/api/user/follow/' + user._id)
+            .post('/api/user/follow/' + user._id)
             .set('x-access-token', token2)
             .send(user)
             .end(function(err, res) {
