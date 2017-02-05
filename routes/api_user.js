@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import expressJwt from 'express-jwt';
+import jwtMiddleware from './jwt-middleware';
 import config from "./../config";
 import User from "./../models/user";
 
@@ -8,13 +8,6 @@ var router = express.Router();
 
 router.use(bodyParser.urlencoded({extended:false}));
 router.use(bodyParser.json());
-
-var jwtMiddleware = expressJwt({
-    secret: config.secret,
-    getToken: function(req) {
-        return req.body.token || req.query.token || req.headers['x-access-token'];
-    }
-});
 
 // Get user's details
 router.get('/user/:id', jwtMiddleware, function(req, res) {

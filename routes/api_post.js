@@ -1,20 +1,12 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import expressJwt from 'express-jwt';
-import config from "./../config";
+import jwtMiddleware from './jwt-middleware';
 import Post from "./../models/post";
 
 var router = express.Router();
 
 router.use(bodyParser.urlencoded({extended:false}));
 router.use(bodyParser.json());
-
-var jwtMiddleware = expressJwt({
-    secret: config.secret,
-    getToken: function(req) {
-        return req.body.token || req.query.token || req.headers['x-access-token'];
-    }
-});
 
 // Query posts
 router.get("/posts", jwtMiddleware, function(req, res) {
