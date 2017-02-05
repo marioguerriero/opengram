@@ -23,7 +23,7 @@ router.get("/posts", jwtMiddleware, function(req, res) {
 // Create posts
 router.post("/posts", jwtMiddleware, function(req, res) {
     if(!req.body || !req.body.publisher)
-        return res.sendStatus(400); // Bad request
+      return res.sendStatus(400); // Bad request
 
     new Post(req.body).save(function(err, post) {
         if (err) return res.sendStatus(500); // Internal Server
@@ -69,6 +69,8 @@ router.delete("/post/:id", jwtMiddleware, function(req, res) {
 
     if(!id)
         return res.sendStatus(400); // Bad Request
+
+    let post = req.body;
 
     // Look for the post to delete
     Post.findOneAndUpdate({ _id: id}, post, { new: true }, function (err, user) {

@@ -240,41 +240,47 @@ describe('Test API', function() {
             });
     });
 
+    it('Delete created post', function(done) {
+      request(url)
+          .delete('/api/post/' + post._id)
+          .set('x-access-token', token)
+          .send(post)
+          .end(function(err, res) {
+              if(err)
+                  throw err;
+
+              assert.equal(200, res.status);
+              done();
+          });
+    });
+
+    it('Delete created user: ' + user.username, function(done) {
+      request(url)
+          .delete('/api/user/' + user._id)
+          .set('x-access-token', token2)
+          .end(function(err, res) {
+              if(err)
+                  throw err;
+
+              assert.equal(200, res.status);
+              done();
+          });
+    });
+
+    it('Delete created user: ' + user2.username, function(done) {
+      request(url)
+          .delete('/api/user/' + user2._id)
+          .set('x-access-token', token2)
+          .end(function(err, res) {
+              if(err)
+                  throw err;
+
+              assert.equal(200, res.status);
+              done();
+          });
+    });
+
     after(function() {
-        // Delete created post
-        request(url)
-            .delete('/api/post/' + post._id)
-            .set('x-access-token', token)
-            .send(post)
-            .end(function(err, res) {
-                if(err)
-                    throw err;
-
-                assert.equal(200, res.status);
-                done();
-            });
-        // Delete created users
-        request(url)
-            .delete('/api/user/' + user._id)
-            .set('x-access-token', token)
-            .end(function(err, res) {
-                if(err)
-                    throw err;
-
-                assert.isOk(post._id == res.body._id);
-                assert.equal(200, res.status);
-                done();
-            });
-        request(url)
-            .delete('/api/user/' + user2._id)
-            .set('x-access-token', token2)
-            .end(function(err, res) {
-                if(err)
-                    throw err;
-
-                assert.equal(200, res.status);
-                done();
-            });
         // Close db connection
         mongoose.connection.close();
         // Close server
