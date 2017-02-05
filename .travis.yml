@@ -5,6 +5,9 @@ node_js:
 services:
  - mongodb
 
+beofre_script:
+  - mongo opengramtest --eval "db.dropDatabase()"
+
 before_install:
   npm install --only=dev
 install:
