@@ -140,7 +140,6 @@ describe('Test API', function() {
         request(url)
             .post('/api/user/follow/' + user._id)
             .set('x-access-token', token2)
-            .send(user)
             .end(function(err, res) {
                 if(err)
                     throw err;

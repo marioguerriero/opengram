@@ -89,8 +89,8 @@ router.delete("/user/:id", jwtMiddleware, function(req, res){
 router.post("/user/follow/:id", jwtMiddleware, function(req, res){
     var id = req.params.id;
 
-    if(!id)
-        return res.sendStatus(400); // Bad Request
+    if(!id || !req.user || !req.user.username)
+      return res.sendStatus(400); // Bad Request
 
     // First obtain the requesting user
     User.findOne({ username: req.user.username }, function(err, user) {
