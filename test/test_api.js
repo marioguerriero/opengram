@@ -240,6 +240,25 @@ describe('Test API', function() {
             });
     });
 
+    // Timeline
+
+    it('Test timeline', function(done) {
+      request(url)
+          .get('/api/timeline')
+          .set('x-access-token', token2)
+          .send(post)
+          .end(function(err, res) {
+              if(err)
+                  throw err;
+
+              assert.equal(200, res.status);
+              assert.isAbove(res.body.posts.length, 0, 'Timeline contains at least one post')
+              done();
+          });
+    });
+
+    // Delete APIs endpoints
+
     it('Delete created post', function(done) {
       request(url)
           .delete('/api/post/' + post._id)
