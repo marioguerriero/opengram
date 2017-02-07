@@ -93,20 +93,29 @@ router.post("/user/follow/:id", jwtMiddleware, function(req, res){
       return res.sendStatus(400); // Bad Request
 
     // First obtain the requesting user
-    User.findOne({ username: req.user.username }, function(err, user) {
-        if(err)
-            res.sendStatus(404);
-        else {
-          // Update the user record with the new following
-          user.following.push(id);
-          // Store the record into the database
-          User.findOneAndUpdate({ username: req.user.username}, user, { new: true }, function (err, user) {
-            if(err)
-              res.sendStatus(500);
-            else
-              res.json(user);
-          });
-        }
+    User.findOneAndUpdate({ username: req.user.username },
+        { $push: { following: id } }, { new: true }, function(err, user) {
+      if(err)
+        res.sendStatus(500);
+      else
+        res.json(user);
+    });
+});
+
+// Defollow an user
+router.delete("/user/follow/:id", jwtMiddleware, function(req, res){
+    var id = req.params.id;
+
+    if(!id || !req.user || !req.user.username)
+      return res.sendStatus(400); // Bad Request
+
+    // First obtain the requesting user
+    User.findOneAndUpdate({ username: req.user.username },
+        { $pull: { following: id } }, { new: true }, function(err, user) {
+      if(err)
+        res.sendStatus(500);
+      else
+        res.json(user);
     });
 });
 

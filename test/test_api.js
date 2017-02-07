@@ -256,6 +256,24 @@ describe('Test API', function() {
           });
     });
 
+    // Defollow endpoints
+    it('Second user starts following the first one', function(done) {
+        request(url)
+            .delete('/api/user/follow/' + user._id)
+            .set('x-access-token', token2)
+            .end(function(err, res) {
+                if(err)
+                    throw err;
+
+                assert.equal(200, res.status);
+
+                var localUser = res.body;
+                assert.equal(0, localUser.following.length);
+
+                done();
+            });
+    });
+
     // Delete APIs endpoints
 
     it('Delete created post', function(done) {
