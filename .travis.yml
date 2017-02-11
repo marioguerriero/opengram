@@ -5,11 +5,6 @@ node_js:
 services:
  - mongodb
 
-before_script:
-  - mongo opengramtest --eval "db.dropDatabase()"
-
-before_install:
-  yarn install --only=dev
 install:
   yarn install
 
