@@ -9,9 +9,14 @@ before_script:
   - mongo opengramtest --eval "db.dropDatabase()"
 
 before_install:
-  npm install --only=dev
+  yarn install --only=dev
 install:
-  npm install
+  yarn install
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
 
 deploy:
   provider: heroku
