@@ -1,11 +1,11 @@
 import express from 'express';
-import config from './../config';
-import routes from '../component_routes';
+import config from './../../config';
+import routes from './../../app/component_routes';
 import React from 'react';
 import {RouterContext} from 'react-router';
 import {renderToString} from 'react-dom/server';
 import {match} from 'react-router';
-import NotFoundPage from './../components/NotFoundPage';
+import NotFoundPage from './../../app/components/NotFoundPage';
 
 var router = express.Router();
 

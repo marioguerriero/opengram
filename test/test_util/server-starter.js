@@ -1,6 +1,6 @@
 import http from 'http';
 
-import server from './../../server';
+import server from './../../server/server';
 import config from './../config_test';
 
 export default function() {
