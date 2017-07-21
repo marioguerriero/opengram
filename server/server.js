@@ -17,4 +17,11 @@ server.use(cookieParser());
 server.use('/api', api);
 server.use('/upload', upload);
 
+// Error handling middleware
+server.use(function (err, req, res, next) {
+  if(!(req.body.token || req.query.token || req.headers['x-access-token']))
+    return res.sendStatus(401); // Unauthorized
+  next('route');
+});
+
 export default server;
