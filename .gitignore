@@ -83,3 +83,7 @@ fabric.properties
 # Webpack bundle
 bundle.js
 build/
+
+dist/
+.next/
+./idea

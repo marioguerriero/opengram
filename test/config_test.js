@@ -1,4 +1,4 @@
-import config from './../config';
+import config from './../server/config';
 
 export default {
     testdb: 'opengramtest',

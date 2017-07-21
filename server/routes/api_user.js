@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import jwtMiddleware from './jwt-middleware';
-import config from "./../../config";
+import config from "./../config";
 import User from "./../models/user";
 
 var router = express.Router();
