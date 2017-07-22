@@ -87,3 +87,4 @@ build/
 dist/
 .next/
 ./idea
+test-dist/

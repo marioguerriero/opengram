@@ -12,7 +12,9 @@
     "dev": "nodemon server/main.js --exec babel-node --presets=es2015,react",
     "build-next": "next build client",
     "build": "babel --presets=es2015,react server/ -d dist",
-    "test": "mocha --compilers js:babel-register test --recursive"
+    "pretest": "babel --presets=es2015,react server/ -d dist && babel --presets=es2015 test/ -d test-dist",
+    "test": "mocha test-dist --recursive",
+    "posttest": "rm -rf test-dist"
   },
   "dependencies": {
     "autobind-decorator": "^1.3.3",
@@ -42,6 +44,7 @@
     "babel-loader": "^7.1.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.24.1",
     "chai": "^3.5.0",
     "mocha": "^3.0.2",
     "nodemon": "^1.11.0",
