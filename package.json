@@ -7,10 +7,11 @@
   "private": true,
   "main": "./server/main.js",
   "scripts": {
-    "start": "NODE_ENV=production node server/main.js",
+    "start": "NODE_ENV=production node dist/main.js",
+    "postinstall": "./node_modules/babel-cli/bin/babel.js server/ -d dist",
     "dev": "nodemon server/main.js --exec babel-node",
     "build-next": "./node_modules/next/dist/bin/next build",
-    "build": "babel server -d dist",
+    "build": "./node_modules/babel-cli/bin/babel.js server/ -d dist",
     "test": "./node_modules/mocha/bin/mocha --compilers js:babel-register test --recursive"
   },
   "dependencies": {
