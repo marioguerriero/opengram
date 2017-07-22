@@ -1,10 +1,5 @@
 import server from './server';
 import next from 'next';
-import debug from 'debug';
-
-let log = debug('opengram:server');
-log.log = console.log.bind(console);
-let err = debug('opengram:error');
 
 let port = (process.env.PORT || 3000);
 
@@ -21,6 +16,6 @@ app.prepare()
 
   server.listen(port, (err) => {
     if (err) throw err;
-    log('> Ready on http://localhost:%s', port);
+    console.log('> Ready on http://localhost:%s', port);
   })
 });

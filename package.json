@@ -19,7 +19,6 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",
-    "debug": "^2.6.8",
     "express": "~4.14.0",
     "express-jwt": "^5.1.0",
     "gridfs-storage-engine": "^0.2.4",
