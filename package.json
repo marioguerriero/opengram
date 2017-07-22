@@ -8,11 +8,11 @@
   "main": "./server/main.js",
   "scripts": {
     "start": "NODE_ENV=production node dist/main.js",
-    "postinstall": "./node_modules/babel-cli/bin/babel.js server/ -d dist",
+    "postinstall": "babel server/ -d dist",
     "dev": "nodemon server/main.js --exec babel-node",
-    "build-next": "./node_modules/next/dist/bin/next build",
-    "build": "./node_modules/babel-cli/bin/babel.js server/ -d dist",
-    "test": "./node_modules/mocha/bin/mocha --compilers js:babel-register test --recursive"
+    "build-next": "next build",
+    "build": "babel server/ -d dist",
+    "test": "mocha --compilers js:babel-register test --recursive"
   },
   "dependencies": {
     "autobind-decorator": "^1.3.3",
