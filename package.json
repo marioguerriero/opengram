@@ -8,10 +8,10 @@
   "main": "./server/main.js",
   "scripts": {
     "start": "NODE_ENV=production node dist/main.js",
-    "postinstall": "babel server/ -d dist",
-    "dev": "nodemon server/main.js --exec babel-node",
-    "build-next": "next build",
-    "build": "babel server/ -d dist",
+    "postinstall": "babel --presets=es2015,react server/ -d dist && next build client",
+    "dev": "nodemon server/main.js --exec babel-node --presets=es2015,react",
+    "build-next": "next build client",
+    "build": "babel --presets=es2015,react server/ -d dist",
     "test": "mocha --compilers js:babel-register test --recursive"
   },
   "dependencies": {
