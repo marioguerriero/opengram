@@ -1,70 +1,36 @@
 import React from 'react';
 
-import { IndexLink, Link } from 'react-router';
+import Link  from 'next/link';
 
-import autobind from 'autobind-decorator';
-
-import { Header, Box, Title, Menu, Search,
-    Anchor, Button, Image } from 'grommet';
-
-import UserSettings from 'grommet/components/icons/base/UserSettings';
-
-import Logo from './Logo';
-
-import UsersStore from './../stores/UsersStore';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
 
 export default class extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            user: UsersStore.getUser()
-        };
+  constructor(props) {
+    super(props);
+    this.state = {
+        user: null
+    };
+  }
 
-        UsersStore.addListener('change', this.onUsersStoreChange);
-    }
+  render() {
+    return (
+      <Navbar inverse collapseOnSelect>
+        <Navbar.Header>
+          <Navbar.Brand>
+            <Link href="#">Opengram</Link>
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
+        <Navbar.Collapse>
+          <Nav>
 
-    @autobind
-    onUsersStoreChange() {
-        this.setState({ user: UsersStore.getUser() });
-    }
-
-    @autobind
-    renderUserContent() {
-        if(this.state.user) {
-            return <Box direction='row' justify='between' pad='small'>
-                <Search inline={true} className='flex' placeHolder='Search' />
-                <Menu direction='row' align='center' responsive={false}>
-                    <Anchor href='#'>
-                        <Image size='thumb' src={this.state.user.avatar} />
-                    </Anchor>
-                    <Anchor href='#'>
-                        <UserSettings />
-                    </Anchor>
-                </Menu>
-            </Box>
-        }
-        else {
-            return <Menu inline={true} direction='row' >
-                <Link to="/register"><Button label='Register' onClick={function(){}}/></Link>
-                <Link to="/login"><Button label='Login' primary={true} onClick={function(){}} /></Link>
-            </Menu>
-        }
-
-    }
-
-    componentWillUnmount() {
-        UsersStore.removeListener('change', this.onUsersStoreChange);
-    }
-
-    render() {
-        console.log('render');
-
-        return <Header justify='between'>
-            <Title>
-                <Logo size='thumb' />
-                <IndexLink to='/'>Opengram</IndexLink>
-            </Title>
-            {this.renderUserContent()}
-        </Header>;
-    }
+          </Nav>
+          <Nav pullRight>
+            <NavItem eventKey={1} href="/login"><Link href="/login">Login</Link></NavItem>
+            <NavItem eventKey={2} href="/register"><Link href="/register">Register</Link></NavItem>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    );
+  }
 }

@@ -1,109 +1,202 @@
 import React from 'react';
-import { Link } from 'react-router';
+import Link from 'next/link';
 
 import autobind from 'autobind-decorator';
 
-import { Form, FormField, CheckBox,
-    Button, LoginForm as GLoginForm, Heading,
-    Footer, Box } from 'grommet';
-
-import UsersStore from './../stores/UsersStore';
+import { FormGroup, ControlLabel, FormControl, HelpBlock,
+  Checkbox, Button, Col } from 'react-bootstrap';
 
 class RegisterForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            fullname: '',
-            username: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            conditionsAgreement: false
-        };
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      fullname: '',
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      conditionsAgreement: false
+    };
+  }
 
-    handleStateChange(key, ev) {
-        var change = {};
-        change[key] = ev.target.value;
-        this.setState(change);
-    }
+  handleChange(key, ev) {
+    var change = {};
+    change[key] = ev.target.value;
+    this.setState(change);
+  }
 
-    @autobind
-    handleConditionsAgreementChange() {
-        this.setState({ conditionsAgreement: !this.state.conditionsAgreement });
-    }
+  @autobind
+  handleConditionsAgreementChange() {
+    this.setState({ conditionsAgreement: !this.state.conditionsAgreement });
+  }
 
-    @autobind
-    handleSubmitClick() {
-        this.props.onSubmit({
-            name: this.state.fullname,
-            username: this.state.username,
-            email: this.state.email,
-            password: this.state.password
-        });
-    }
+  @autobind
+  handleSubmitClick() {
+    this.props.onSubmit({
+      name: this.state.fullname,
+      username: this.state.username,
+      email: this.state.email,
+      password: this.state.password
+    });
+  }
 
-    render() {
-        return <Form onSubmit={this.props.onSubmit}>
-            <Heading strong={true}>
-                Register
-            </Heading>
+  passwordValidation() {
+    const length = this.state.password.length;
+    if (length > 10) return 'success';
+    else if (length > 5) return 'warning';
+    else if (length > 0) return 'error';
+  }
 
-            <fieldset>
-                <FormField label='Full name' htmlFor='fn-input'>
-                    <input id='fn-input' value={this.state.fullname} type='text' onChange={this.handleStateChange.bind(this, 'fullname')}/>
-                </FormField>
-                <FormField label='Username' htmlFor='uname-input' >
-                    <input id='uname-input' value={this.state.username} type='text' onChange={this.handleStateChange.bind(this, 'username')}/>
-                </FormField>
-                <FormField label='Email' htmlFor='email-input' >
-                    <input id='email-input' value={this.state.email} type='email' onChange={this.handleStateChange.bind(this, 'email')}/>
-                </FormField>
-                <FormField label='Password' htmlFor='pwd-input' >
-                    <input id='pwd-input' value={this.state.password} type='password' onChange={this.handleStateChange.bind(this, 'password')}/>
-                </FormField>
-                <FormField label='Confirm Password' htmlFor='pwdc-input' >
-                    <input id='pwdc-input' value={this.state.confirmPassword} type='password' onChange={this.handleStateChange.bind(this, 'confirmPassword')}/>
-                </FormField>
-            </fieldset>
+  confirmPasswordValidation() {
 
-            <Footer align='start' size='small' direction='column'
-                    pad={{vertical: 'medium', between: 'medium'}}>
-                <Box direction="row" align="start">
-                    <CheckBox id='terms-cb' checked={this.state.conditionsAgreement} label='I agree with' onChange={this.handleConditionsAgreementChange}/>
-                    <Link to='terms-and-conditions'>terms and conditions</Link>
-                </Box>
-                <Button label="Register" primary={true} strong={true} disabled={!this.state.fullname ||
-                        !this.state.username || !this.state.email || !this.state.password ||
-                        !this.state.confirmPassword || !this.state.conditionsAgreement} onClick={this.handleSubmitClick} />
-            </Footer>
-        </Form>;
-    }
+  }
+
+  emailValidation() {
+
+  }
+
+  render() {
+    return (
+      <form>
+        <FormGroup
+          controlId="fullname" >
+          <ControlLabel>Fullname</ControlLabel>
+          <FormControl
+            type="text"
+            value={this.state.fullname}
+            placeholder="Fullname"
+            onChange={this.handleChange}
+          />
+        </FormGroup>
+
+        <FormGroup
+          controlId="username" >
+          <ControlLabel>Username</ControlLabel>
+          <FormControl
+            type="text"
+            value={this.state.username}
+            placeholder="Username"
+            onChange={this.handleChange}
+          />
+        </FormGroup>
+
+        <FormGroup
+          controlId="email"
+          validationState={this.emailValidation()} >
+          <ControlLabel>Password</ControlLabel>
+          <FormControl
+            type="email"
+            value={this.state.email}
+            placeholder="Email"
+            onChange={this.handleChange}
+          />
+          <FormControl.Feedback />
+        </FormGroup>
+
+        <FormGroup
+          controlId="password"
+          validationState={this.passwordValidation()} >
+          <ControlLabel>Password</ControlLabel>
+          <FormControl
+            type="password"
+            value={this.state.password}
+            placeholder="Password"
+            onChange={this.handleChange}
+          />
+          <FormControl.Feedback />
+          <HelpBlock>Password must be long at least 6 characters and it must contains at least one character and one number.</HelpBlock>
+        </FormGroup>
+
+        <FormGroup
+          controlId="confirmPassword"
+          validationState={this.confirmPasswordValidation()} >
+          <ControlLabel>Confirm Password</ControlLabel>
+          <FormControl
+            type="password"
+            value={this.state.confirmPassword}
+            placeholder="Password"
+            onChange={this.handleChange}
+          />
+          <FormControl.Feedback />
+        </FormGroup>
+
+        <Checkbox>
+          I agree with <Link target="_blank" href="/license">terms and conditions</Link>
+        </Checkbox>
+
+        <Button type="submit">
+          Register
+        </Button>
+
+        <Button type="reset">
+          Reset
+        </Button>
+
+      </form>
+    );
+  }
 }
 
 class LoginForm extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            errorMessage: null
-        };
-        UsersStore.addListener('login-failed', this.onLoginFailed);
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: null,
+      password: null
+    };
+  }
 
-    @autobind
-    onLoginFailed(err) {
-        this.setState({ errorMessage: err });
-    }
+  handleChange(key, ev) {
+    var change = {};
+    change[key] = ev.target.value;
+    this.setState(change);
+  }
 
-    componentWillUnmount() {
-        UsersStore.removeListener('login-failed', this.onLoginFailed);
-    }
+  @autobind
+  onLoginFailed(err) {
+    this.setState({ errorMessage: err });
+  }
 
-    render() {
-        return <GLoginForm align='start' title='Login' usernameType='text' onSubmit={this.props.onSubmit} rememberMe={true}
-                           forgotPassword={<Link to='/forgot-password'>Forgot password?</Link>} errors={[this.state.errorMessage]}
-                           defaultValues={{'rememberMe': true}} />
-    }
+  render() {
+    return (
+      <form>
+        <FormGroup
+          controlId="username" >
+          <ControlLabel>Username</ControlLabel>
+          <FormControl
+            type="text"
+            value={this.state.username}
+            placeholder="Username"
+            onChange={this.handleChange}
+          />
+        </FormGroup>
+
+        <FormGroup
+          controlId="password" >
+          <ControlLabel>Password</ControlLabel>
+          <FormControl
+            type="password"
+            value={this.state.password}
+            placeholder="Password"
+            onChange={this.handleChange}
+          />
+        </FormGroup>
+
+        <FormGroup>
+          <Checkbox>Remember me</Checkbox>
+        </FormGroup>
+
+        <FormGroup>
+          <Link href="/forgot-password">Forgot Password</Checkbox>
+        </FormGroup>
+
+        <Button type="submit">
+          Login
+        </Button>
+
+      </form>
+    );
+  }
 }
 
 export { RegisterForm, LoginForm };
