@@ -15,12 +15,18 @@ class RegisterForm extends React.Component {
       confirmPassword: '',
       conditionsAgreement: false
     };
+
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(key, ev) {
-    var change = {};
-    change[key] = ev.target.value;
-    this.setState(change);
+  handleChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
   }
 
   handleConditionsAgreementChange() {
@@ -32,23 +38,30 @@ class RegisterForm extends React.Component {
       name: this.state.fullname,
       username: this.state.username,
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      confirmPassword: this.state.confirmPassword
     });
   }
 
   passwordValidation() {
-    const length = this.state.password.length;
-    if (length > 10) return 'success';
-    else if (length > 5) return 'warning';
-    else if (length > 0) return 'error';
+    if(!this.state.password) return null;
+    let password = this.state.password;
+    let re = (/^(?=.*\d)(?=.*[a-z])[0-9a-zA-Z]{6,}$/);
+    if (re.test(password)) return 'success';
+    else return 'error';
   }
 
   confirmPasswordValidation() {
-
+    if(!this.state.confirmPassword || this.passwordValidation() != 'success') return null;
+    if (this.state.confirmPassword === this.state.password) return 'success';
+    else return 'error';
   }
 
   emailValidation() {
-
+    if(!this.state.email) return null;
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(re.test(this.state.email)) return "success";
+    return "error";
   }
 
   render() {
@@ -59,6 +72,8 @@ class RegisterForm extends React.Component {
           <ControlLabel>Fullname</ControlLabel>
           <FormControl
             type="text"
+            name="fullname"
+            required
             value={this.state.fullname}
             placeholder="Fullname"
             onChange={this.handleChange}
@@ -70,6 +85,8 @@ class RegisterForm extends React.Component {
           <ControlLabel>Username</ControlLabel>
           <FormControl
             type="text"
+            name="username"
+            required
             value={this.state.username}
             placeholder="Username"
             onChange={this.handleChange}
@@ -82,6 +99,8 @@ class RegisterForm extends React.Component {
           <ControlLabel>Email</ControlLabel>
           <FormControl
             type="email"
+            name="email"
+            required
             value={this.state.email}
             placeholder="Email"
             onChange={this.handleChange}
@@ -95,6 +114,8 @@ class RegisterForm extends React.Component {
           <ControlLabel>Password</ControlLabel>
           <FormControl
             type="password"
+            name="password"
+            required
             value={this.state.password}
             placeholder="Password"
             onChange={this.handleChange}
@@ -109,15 +130,18 @@ class RegisterForm extends React.Component {
           <ControlLabel>Confirm Password</ControlLabel>
           <FormControl
             type="password"
+            name="confirmPassword"
+            required
             value={this.state.confirmPassword}
             placeholder="Password"
             onChange={this.handleChange}
           />
           <FormControl.Feedback />
+          <HelpBlock>This field must match with the above one.</HelpBlock>
         </FormGroup>
 
-        <Checkbox>
-          I agree with <Link target="_blank" href="/license">terms and conditions</Link>
+        <Checkbox required name="conditionsAgreement" checked={this.state.conditionsAgreement} onChange={this.handleChange}>
+          I agree with <Link target="_blank" href="/license"><a>terms and conditions</a></Link>
         </Checkbox>
 
         <Button type="submit">
@@ -137,15 +161,22 @@ class LoginForm extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      username: null,
-      password: null
+      username: '',
+      password: '',
+      remember: false
     };
+
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(key, ev) {
-    var change = {};
-    change[key] = ev.target.value;
-    this.setState(change);
+  handleChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
   }
 
   onLoginFailed(err) {
@@ -160,6 +191,8 @@ class LoginForm extends React.Component{
           <ControlLabel>Username</ControlLabel>
           <FormControl
             type="text"
+            name="username"
+            required
             value={this.state.username}
             placeholder="Username"
             onChange={this.handleChange}
@@ -171,6 +204,8 @@ class LoginForm extends React.Component{
           <ControlLabel>Password</ControlLabel>
           <FormControl
             type="password"
+            name="password"
+            required
             value={this.state.password}
             placeholder="Password"
             onChange={this.handleChange}
@@ -178,11 +213,13 @@ class LoginForm extends React.Component{
         </FormGroup>
 
         <FormGroup>
-          <Checkbox>Remember me</Checkbox>
+          <Checkbox name="remember" value={this.state.remember} onChange={this.handleChange}>
+            Remember me
+          </Checkbox>
         </FormGroup>
 
         <FormGroup>
-          <Link href="/forgot-password">Forgot Password</Link>
+          <Link href="/forgot-password"><a>Forgot Password</a></Link>
         </FormGroup>
 
         <Button type="submit">

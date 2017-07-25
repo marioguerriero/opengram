@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Link  from 'next/link';
 import Router  from 'next/router';
 
 import { Navbar, Nav, NavItem, FormGroup, FormControl } from 'react-bootstrap';
@@ -17,7 +16,7 @@ export default class extends React.Component {
     return (
       <Navbar fluid collapseOnSelect>
         <Navbar.Header>
-          <Navbar.Brand eventKey={1} onClick={() => Router.push('/')}>
+          <Navbar.Brand onClick={() => Router.push('/')}>
             Opengram
           </Navbar.Brand>
           <Navbar.Toggle />
