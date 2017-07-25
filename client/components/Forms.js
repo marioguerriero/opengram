@@ -1,8 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 
-import autobind from 'autobind-decorator';
-
 import { FormGroup, ControlLabel, FormControl, HelpBlock,
   Checkbox, Button, Col } from 'react-bootstrap';
 
@@ -25,12 +23,10 @@ class RegisterForm extends React.Component {
     this.setState(change);
   }
 
-  @autobind
   handleConditionsAgreementChange() {
     this.setState({ conditionsAgreement: !this.state.conditionsAgreement });
   }
 
-  @autobind
   handleSubmitClick() {
     this.props.onSubmit({
       name: this.state.fullname,
@@ -83,7 +79,7 @@ class RegisterForm extends React.Component {
         <FormGroup
           controlId="email"
           validationState={this.emailValidation()} >
-          <ControlLabel>Password</ControlLabel>
+          <ControlLabel>Email</ControlLabel>
           <FormControl
             type="email"
             value={this.state.email}
@@ -152,7 +148,6 @@ class LoginForm extends React.Component{
     this.setState(change);
   }
 
-  @autobind
   onLoginFailed(err) {
     this.setState({ errorMessage: err });
   }
@@ -187,7 +182,7 @@ class LoginForm extends React.Component{
         </FormGroup>
 
         <FormGroup>
-          <Link href="/forgot-password">Forgot Password</Checkbox>
+          <Link href="/forgot-password">Forgot Password</Link>
         </FormGroup>
 
         <Button type="submit">

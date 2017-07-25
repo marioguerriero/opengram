@@ -31,6 +31,7 @@
     "multer": "^1.2.0",
     "next": "^2.4.7",
     "node-require-jsx": "^0.1.1",
+    "path-match": "^1.2.4",
     "react": "^15.3.0",
     "react-bootstrap": "^0.31.1",
     "react-dom": "^15.6.1",

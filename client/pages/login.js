@@ -5,15 +5,16 @@ import Footer from './../components/Footer';
 
 import Header from './../components/Header';
 
+import { LoginForm } from './../components/Forms';
+
 export default () => <div>
 
 <Head />
 
 <Header />
 
-<h1>Hello, World!</h1>
+<LoginForm />
 
 <Footer />
-
 
 </div>;
