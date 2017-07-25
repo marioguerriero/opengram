@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 
+import fetch from 'isomorphic-fetch';
+
 import { FormGroup, ControlLabel, FormControl, HelpBlock,
   Checkbox, Button, Col } from 'react-bootstrap';
 
@@ -8,7 +10,7 @@ class RegisterForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fullname: '',
+      name: '',
       username: '',
       email: '',
       password: '',
@@ -17,6 +19,7 @@ class RegisterForm extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
@@ -35,7 +38,7 @@ class RegisterForm extends React.Component {
 
   handleSubmitClick() {
     this.props.onSubmit({
-      name: this.state.fullname,
+      name: this.state.name,
       username: this.state.username,
       email: this.state.email,
       password: this.state.password,
@@ -64,17 +67,33 @@ class RegisterForm extends React.Component {
     return "error";
   }
 
+  handleSubmit(event) {
+    fetch('//localhost:3000/api/users', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(this.state)
+    }).then((response) => {
+      if(response.status >= 400) {
+        // TODO: redirect to an error page
+      }
+    });
+    event.preventDefault();
+  }
+
   render() {
     return (
-      <form>
+      <form onSubmit={this.handleSubmit}>
         <FormGroup
-          controlId="fullname" >
+          controlId="name" >
           <ControlLabel>Fullname</ControlLabel>
           <FormControl
             type="text"
-            name="fullname"
+            name="name"
             required
-            value={this.state.fullname}
+            value={this.state.name}
             placeholder="Fullname"
             onChange={this.handleChange}
           />

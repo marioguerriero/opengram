@@ -7,6 +7,12 @@ import bodyParser from 'body-parser';
 import api from './routes/api';
 import upload from './routes/upload';
 
+import config from './config';
+
+import mongoose from 'mongoose';
+
+mongoose.connect(config.dbhost); // Open database connection
+
 const server = express();
 
 server.use(logger('dev'));
