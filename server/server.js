@@ -1,31 +1,33 @@
 import express from 'express';
 
-import path from 'path';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 
 import api from './routes/api';
 import upload from './routes/upload';
-import view from './routes/view';
 
-var app = express();
+import config from './config';
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '/../public')));
+import mongoose from 'mongoose';
 
-app.set('views', path.join(__dirname, '/../app'));
-app.set('view engine', 'hbs');
+mongoose.connect(config.dbhost); // Open database connection
 
-app.use('/api', api);
-app.use('/upload', upload);
-app.use('/', view);
+const server = express();
 
-app.use(express.static('public'));
+server.use(logger('dev'));
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(cookieParser());
 
-export default app;
+server.use('/api', api);
+server.use('/upload', upload);
+
+// Error handling middleware
+server.use(function (err, req, res, next) {
+  if(!(req.body.token || req.query.token || req.headers['x-access-token']))
+    return res.sendStatus(401); // Unauthorized
+  next('route');
+});
+
+export default server;

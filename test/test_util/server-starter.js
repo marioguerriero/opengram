@@ -1,12 +1,12 @@
 import http from 'http';
 
-import server from './../../server/server';
+import server from './../../dist/server';
 import config from './../config_test';
 
 export default function() {
     var port = config.testport;
-    server.set('port', port);
-    var httpServer = http.createServer(server);
-    httpServer.listen(port);
-    return httpServer;
+    return server.listen(port, (err) => {
+      if (err) throw err;
+      console.log('> Ready on http://localhost:%s', port);
+    });
 };
