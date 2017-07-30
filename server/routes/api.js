@@ -26,13 +26,13 @@ api.post("/login", function(req, res) {
 
     User.findOne({username: req.body.username}, function(err, user) {
         if(err || !user) {
-            return res.sendStatus(401); // Unauthorized
+            return res.sendStatus(404); // Unauthorized
         }
 
         // Check if password match
         bcrypt.compare(req.body.password, user.password, function(err, result) {
             if(err || !result) {
-                return res.sendStatus(401); // Unauthorized
+                return res.sendStatus(404); // Unauthorized
             }
 
             // Valid credentials, let's generate a token

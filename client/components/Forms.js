@@ -191,6 +191,7 @@ class LoginForm extends React.Component{
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
@@ -207,9 +208,18 @@ class LoginForm extends React.Component{
     this.setState({ errorMessage: err });
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+    let user = {
+      username: this.state.username,
+      password: this.state.password
+    };
+    this.props.login(user);
+  }
+
   render() {
     return (
-      <form>
+      <form onSubmit={this.handleSubmit}>
         <FormGroup
           controlId="username" >
           <ControlLabel>Username</ControlLabel>

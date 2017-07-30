@@ -5,13 +5,16 @@ import thunkMiddleware from 'redux-thunk'
 import { actionTypes as UserAction } from './user_actions';
 import { actionTypes as PostAction } from './post_actions';
 
+import apiMiddleware from './api-middleware';
+
 const initialState = {
   user: null,
   posts: null
 }
 
 export const initStore = (state = initialState) => {
-  return createStore(reducer, state, composeWithDevTools(applyMiddleware(thunkMiddleware)))
+  const middlewares = applyMiddleware(thunkMiddleware, apiMiddleware);
+  return createStore(reducer, state, composeWithDevTools(middlewares))
 }
 
 // REDUCER

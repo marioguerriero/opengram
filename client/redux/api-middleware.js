@@ -12,7 +12,7 @@ export default store => next => action => {
 
   dispatch({ type: sendingType });
   superAgent[method](path)
-  	.query(query)
+  	.send(query)
       .end((err, res)=> {
       	if (err) {
         	dispatch({
