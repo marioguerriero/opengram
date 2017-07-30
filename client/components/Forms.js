@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Router  from 'next/router';
 
 import fetch from 'isomorphic-fetch';
 
@@ -10,6 +11,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { authRequest } from '../redux/user_actions';
 
+import { cleanErr } from '../redux/store';
 
 class RegisterForm extends React.Component {
   constructor(props) {
@@ -184,6 +186,12 @@ class RegisterForm extends React.Component {
 class LoginForm extends React.Component{
   constructor(props) {
     super(props);
+
+    // Do not display log in page if the user is already logged in
+    if(this.props.loggedIn) {
+      Router.push('/');
+    }
+
     this.state = {
       username: '',
       password: '',
@@ -194,6 +202,20 @@ class LoginForm extends React.Component{
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidUpdate() {
+    if(this.props.loggedIn) {
+      Router.push('/');
+    }
+    else if(this.props.err) {
+      if(this.props.err.status == 401)
+        Router.push('/login?err=Invalid username of password');
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.cleanErr();
+  }
+
   handleChange(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -202,10 +224,6 @@ class LoginForm extends React.Component{
     this.setState({
       [name]: value
     });
-  }
-
-  onLoginFailed(err) {
-    this.setState({ errorMessage: err });
   }
 
   handleSubmit(event) {
@@ -267,11 +285,14 @@ class LoginForm extends React.Component{
 
 export { RegisterForm };
 
+const mapStateToProps = ({ loggedIn, err }) => ({ loggedIn, err })
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: bindActionCreators(authRequest, dispatch)
+    login: bindActionCreators(authRequest, dispatch),
+    cleanErr: bindActionCreators(cleanErr, dispatch)
   };
 }
 
-const comp = connect(null, mapDispatchToProps)(LoginForm);
+const comp = connect(mapStateToProps, mapDispatchToProps)(LoginForm);
 export { comp as LoginForm };

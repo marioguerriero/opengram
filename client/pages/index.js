@@ -16,19 +16,26 @@ class Page extends React.Component {
   render() {
     const { user } = this.props;
 
+    let greeting = <h1>Hello, World!</h1>
+    if(this.props.loggedIn) {
+      greeting = <h1>Hello, {this.props.user.username}</h1>
+    }
+
     return(<div>
 
       <Head />
 
       <Header />
 
-      <h1>Hello, World!</h1>
+      {greeting}
 
       <Footer />
 
     </div>);
   }
 }
+
+const mapStateToProps = ({ loggedIn, user }) => ({ loggedIn, user })
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -38,4 +45,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 }
 
-export default withRedux(initStore, null, mapDispatchToProps)(Page);
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Page);
