@@ -1,17 +1,12 @@
 import React from 'react';
 
+import { connect } from 'react-redux'
+
 import Router  from 'next/router';
 
 import { Navbar, Nav, NavItem, FormGroup, FormControl } from 'react-bootstrap';
 
-export default class extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        user: null
-    };
-  }
-
+class Header extends React.Component {
   render() {
     return (
       <Navbar fluid collapseOnSelect>
@@ -36,3 +31,7 @@ export default class extends React.Component {
     );
   }
 }
+
+const mapStateToProps = ({ user }) => ({ user })
+
+export default connect(mapStateToProps, {})(Header);

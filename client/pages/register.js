@@ -7,14 +7,24 @@ import Header from './../components/Header';
 
 import { RegisterForm } from './../components/Forms';
 
-export default () => <div>
+import withRedux from 'next-redux-wrapper';
 
-<Head />
+import { initStore } from '../redux/store';
 
-<Header />
+class Page extends React.Component {
+  render() {
+    return(<div>
 
-<RegisterForm />
+    <Head />
 
-<Footer />
+    <Header />
 
-</div>;
+    <RegisterForm />
+
+    <Footer />
+
+    </div>);
+  }
+}
+
+export default withRedux(initStore, null, null)(Page);

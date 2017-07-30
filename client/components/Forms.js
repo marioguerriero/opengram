@@ -6,6 +6,11 @@ import fetch from 'isomorphic-fetch';
 import { FormGroup, ControlLabel, FormControl, HelpBlock,
   Checkbox, Button, Col } from 'react-bootstrap';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { authRequest } from '../redux/user_actions';
+
+
 class RegisterForm extends React.Component {
   constructor(props) {
     super(props);
@@ -250,4 +255,13 @@ class LoginForm extends React.Component{
   }
 }
 
-export { RegisterForm, LoginForm };
+export { RegisterForm };
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login: bindActionCreators(authRequest, dispatch)
+  };
+}
+
+const comp = connect(null, mapDispatchToProps)(LoginForm);
+export { comp as LoginForm };

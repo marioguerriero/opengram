@@ -7,14 +7,33 @@ import Header from './../components/Header';
 
 import { LoginForm } from './../components/Forms';
 
-export default () => <div>
+import { bindActionCreators } from 'redux';
+import withRedux from 'next-redux-wrapper';
 
-<Head />
+import { initStore } from '../redux/store';
 
-<Header />
+import { authRequest } from '../redux/user_actions';
 
-<LoginForm />
+class Page extends React.Component {
+  render() {
+    return(<div>
+      <Head />
 
-<Footer />
+      <Header />
 
-</div>;
+      <LoginForm />
+
+      <Footer />
+
+      </div>
+    );
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login: bindActionCreators(authRequest, dispatch)
+  };
+}
+
+export default withRedux(initStore, null, mapDispatchToProps)(Page);

@@ -5,15 +5,37 @@ import Footer from './../components/Footer';
 
 import Header from './../components/Header';
 
-export default () => <div>
+import { bindActionCreators } from 'redux';
+import withRedux from 'next-redux-wrapper';
 
-<Head />
+import { initStore } from '../redux/store';
 
-<Header />
+import { addPost, deletePost, modifyPost } from '../redux/post_actions';
 
-<h1>Hello, World!</h1>
+class Page extends React.Component {
+  render() {
+    const { user } = this.props;
 
-<Footer />
+    return(<div>
 
+      <Head />
 
-</div>;
+      <Header />
+
+      <h1>Hello, World!</h1>
+
+      <Footer />
+
+    </div>);
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addPost: bindActionCreators(addPost, dispatch),
+    modifyPost: bindActionCreators(modifyPost, dispatch),
+    deletePost: bindActionCreators(deletePost, dispatch)
+  };
+}
+
+export default withRedux(initStore, null, mapDispatchToProps)(Page);
