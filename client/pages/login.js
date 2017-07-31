@@ -5,7 +5,7 @@ import Footer from './../components/Footer';
 
 import Header from './../components/Header';
 
-import { Alert } from 'react-bootstrap';
+import { Alert, Panel } from 'react-bootstrap';
 import { LoginForm } from './../components/Forms';
 
 import { bindActionCreators } from 'redux';
@@ -37,7 +37,7 @@ class Page extends React.Component {
 
       {err}
 
-      <LoginForm />
+      <Panel><LoginForm /></Panel>
 
       <Footer />
 

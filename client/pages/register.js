@@ -7,6 +7,8 @@ import Header from './../components/Header';
 
 import { RegisterForm } from './../components/Forms';
 
+import { Panel } from 'react-bootstrap';
+
 import withRedux from 'next-redux-wrapper';
 
 import { initStore } from '../redux/store';
@@ -19,7 +21,7 @@ class Page extends React.Component {
 
     <Header />
 
-    <RegisterForm />
+    <Panel><RegisterForm /></Panel>
 
     <Footer />
 

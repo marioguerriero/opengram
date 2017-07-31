@@ -1,9 +1,13 @@
 import React from 'react'
 
+import { Panel } from 'react-bootstrap';
+
 import Head from './../components/Head';
 import Footer from './../components/Footer';
 
 import Header from './../components/Header';
+import ComposeBox from './../components/ComposeBox';
+import PostList from './../components/PostList';
 
 import { bindActionCreators } from 'redux';
 import withRedux from 'next-redux-wrapper';
@@ -16,9 +20,9 @@ class Page extends React.Component {
   render() {
     const { user } = this.props;
 
-    let greeting = <h1>Hello, World!</h1>
+    let content = <h1>Hello, World!</h1>; // TODO: use some default page
     if(this.props.loggedIn) {
-      greeting = <h1>Hello, {this.props.user.username}</h1>
+      content = (<Panel><ComposeBox /><PostList /></Panel>)
     }
 
     return(<div>
@@ -27,7 +31,7 @@ class Page extends React.Component {
 
       <Header />
 
-      {greeting}
+      {content}
 
       <Footer />
 
