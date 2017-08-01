@@ -27,18 +27,39 @@ const genericActionTypes = {
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     // User actions
+    case UserAction.REGISTER_REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      };
+    case UserAction.REGISTER_SUCCESS:
+      return {
+        ...state,
+        isFetching: false
+      };
+    case UserAction.REGISTER_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        err: action.response
+      };
     case UserAction.AUTH_SUCCESS:
       return {
         ...state,
         loggedIn: true,
+        isFetching: false,
         user: action.response
       };
     case UserAction.AUTH_REQUEST:
-      return state;
+      return {
+        ...state,
+        isFetching: true
+      };
     case UserAction.AUTH_FAILURE:
       return {
         ...state,
         loggedIn: false,
+        isFetching: false,
         err: action.response
       };
     case UserAction.AUTH_DESTORY:

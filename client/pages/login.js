@@ -25,7 +25,7 @@ class Page extends React.Component {
     if(this.props.err) {
       err = (<Alert bsStyle="danger" >
           <h4>Oh snap! You got an error!</h4>
-          <p>Invalid username or password</p>
+          <p>{this.props.err}</p>
         </Alert>)
       this.props.cleanErr();
     }

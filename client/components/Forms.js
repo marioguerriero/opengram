@@ -2,14 +2,12 @@ import React from 'react';
 import Link from 'next/link';
 import Router  from 'next/router';
 
-import fetch from 'isomorphic-fetch';
-
 import { FormGroup, ControlLabel, FormControl, HelpBlock,
   Checkbox, Button, Col } from 'react-bootstrap';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { authRequest } from '../redux/user_actions';
+import { authRequest, register } from '../redux/user_actions';
 
 import { cleanErr } from '../redux/store';
 
@@ -75,19 +73,19 @@ class RegisterForm extends React.Component {
   }
 
   handleSubmit(event) {
-    fetch('//localhost:3000/api/users', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(this.state)
-    }).then((response) => {
-      if(response.status >= 400) {
-        // TODO: redirect to an error page
-      }
-    });
     event.preventDefault();
+    this.props.register(this.state);
+  }
+
+  componentDidUpdate() {
+    if(!this.props.isFetching && this.props.err) {
+      if(this.props.err.status == 409)
+        Router.push('/register?err=Username already in use');
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.cleanErr();
   }
 
   render() {
@@ -170,11 +168,11 @@ class RegisterForm extends React.Component {
           I agree with <Link target="_blank" href="/license"><a>terms and conditions</a></Link>
         </Checkbox>
 
-        <Button type="submit">
-          Register
+        <Button disabled={this.props.isFetching} type="submit">
+          {this.props.isFetching ? 'Loading...' : 'Register'}
         </Button>
 
-        <Button type="reset">
+        <Button disabled={this.props.isFetching} type="reset">
           Reset
         </Button>
 
@@ -283,16 +281,22 @@ class LoginForm extends React.Component{
   }
 }
 
-export { RegisterForm };
+const mapStateToPropsRegister = ({ isFetching, err }) => ({ isFetching, err })
+const mapDispatchToPropsRegister = (dispatch) => {
+  return {
+    register: bindActionCreators(register, dispatch),
+    cleanErr: bindActionCreators(cleanErr, dispatch)
+  };
+}
+const compRegister = connect(mapStateToPropsRegister, mapDispatchToPropsRegister)(RegisterForm);
+export { compRegister as RegisterForm };
 
-const mapStateToProps = ({ loggedIn, err }) => ({ loggedIn, err })
-
-const mapDispatchToProps = (dispatch) => {
+const mapStateToPropsLogin = ({ loggedIn, err }) => ({ loggedIn, err })
+const mapDispatchToPropsLogin = (dispatch) => {
   return {
     login: bindActionCreators(authRequest, dispatch),
     cleanErr: bindActionCreators(cleanErr, dispatch)
   };
 }
-
-const comp = connect(mapStateToProps, mapDispatchToProps)(LoginForm);
-export { comp as LoginForm };
+const compLogin = connect(mapStateToPropsLogin, mapDispatchToPropsLogin)(LoginForm);
+export { compLogin as LoginForm };
