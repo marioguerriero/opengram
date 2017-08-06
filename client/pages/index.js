@@ -14,7 +14,7 @@ import withRedux from 'next-redux-wrapper';
 
 import { initStore } from '../redux/store';
 
-import { addPost, deletePost, modifyPost } from '../redux/post_actions';
+import { addPost, deletePost, modifyPost, fetchTimeline } from '../redux/post_actions';
 
 class Page extends React.Component {
   render() {
@@ -22,6 +22,7 @@ class Page extends React.Component {
 
     let content = <h1>Hello, World!</h1>; // TODO: use some default page
     if(this.props.loggedIn) {
+      this.props.fetchTimeline(user.token);
       content = (<Panel><ComposeBox /><PostList /></Panel>)
     }
 
@@ -45,7 +46,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addPost: bindActionCreators(addPost, dispatch),
     modifyPost: bindActionCreators(modifyPost, dispatch),
-    deletePost: bindActionCreators(deletePost, dispatch)
+    deletePost: bindActionCreators(deletePost, dispatch),
+    fetchTimeline: bindActionCreators(fetchTimeline, dispatch)
   };
 }
 

@@ -69,6 +69,23 @@ export const reducer = (state = initialState, action) => {
         user: null
       }
     // Post actions
+    case PostAction.FETCH_TIMELINE_REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      };
+    case PostAction.FETCH_TIMELINE_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        posts: action.response.posts
+      };
+    case PostAction.FETCH_TIMELINE_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        err: action.response
+      };
     // Generic actions
     case genericActionTypes.CLEAN_ERR:
       return {

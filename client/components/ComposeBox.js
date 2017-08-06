@@ -6,15 +6,34 @@ import { bindActionCreators } from 'redux';
 import { Panel, Grid, Col, Row, FieldGroup, Image,
   FormGroup, FormControl, Button } from 'react-bootstrap';
 
+import { addPost } from './../redux/post_actions';
+
 class ComposeBox extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      publisher: this.props.user._id,
+      message: ''
+    }
+
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
   }
 
   handleSubmit(event) {
     event.preventDefault();
+    this.props.addPost(this.state, this.props.user.token);
   }
 
   render() {
@@ -28,11 +47,13 @@ class ComposeBox extends React.Component {
                 id="formPhoto"
                 type="file"
                 label="Photo"
-                help="asd"
               />
 
               <FormGroup controlId="formContent">
-                <FormControl componentClass="textarea" placeholder="Content" />
+                <FormControl componentClass="textarea" placeholder="Content"
+                  name="message"
+                  value={this.state.message}
+                  onChange={this.handleChange} />
               </FormGroup>
 
               <Button type="submit">
@@ -54,7 +75,7 @@ const mapStateToProps = ({ user }) => ({ user })
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    addPost: bindActionCreators(addPost, dispatch)
   };
 }
 

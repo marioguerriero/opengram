@@ -7,12 +7,15 @@ export default store => next => action => {
   	return next(action);
   }
   let request = action[CALL_API];
-  let { method, path, query, failureType, successType, sendingType } = request;
+  let { method, authToken, path, query, failureType, successType, sendingType } = request;
   let { dispatch } = store;
 
   dispatch({ type: sendingType });
-  superAgent[method](path)
-  	.send(query)
+  let call = superAgent[method](path);
+  if(authToken != null) {
+    call.set('x-access-token', authToken);
+  }
+  call.send(query)
       .end((err, res)=> {
       	if (err) {
         	dispatch({

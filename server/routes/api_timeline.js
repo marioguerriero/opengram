@@ -17,11 +17,13 @@ router.get("/timeline", jwtMiddleware, function(req, res) {
       return res.sendStatus(400); // Bad Request
 
     // Find all posts of all following users
-    Post.find({ publisher: { "$in" : user.following } })
+    let idList = [ user._id ]
+    if(user.following.length > 0) idList = idList.concat(user.following);
+    Post.find({ publisher: { "$in" : idList } })
       .sort({ date: -1 })
       .exec(function(err, posts) {
         return res.json({
-            posts: posts
+            posts
         });
       });
   });

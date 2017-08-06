@@ -18,11 +18,21 @@ class PostList extends React.Component {
 
   }
 
+  componentWillReceiveProps(nextProp) {
+    let { posts } = this.props;
+
+    if(JSON.stringify(posts) !== JSON.stringify(nextProp.posts)) {
+      this.forceUpdate();
+    }
+  }
+
   render() {
-    let postList = [];
-    if(this.props.posts) {
-      postList = this.props.posts.map((post) => {
-        <Post post={post} />
+    let { posts } = this.props;
+
+    let postList = []
+    if(posts != null && posts.length > 0) {
+      postList = posts.map((post) => {
+        return <Post post={post} />
       });
     }
 
