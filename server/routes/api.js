@@ -20,29 +20,29 @@ api.use(api_timeline);
 
 // Authentication end point
 api.post("/login", function(req, res) {
-    if(!req.body.username || !req.body.password) {
-        return res.sendStatus(400); // Bad Request
+  if(!req.body.username || !req.body.password) {
+    return res.sendStatus(400); // Bad Request
+  }
+
+  User.findOne({username: req.body.username}, function(err, user) {
+    if(err || !user) {
+      return res.sendStatus(401); // Unauthorized
     }
 
-    User.findOne({username: req.body.username}, function(err, user) {
-        if(err || !user) {
-            return res.sendStatus(401); // Unauthorized
-        }
+    // Check if password match
+    bcrypt.compare(req.body.password, user.password, function(err, result) {
+      if(err || !result) {
+        return res.sendStatus(401); // Unauthorized
+      }
 
-        // Check if password match
-        bcrypt.compare(req.body.password, user.password, function(err, result) {
-            if(err || !result) {
-                return res.sendStatus(401); // Unauthorized
-            }
-
-            // Valid credentials, let's generate a token
-            user = user.toObject();
-            user.token = jwt.sign({username: req.body.username}, config.secret, {
-                expiresIn: "7d"
-            });
-            res.send(user).end();
-        });
-    });
+      // Valid credentials, let's generate a token
+      user = user.toObject();
+      user.token = jwt.sign({username: req.body.username}, config.secret, {
+        expiresIn: "7d"
+      });
+      res.send(user).end();
+      });
+  });
 });
 
 export default api;

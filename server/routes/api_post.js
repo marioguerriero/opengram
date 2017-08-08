@@ -1,7 +1,12 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import jwtMiddleware from './jwt-middleware';
-import Post from "./../models/post";
+import Post from './../models/post';
+import User from './../models/user';
+
+import jwt from 'jsonwebtoken';
+
+import config from './../config';
 
 var router = express.Router();
 
@@ -9,7 +14,7 @@ router.use(bodyParser.urlencoded({extended:false}));
 router.use(bodyParser.json());
 
 // Query posts
-router.get("/posts", jwtMiddleware, function(req, res) {
+router.get('/posts', jwtMiddleware, function(req, res) {
   if(!req.body)
     return res.sendStatus(400); // Bad request
 
@@ -18,27 +23,42 @@ router.get("/posts", jwtMiddleware, function(req, res) {
 
   Post.find(req.body, function(err, posts) {
     return res.json({
-        posts: posts
+      posts: posts
     });
   });
 });
 
 // Create posts
-router.post("/posts", jwtMiddleware, function(req, res) {
+router.post('/posts', jwtMiddleware, function(req, res) {
   if(!req.body || !req.body.publisher)
     return res.sendStatus(400); // Bad request
 
-  if(!(req.body.token || req.query.token || req.headers['x-access-token']))
+  let token = req.body.token || req.query.token || req.headers['x-access-token'];
+  if(!token)
     return res.sendStatus(401); // Unauthorized
 
-  new Post(req.body).save(function(err, post) {
-    if (err) return res.sendStatus(500); // Internal Server
-    return res.json(post);
+  // Validate publisher
+  User.findOne({ _id: req.body.publisher }, (err, user) => {
+    try {
+      let decoded = jwt.verify(token, config.secret);
+      if(decoded.username !== user.username) {
+        return res.sendStatus(401); // Unauthorized
+      }
+      else { // Create the post
+        new Post(req.body).save(function(err, post) {
+          if (err) return res.sendStatus(500); // Internal Server
+          return res.json(post);
+        });
+      }
+    } catch(e) {
+      return res.sendStatus(401); // Unauthorized
+    }
   });
+
 });
 
 // Get post details
-router.get("/post/:id", jwtMiddleware, function(req, res) {
+router.get('/post/:id', jwtMiddleware, function(req, res) {
   var id = req.params.id;
 
   if(!id)
@@ -51,7 +71,7 @@ router.get("/post/:id", jwtMiddleware, function(req, res) {
 });
 
 // Edit post details
-router.put("/post/:id", jwtMiddleware, function(req, res) {
+router.put('/post/:id', jwtMiddleware, function(req, res) {
   if(!(req.body.token || req.query.token || req.headers['x-access-token']))
     return res.sendStatus(401); // Unauthorized
 
@@ -72,7 +92,7 @@ router.put("/post/:id", jwtMiddleware, function(req, res) {
 });
 
 // Delete post
-router.delete("/post/:id", jwtMiddleware, function(req, res) {
+router.delete('/post/:id', jwtMiddleware, function(req, res) {
   if(!(req.body.token || req.query.token || req.headers['x-access-token']))
     return res.sendStatus(401); // Unauthorized
 
