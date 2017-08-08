@@ -39,9 +39,9 @@ class PostList extends React.Component {
     const content = postList.length > 0 ? postList : <h4>No posts yet</h4>;
 
     return (
-      <Panel>
-        {content}
-      </Panel>
+      <div>
+      {content}
+      </div>
     );
   }
 }

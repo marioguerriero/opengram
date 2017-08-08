@@ -14,7 +14,8 @@ class ComposeBox extends React.Component {
 
     this.state = {
       publisher: this.props.user._id,
-      message: ''
+      message: '',
+      media: null
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -34,11 +35,12 @@ class ComposeBox extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     this.props.addPost(this.state, this.props.user.token);
+    this.setState({message:'', file:null})
   }
 
   render() {
     return (
-      <Panel>
+      <div>
         <Grid>
           <Row>
             <Col xs={6} md={4}> <Image src={this.props.user.avatar} circle /> </Col>
@@ -66,7 +68,7 @@ class ComposeBox extends React.Component {
             </form></Col>
           </Row>
         </Grid>
-      </Panel>
+      </div>
     );
   }
 }

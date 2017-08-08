@@ -11,18 +11,18 @@ router.use(bodyParser.json());
 
 // Get user's details
 router.get('/user/:id', jwtMiddleware, function(req, res) {
-    var id = req.params.id;
+  var id = req.params.id;
 
-    if(!id)
-        return res.sendStatus(400); // Bad Request
+  if(!id)
+    return res.sendStatus(400); // Bad Request
 
-    User.findOne({ _id: id }, function(err, user) {
-        if(err)
-            res.sendStatus(404);
-        else {
-            res.json(user);
-        }
-    });
+  User.findOne({ _id: id }, function(err, user) {
+    if(err)
+      res.sendStatus(404);
+    else {
+      res.json(user);
+    }
+  });
 });
 
 // Create new users

@@ -23,7 +23,7 @@ class Page extends React.Component {
     let content = <h1>Hello, World!</h1>; // TODO: use some default page
     if(this.props.loggedIn) {
       this.props.fetchTimeline(user.token);
-      content = (<Panel><ComposeBox /><PostList /></Panel>)
+      content = (<div><ComposeBox /><PostList /></div>)
     }
 
     return(<div>
