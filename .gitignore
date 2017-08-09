@@ -88,3 +88,4 @@ dist/
 .next/
 ./idea
 test-dist/
+client/static/uploads/*

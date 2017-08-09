@@ -42,12 +42,8 @@ class ComposeBox extends React.Component {
     var fileData = document.querySelector('input[type="file"]').files[0];
     formData.append('media', fileData);
 
-    for (var pair of formData.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]);
-    }
-
     const headers = {
-      'Content-Type': 'multipart/form-data',
+      //'Content-Type': 'multipart/form-data',
       'x-access-token': this.props.user.token
     }
     const init = {
@@ -60,10 +56,13 @@ class ComposeBox extends React.Component {
         // TODO: handle error
       }
       else {
-        // Request to upload post
-        this.props.addPost(this.state, this.props.user.token);
-        this.setState({message:'', media:''});
+        return res.json();
       }
+    }).then(data => {
+      // Request to upload post
+      this.setState({media:data.path});
+      this.props.addPost(this.state, this.props.user.token);
+      this.setState({message:'', media:''});
     });
   }
 
@@ -77,7 +76,6 @@ class ComposeBox extends React.Component {
               <FormControl
                 name="media"
                 type="file"
-                ref={(ref) => this.fileUpload = ref}
               />
 
               <FormGroup controlId="formContent">

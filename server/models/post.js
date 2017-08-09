@@ -9,7 +9,7 @@ var Schema = mongoose.Schema;
 // Define and export User's schema and model
 var post_schema = new Schema({
   publisher: { type: Schema.Types.ObjectId, ref: 'User' },
-  media: { type: Schema.Types.ObjectId, ref: 'File' },
+  media: String,
   message: String,
   date: { type: Date, default: Date.now },
   mentions: [ { type: Schema.Types.ObjectId, ref: 'User' } ],

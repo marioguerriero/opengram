@@ -48,13 +48,18 @@ class Post extends React.Component {
   }
 
   render() {
+    let media = <Glyphicon style={{fontSize: 150}} glyph="picture" />;
+    if(this.props.post.media) {
+      media = <img src={this.props.post.media} alt='Media file' />;
+    }
+
     return (
       <Panel>
       <Row>
         <Col sm={1} md={1}><Glyphicon glyph="user" /></Col>
         <Col sm={1} md={1}><p>{this.state.username}</p></Col>
       </Row>
-        <Glyphicon style={{fontSize: 150}} glyph="picture" />
+        {media}
         <p>{this.props.post.message}</p>
         <Button bsSize="small" onClick={this.handleLikeClick}><Glyphicon glyph="star" /></Button>
       </Panel>

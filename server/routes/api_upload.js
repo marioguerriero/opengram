@@ -5,15 +5,6 @@ import config from './../config';
 
 const DEST_PATH = 'client/static/uploads/';
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, DEST_PATH)
-  },
-  filename: function (req, file, cb) {
-    cb(null, DEST_PATH + file.fieldname + '-' + Date.now() + '-' + file.originalname)
-  }
-});
-
 const upload = multer({
   dest: DEST_PATH
 }).single('media');
@@ -27,7 +18,8 @@ router.post('/upload', jwtMiddleware, (req, res, next) => {
       return
     }
     // Everything went fine
-    return res.send('/uploads/' + req.file.filename);
+    res.json({ path: 'static/uploads/' + req.file.filename });
+    res.end();
   });
 });
 

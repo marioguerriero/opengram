@@ -32,7 +32,7 @@ class PostList extends React.Component {
     let postList = []
     if(posts != null && posts.length > 0) {
       postList = posts.map((post) => {
-        return <Post post={post} />
+        return <Post post={post} key={post.publisher + post.date} />
       });
     }
 
