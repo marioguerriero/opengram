@@ -21,10 +21,4 @@ server.use(cookieParser());
 
 server.use('/api', api);
 
-// Error handling middleware
-server.use(function (err, req, res, next) {
-  // TODO
-  next('route');
-});
-
 export default server;
