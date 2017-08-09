@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import gsf from './gfs';
 
 /*  This is not directly used but it is imported
   so that the models it contains are declared */

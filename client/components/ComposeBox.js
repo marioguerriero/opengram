@@ -8,6 +8,8 @@ import { Panel, Grid, Col, Row, FieldGroup, Image,
 
 import { addPost } from './../redux/post_actions';
 
+import 'isomorphic-fetch';
+
 class ComposeBox extends React.Component {
   constructor(props) {
     super(props);
@@ -15,7 +17,7 @@ class ComposeBox extends React.Component {
     this.state = {
       publisher: this.props.user._id,
       message: '',
-      media: null
+      media: ''
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -34,8 +36,35 @@ class ComposeBox extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.addPost(this.state, this.props.user.token);
-    this.setState({message:'', file:null})
+
+    // Request to upload the media file
+    const formData = new FormData();
+    var fileData = document.querySelector('input[type="file"]').files[0];
+    formData.append('media', fileData);
+
+    for (var pair of formData.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]);
+    }
+
+    const headers = {
+      'Content-Type': 'multipart/form-data',
+      'x-access-token': this.props.user.token
+    }
+    const init = {
+      headers,
+      method: 'POST',
+      body: formData
+    };
+    fetch('/api/upload', init).then(res => {
+      if(res.status >= 400) {
+        // TODO: handle error
+      }
+      else {
+        // Request to upload post
+        this.props.addPost(this.state, this.props.user.token);
+        this.setState({message:'', media:''});
+      }
+    });
   }
 
   render() {
@@ -46,9 +75,9 @@ class ComposeBox extends React.Component {
             <Col xs={6} md={4}> <Image src={this.props.user.avatar} circle /> </Col>
             <Col xs={6} md={4}> <form onSubmit={this.handleSubmit}>
               <FormControl
-                id="formPhoto"
+                name="media"
                 type="file"
-                label="Photo"
+                ref={(ref) => this.fileUpload = ref}
               />
 
               <FormGroup controlId="formContent">

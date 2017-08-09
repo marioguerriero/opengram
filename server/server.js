@@ -5,7 +5,6 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 
 import api from './routes/api';
-import upload from './routes/upload';
 
 import config from './config';
 
@@ -21,12 +20,10 @@ server.use(bodyParser.urlencoded({ extended: true }));
 server.use(cookieParser());
 
 server.use('/api', api);
-server.use('/upload', upload);
 
 // Error handling middleware
 server.use(function (err, req, res, next) {
-  if(!(req.body.token || req.query.token || req.headers['x-access-token']))
-    return res.sendStatus(401); // Unauthorized
+  // TODO
   next('route');
 });
 

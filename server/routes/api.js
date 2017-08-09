@@ -8,6 +8,7 @@ import User from "./../models/user";
 import api_user from './api_user';
 import api_post from './api_post';
 import api_timeline from './api_timeline';
+import api_upload from './api_upload';
 
 var api = express.Router();
 
@@ -17,6 +18,7 @@ api.use(bodyParser.json());
 api.use(api_user);
 api.use(api_post);
 api.use(api_timeline);
+api.use(api_upload);
 
 // Authentication end point
 api.post("/login", function(req, res) {
