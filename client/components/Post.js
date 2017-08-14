@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Link from 'next/link';
+
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 
@@ -57,7 +59,7 @@ class Post extends React.Component {
       <Panel>
       <Row>
         <Col sm={1} md={1}><Glyphicon glyph="user" /></Col>
-        <Col sm={1} md={1}><p>{this.state.username}</p></Col>
+        <Col sm={1} md={1}><Link href={{pathname: '/user', query: { username: {this.state.username}}} as={'/user/' + this.state.username}>{this.state.username}</Link></Col>
       </Row>
         {media}
         <p>{this.props.post.message}</p>
