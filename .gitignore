@@ -89,3 +89,4 @@ dist/
 ./idea
 test-dist/
 client/static/uploads/*
+*.swp
