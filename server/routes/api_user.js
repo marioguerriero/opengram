@@ -32,11 +32,11 @@ router.post("/users", function(req, res){
   }
 
   if(req.body.password !== req.body.confirmPassword) {
-    return res.status(400).send({errMsg: 'Passwords do not match'});
+    return res.status(400).send('Passwords do not match');
   }
 
   if(!req.body.conditionsAgreement) {
-    return res.status(400).send({errMsg: 'License and conditions must be agreed'});
+    return res.status(400).send('License and conditions must be agreed');
   }
 
   // Build new User object
