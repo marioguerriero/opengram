@@ -11,6 +11,8 @@ import { authRequest, register } from '../redux/user_actions';
 
 import { cleanErr } from '../redux/store';
 
+import { cleanRegisterSuccess } from '../redux/user_actions';
+
 class RegisterForm extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +22,8 @@ class RegisterForm extends React.Component {
       email: '',
       password: '',
       confirmPassword: '',
-      conditionsAgreement: false
+      conditionsAgreement: false,
+      registerRequestFetching: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -39,16 +42,6 @@ class RegisterForm extends React.Component {
 
   handleConditionsAgreementChange() {
     this.setState({ conditionsAgreement: !this.state.conditionsAgreement });
-  }
-
-  handleSubmitClick() {
-    this.props.onSubmit({
-      name: this.state.name,
-      username: this.state.username,
-      email: this.state.email,
-      password: this.state.password,
-      confirmPassword: this.state.confirmPassword
-    });
   }
 
   passwordValidation() {
@@ -74,7 +67,17 @@ class RegisterForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.register(this.state);
+
+    const query = {
+      name: this.state.name,
+      username: this.state.username,
+      email: this.state.email,
+      password: this.state.password,
+      confirmPassword: this.state.confirmPassword,
+      conditionsAgreement: this.state.conditionsAgreement
+    };
+
+    this.props.register(query);
   }
 
   componentDidUpdate() {
@@ -83,7 +86,8 @@ class RegisterForm extends React.Component {
         Router.push('/register?err=Username already in use');
     }
     if(!this.props.isFetching && !this.props.err && this.props.registerSuccess) {
-      Router.push('/login');
+      cleanRegisterSuccess();
+      Router.push('/login?successMsg=Registration completed. You can now login');
     }
   }
 

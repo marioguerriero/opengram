@@ -31,10 +31,20 @@ router.post("/users", function(req, res){
     return res.sendStatus(400); // Bad Request
   }
 
+  if(req.body.password !== req.body.confirmPassword) {
+    return res.status(400).send({errMsg: 'Passwords do not match'});
+  }
+
+  if(!req.body.conditionsAgreement) {
+    return res.status(400).send({errMsg: 'License and conditions must be agreed'});
+  }
+
   // Build new User object
   var user = new User({
+    name: req.body.name,
     username: req.body.username,
-    password: req.body.password
+    password: req.body.password,
+    email: req.body.email
   });
 
   // Check wheter the username was already taken

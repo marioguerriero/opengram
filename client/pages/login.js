@@ -16,26 +16,30 @@ import { initStore, cleanErr } from '../redux/store';
 import { authRequest } from '../redux/user_actions';
 
 class Page extends React.Component {
-  static getInitialProps ({ query: { err } }) {
-    return { err };
+  static getInitialProps ({ query: { err, successMsg } }) {
+    return { err, successMsg };
   }
 
   render() {
-    let err = null;
+    let alert = null;
     if(this.props.err) {
-      err = (<Alert bsStyle="danger" >
+      alert = (<Alert bsStyle="danger" >
           <h4>Oh snap! You got an error!</h4>
           <p>{this.props.err}</p>
         </Alert>)
       this.props.cleanErr();
     }
-
+    else if(this.props.successMsg) {
+      alert = (<Alert bsStyle="success" >
+          <p>{this.props.successMsg}</p>
+          </Alert>);
+    }
     return(<div>
       <Head />
 
       <Header />
 
-      {err}
+      {alert}
 
       <Panel><LoginForm /></Panel>
 

@@ -4,10 +4,11 @@ export const actionTypes = {
   REGISTER_REQUEST: Symbol('REGISTER_REQUEST'),
   REGISTER_SUCCESS: Symbol('REGISTER_SUCCESS'),
   REGISTER_FAILURE: Symbol('REGISTER_FAILURE'),
+  CLEAN_REGISTER_SUCCESS: Symbol('CLEAN_REGISTER_SUCCESS'),
   AUTH_REQUEST: Symbol('AUTH_REQUEST'),
   AUTH_SUCCESS: Symbol('AUTH_SUCCESS'),
   AUTH_FAILURE: Symbol('AUTH_FAILURE'),
-  AUTH_DESTORY: Symbol('AUTH_DESTORY'),
+  AUTH_DESTORY: Symbol('AUTH_DESTORY')
 }
 
 export function authRequest(user){
@@ -41,4 +42,10 @@ export function authDestroy() {
   return {
     type: actionTypes.AUTH_DESTORY
   }
+}
+
+export function cleanRegisterSuccess() {
+  return {
+    type: actionTypes.CLEAN_REGISTER_SUCCESS
+  };
 }

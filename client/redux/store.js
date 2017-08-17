@@ -45,6 +45,11 @@ export const reducer = (state = initialState, action) => {
         isFetching: false,
         err: action.response
       };
+    case UserAction.CLEAN_REGISTER_SUCCESS:
+      return {
+        ...state,
+        registerSuccess: null
+      };
     case UserAction.AUTH_SUCCESS:
       return {
         ...state,

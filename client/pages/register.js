@@ -15,8 +15,8 @@ import { bindActionCreators } from 'redux';
 import { initStore, cleanErr } from '../redux/store';
 
 class Page extends React.Component {
-  static getInitialProps ({ query: { err } }) {
-    return { err };
+  static getInitialProps ({ query: { err, successMsg } }) {
+    return { err, successMsg };
   }
 
   render() {
@@ -27,6 +27,11 @@ class Page extends React.Component {
           <p>{this.props.err}</p>
         </Alert>)
       this.props.cleanErr();
+    }
+    else if(this.props.successMsg) {
+      alert = (<Alert bsStyle="success" >
+          <p>{this.props.successMsg}</p>
+          </Alert>);
     }
 
     return(<div>
