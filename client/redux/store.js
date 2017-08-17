@@ -69,6 +69,72 @@ export const reducer = (state = initialState, action) => {
         isFetching: false,
         err: action.response
       };
+    case UserAction.PROFILE_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        profile: action.response
+      };
+    case UserAction.PROFILE_REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      };
+    case UserAction.PROFILE_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        err: action.response
+      };
+    case UserAction.USER_POSTS_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        posts: action.response.posts
+      };
+    case UserAction.USER_POSTS_REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      };
+    case UserAction.USER_POSTS_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        err: action.response
+      };
+    case UserAction.FOLLOW_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+      };
+    case UserAction.FOLLOW_REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      };
+    case UserAction.FOLLOW_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        err: action.response
+      };
+    case UserAction.DEFOLLOW_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+      };
+    case UserAction.DEFOLLOW_REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      };
+    case UserAction.DEFOLLOW_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        err: action.response
+      };
     case UserAction.AUTH_DESTORY:
       return {
         ...state,

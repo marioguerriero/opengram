@@ -10,9 +10,11 @@ import Footer from './../components/Footer';
 
 import Header from './../components/Header';
 
+import UserProfile from './../components/UserProfile';
+
 class Page extends React.Component {
-  static getInitialProps ({ query: { username } }) {
-    return { username };
+  static getInitialProps ({ query: { username, id } }) {
+    return { username, id };
   }
 
   render() {
@@ -21,7 +23,7 @@ class Page extends React.Component {
 
       <Header />
 
-      <p>This is the profile of {this.props.username}</p>
+      <UserProfile id={this.props.id} />
 
       <Footer />
 

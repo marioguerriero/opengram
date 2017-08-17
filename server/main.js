@@ -5,7 +5,7 @@ import { parse } from 'url';
 
 import pathMatch from 'path-match';
 
-let port = (process.env.PORT || 3000);
+import config from './config';
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dir: './client', dev });
@@ -32,8 +32,8 @@ app.prepare()
     return handle(req, res);
   });
 
-  server.listen(port, (err) => {
+  server.listen(config.port, (err) => {
     if (err) throw err;
-    console.log('> Ready on http://localhost:%s', port);
+    console.log('> Ready on http://localhost:%s', config.port);
   })
 });

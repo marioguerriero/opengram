@@ -11,6 +11,8 @@ const upload = multer({
 
 const router = express.Router();
 
+const dev = process.env.NODE_ENV !== 'production';
+
 router.post('/upload', jwtMiddleware, (req, res, next) => {
   upload(req, res, function (err) {
     if (err) {
@@ -18,7 +20,7 @@ router.post('/upload', jwtMiddleware, (req, res, next) => {
       return
     }
     // Everything went fine
-    res.json({ path: 'static/uploads/' + req.file.filename });
+    res.json({ path: '/static/uploads/' + req.file.filename });
     res.end();
   });
 });

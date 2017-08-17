@@ -261,7 +261,7 @@ describe('Test API', function() {
   });
 
   // Defollow endpoints
-  it('Second user starts following the first one', function(done) {
+  it('Second user stops following the first one', function(done) {
     request(url)
       .delete('/api/user/follow/' + user._id)
       .set('x-access-token', token2)

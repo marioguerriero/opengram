@@ -27,7 +27,7 @@ class Header extends React.Component {
     </Nav>);
     if(this.props.loggedIn) {
       rightButtons = (<Nav pullRight>
-        <NavItem eventKey={1} onClick={() => Router.push('/user?username=' + this.props.user.username)}>{this.props.user.username}</NavItem>
+        <NavItem eventKey={1} onClick={() => Router.push('/user?id=' + this.props.user._id)}>{this.props.user.username}</NavItem>
         <NavItem eventKey={2} onClick={() => this.logout()}>Logout</NavItem>
       </Nav>);
     }
