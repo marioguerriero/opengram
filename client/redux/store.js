@@ -11,7 +11,8 @@ const initialState = {
   user: null,
   posts: null,
   loggedIn: false,
-  err: null
+  err: null,
+  isFetching: false
 }
 
 export const initStore = (state = initialState) => {
@@ -35,6 +36,7 @@ export const reducer = (state = initialState, action) => {
     case UserAction.REGISTER_SUCCESS:
       return {
         ...state,
+        registerSuccess: true,
         isFetching: false
       };
     case UserAction.REGISTER_FAILURE:

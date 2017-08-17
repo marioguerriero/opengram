@@ -82,6 +82,9 @@ class RegisterForm extends React.Component {
       if(this.props.err.status == 409)
         Router.push('/register?err=Username already in use');
     }
+    if(!this.props.isFetching && !this.props.err && this.props.registerSuccess) {
+      Router.push('/login');
+    }
   }
 
   componentWillUnmount() {
@@ -281,7 +284,7 @@ class LoginForm extends React.Component{
   }
 }
 
-const mapStateToPropsRegister = ({ isFetching, err }) => ({ isFetching, err })
+const mapStateToPropsRegister = ({ isFetching, err, registerSuccess }) => ({ isFetching, err, registerSuccess })
 const mapDispatchToPropsRegister = (dispatch) => {
   return {
     register: bindActionCreators(register, dispatch),

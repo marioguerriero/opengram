@@ -16,17 +16,17 @@ export default store => next => action => {
     call.set('x-access-token', authToken);
   }
   call.send(query)
-      .end((err, res)=> {
-      	if (err) {
-        	dispatch({
-          	type: failureType,
-            response: err
-          });
-        } else {
-          dispatch({
-      	    type: successType,
-            response: res.body
-          });
-        }
-    });
+    .end((err, res)=> {
+    	if (err) {
+      	dispatch({
+        	type: failureType,
+          response: err
+        });
+      } else {
+        dispatch({
+    	    type: successType,
+          response: res.body
+        });
+      }
+  });
 };

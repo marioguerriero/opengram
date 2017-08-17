@@ -27,27 +27,27 @@ router.get('/user/:id', jwtMiddleware, function(req, res) {
 
 // Create new users
 router.post("/users", function(req, res){
-    if(!req.body.username || !req.body.password) {
-        return res.sendStatus(400); // Bad Request
+  if(!req.body.username || !req.body.password) {
+    return res.sendStatus(400); // Bad Request
+  }
+
+  // Build new User object
+  var user = new User({
+    username: req.body.username,
+    password: req.body.password
+  });
+
+  // Check wheter the username was already taken
+  User.count({username: user.username}, function(err, count) {
+    if(count > 0) {
+      return res.sendStatus(409); // Conflict
     }
-
-    // Build new User object
-    var user = new User({
-        username: req.body.username,
-        password: req.body.password
+    // Register in the database
+    user.save(function(err, user) {
+      if(err) return res.sendStatus(500); // Internal Server Error
+      return res.sendStatus(200);
     });
-
-    // Check wheter the username was already taken
-    User.count({username: user.username}, function(err, count) {
-        if(count > 0) {
-            return res.sendStatus(409); // Conflict
-        }
-        // Register in the database
-        user.save(function(err, user) {
-            if(err) return res.sendStatus(500); // Internal Server Error
-            return res.sendStatus(200);
-        });
-    });
+  });
 });
 
 // Edit user details
