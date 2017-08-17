@@ -19,16 +19,22 @@ dbConnector();
 var server = serverStarter();
 
 var user = {
-    name: "Mario Guerriero",
-    username: "marioguerriero",
-    password: "samplepassword"
+  name: "Mario Guerriero",
+  username: "marioguerriero",
+  email: "marioguerriero@opengram.com",
+  password: "samplepassword",
+  confirmPassword: "samplepassword",
+  conditionsAgreement: true
 };
 
 // This user will be used just to help with timeline testing
 var user2 = {
-    name: "Winston Smith",
-    username: "winstonsmith",
-    password: "winstonsmithPass"
+  name: "Winston Smith",
+  username: "winstonsmith",
+  email: "winstonsmith@opengram.com",
+  password: "winstonsmithPass",
+  confirmPassword: "winstonsmithPass",
+  conditionsAgreement: true
 };
 
 var token = null;
@@ -36,249 +42,156 @@ var token = null;
 var token2 = null;
 
 var post = {
-    message: 'This is a sample post',
-    date: new Date()
+  message: 'This is a sample post',
+  date: new Date()
 };
 
 describe('Test API', function() {
-    var url = 'http://localhost:' + config.testport;
+  var url = 'http://localhost:' + config.testport;
 
-    // Test users
-    it('Register a new user', function(done) {
-        request(url)
-            .post('/api/users')
-            .send(user)
-            .end(function(err, res) {
-                if(err)
-                    throw err;
-                assert.equal(200, res.status);
-                done();
-            });
-    });
+  // Test users
+  it('Register a new user', function(done) {
+    request(url)
+      .post('/api/users')
+      .send(user)
+      .end(function(err, res) {
+        if(err)
+          throw err;
+        assert.equal(200, res.status);
+        done();
+      });
+  });
 
-    it('Register a second new user user', function(done) {
-        request(url)
-            .post('/api/users')
-            .send(user2)
-            .end(function(err, res) {
-                if(err)
-                    throw err;
-                assert.equal(200, res.status);
-                done();
-            });
-    });
+  it('Register a second new user user', function(done) {
+    request(url)
+      .post('/api/users')
+      .send(user2)
+      .end(function(err, res) {
+        if(err)
+          throw err;
+        assert.equal(200, res.status);
+        done();
+      });
+  });
 
-    it('Register an user with an already existing username', function(done) {
-        request(url)
-            .post('/api/users')
-            .send(user)
-            .end(function(err, res) {
-                if(err)
-                    throw err;
-                assert.equal(409, res.status); // Status code should be: 409 CONFLICT
-                done();
-            });
-    });
+  it('Register an user with an already existing username', function(done) {
+    request(url)
+      .post('/api/users')
+      .send(user)
+      .end(function(err, res) {
+        if(err)
+          throw err;
+        assert.equal(409, res.status); // Status code should be: 409 CONFLICT
+        done();
+      });
+  });
 
-    it('Login first user', function(done) {
-        request(url)
-            .post('/api/login')
-            .send(user)
-            .end(function(err, res) {
-                if(err)
-                    throw err;
-                assert.equal(200, res.status);
+  it('Login first user', function(done) {
+    request(url)
+      .post('/api/login')
+      .send(user)
+      .end(function(err, res) {
+        if(err)
+          throw err;
+        assert.equal(200, res.status);
 
-                user._id = res.body._id;
-                assert.isNotNull(user._id);
+        user._id = res.body._id;
+        assert.isNotNull(user._id);
 
-                token = res.body.token;
-                assert.isNotNull(token);
+        token = res.body.token;
+        assert.isNotNull(token);
 
-                done();
-            });
-    });
+        done();
+      });
+  });
 
-    it('Login second user', function(done) {
-        request(url)
-            .post('/api/login')
-            .send(user2)
-            .end(function(err, res) {
-                if(err)
-                    throw err;
-                assert.equal(200, res.status);
+  it('Login second user', function(done) {
+    request(url)
+      .post('/api/login')
+      .send(user2)
+      .end(function(err, res) {
+        if(err)
+          throw err;
+        assert.equal(200, res.status);
 
-                user2._id = res.body._id;
-                assert.isNotNull(user2._id);
+        user2._id = res.body._id;
+        assert.isNotNull(user2._id);
 
-                token2 = res.body.token;
-                assert.isNotNull(token);
+        token2 = res.body.token;
+        assert.isNotNull(token);
 
-                done();
-            });
-    });
+        done();
+      });
+  });
 
-    it('Edit user details', function(done) {
-        var birthdate = new Date().toISOString();
-        user.birthday = birthdate;
+  it('Edit user details', function(done) {
+    var birthdate = new Date().toISOString();
+    user.birthday = birthdate;
 
-        request(url)
-            .put('/api/user/' + user._id)
-            .set('x-access-token', token)
-            .send(user)
-            .end(function(err, res) {
-                if(err)
-                    throw err;
+    request(url)
+      .put('/api/user/' + user._id)
+      .set('x-access-token', token)
+      .send(user)
+      .end(function(err, res) {
+        if(err)
+          throw err;
 
-                var localUser = res.body;
-                assert.equal(birthdate, localUser.birthday);
-                done();
-            });
-    });
+        var localUser = res.body;
+        assert.equal(birthdate, localUser.birthday);
+        done();
+      });
+  });
 
-    it('Second user starts following the first one', function(done) {
-        request(url)
-            .post('/api/user/follow/' + user._id)
-            .set('x-access-token', token2)
-            .end(function(err, res) {
-                if(err)
-                    throw err;
+  it('Second user starts following the first one', function(done) {
+    request(url)
+      .post('/api/user/follow/' + user._id)
+      .set('x-access-token', token2)
+      .end(function(err, res) {
+        if(err)
+          throw err;
 
-                assert.equal(200, res.status);
+        assert.equal(200, res.status);
 
-                var localUser = res.body;
-                assert.equal(user._id, localUser.following[0]);
+        var localUser = res.body;
+        assert.equal(user._id, localUser.following[0]);
 
-                done();
-            });
-    });
+        done();
+      });
+  });
 
-    // Test Posts
-    it('Post creation without publisher', function(done) {
-        request(url)
-            .post('/api/posts')
-            .set('x-access-token', token)
-            .send(post)
-            .end(function(err, res) {
-                if(err)
-                    throw err;
+  // Test Posts
+  it('Post creation without publisher', function(done) {
+    request(url)
+      .post('/api/posts')
+      .set('x-access-token', token)
+      .send(post)
+      .end(function(err, res) {
+        if(err)
+          throw err;
 
-                assert.equal(400, res.status);
-                done();
-            });
-    });
+        assert.equal(400, res.status);
+        done();
+      });
+  });
 
-    it('Post creation without token', function(done) {
-        post.publisher = user._id;
+  it('Post creation without token', function(done) {
+      post.publisher = user._id;
 
-        request(url)
-            .post('/api/posts')
-            .send(post)
-            .end(function(err, res) {
-                if(err)
-                    throw err;
-
-                assert.equal(401, res.status);
-                done();
-            });
-    });
-
-    it('Post creation', function(done) {
-        request(url)
-            .post('/api/posts')
-            .set('x-access-token', token)
-            .send(post)
-            .end(function(err, res) {
-                if(err)
-                    throw err;
-
-                assert.equal(200, res.status);
-
-                post._id = res.body._id;
-                assert.isNotNull(post._id);
-
-                done();
-            });
-    });
-
-    it('Query posts for user', function(done) {
-        request(url)
-            .get('/api/posts')
-            .set('x-access-token', token)
-            .send({ publisher: user._id })
-            .end(function(err, res) {
-                if(err)
-                    throw err;
-
-                assert.equal(200, res.status);
-
-                assert.equal(1, res.body.posts.length);
-
-                done();
-            });
-    });
-
-    it('Edit post', function(done) {
-        var newMessage = 'I want to edit this post\'s message';
-        post.message = newMessage;
-
-        request(url)
-            .put('/api/post/' + post._id)
-            .set('x-access-token', token)
-            .send(post)
-            .end(function(err, res) {
-                if(err)
-                    throw err;
-
-                assert.equal(200, res.status);
-
-                var localPost = res.body;
-                assert.equal(newMessage, localPost.message);
-
-                done();
-            });
-    });
-
-    // Timeline
-
-    it('Test timeline', function(done) {
       request(url)
-          .get('/api/timeline')
-          .set('x-access-token', token2)
+          .post('/api/posts')
           .send(post)
           .end(function(err, res) {
               if(err)
                   throw err;
 
-              assert.equal(200, res.status);
-              assert.isAbove(res.body.posts.length, 0, 'Timeline contains at least one post')
+              assert.equal(401, res.status);
               done();
           });
-    });
+  });
 
-    // Defollow endpoints
-    it('Second user starts following the first one', function(done) {
-        request(url)
-            .delete('/api/user/follow/' + user._id)
-            .set('x-access-token', token2)
-            .end(function(err, res) {
-                if(err)
-                    throw err;
-
-                assert.equal(200, res.status);
-
-                var localUser = res.body;
-                assert.equal(0, localUser.following.length);
-
-                done();
-            });
-    });
-
-    // Delete APIs endpoints
-
-    it('Delete created post', function(done) {
+  it('Post creation', function(done) {
       request(url)
-          .delete('/api/post/' + post._id)
+          .post('/api/posts')
           .set('x-access-token', token)
           .send(post)
           .end(function(err, res) {
@@ -286,40 +199,131 @@ describe('Test API', function() {
                   throw err;
 
               assert.equal(200, res.status);
+
+              post._id = res.body._id;
+              assert.isNotNull(post._id);
+
               done();
           });
-    });
+  });
 
-    it('Delete created user: ' + user.username, function(done) {
-      request(url)
-          .delete('/api/user/' + user._id)
-          .set('x-access-token', token2)
-          .end(function(err, res) {
-              if(err)
-                  throw err;
+  it('Query posts for user', function(done) {
+    request(url)
+      .get('/api/posts')
+      .set('x-access-token', token)
+      .send({ publisher: user._id })
+      .end(function(err, res) {
+        if(err)
+          throw err;
 
-              assert.equal(200, res.status);
-              done();
-          });
-    });
+        assert.equal(200, res.status);
+        assert.equal(1, res.body.posts.length);
+        done();
+      });
+  });
 
-    it('Delete created user: ' + user2.username, function(done) {
-      request(url)
-          .delete('/api/user/' + user2._id)
-          .set('x-access-token', token2)
-          .end(function(err, res) {
-              if(err)
-                  throw err;
+  it('Edit post', function(done) {
+    var newMessage = 'I want to edit this post\'s message';
+    post.message = newMessage;
 
-              assert.equal(200, res.status);
-              done();
-          });
-    });
+    request(url)
+      .put('/api/post/' + post._id)
+      .set('x-access-token', token)
+      .send(post)
+      .end(function(err, res) {
+        if(err)
+          throw err;
 
-    after(function() {
-        // Close db connection
-        mongoose.connection.close();
-        // Close server
-        server.close();
-    });
+        assert.equal(200, res.status);
+
+        var localPost = res.body;
+        assert.equal(newMessage, localPost.message);
+
+        done();
+      });
+  });
+
+  // Timeline
+
+  it('Test timeline', function(done) {
+    request(url)
+      .get('/api/timeline')
+      .set('x-access-token', token2)
+      .send(post)
+      .end(function(err, res) {
+        if(err)
+          throw err;
+
+        assert.equal(200, res.status);
+        assert.isAbove(res.body.posts.length, 0, 'Timeline contains at least one post')
+        done();
+      });
+  });
+
+  // Defollow endpoints
+  it('Second user starts following the first one', function(done) {
+    request(url)
+      .delete('/api/user/follow/' + user._id)
+      .set('x-access-token', token2)
+      .end(function(err, res) {
+        if(err)
+          throw err;
+
+        assert.equal(200, res.status);
+
+        var localUser = res.body;
+        assert.equal(0, localUser.following.length);
+
+        done();
+      });
+  });
+
+  // Delete APIs endpoints
+
+  it('Delete created post', function(done) {
+    request(url)
+      .delete('/api/post/' + post._id)
+      .set('x-access-token', token)
+      .send(post)
+      .end(function(err, res) {
+        if(err)
+          throw err;
+
+        assert.equal(200, res.status);
+        done();
+      });
+  });
+
+  it('Delete created user: ' + user.username, function(done) {
+    request(url)
+      .delete('/api/user/' + user._id)
+      .set('x-access-token', token2)
+      .end(function(err, res) {
+        if(err)
+          throw err;
+
+        assert.equal(200, res.status);
+        done();
+      });
+  });
+
+  it('Delete created user: ' + user2.username, function(done) {
+    request(url)
+      .delete('/api/user/' + user2._id)
+      .set('x-access-token', token2)
+      .end(function(err, res) {
+        if(err)
+          throw err;
+
+        assert.equal(200, res.status);
+        done();
+      });
+  });
+
+  after(function() {
+    // Close db connection
+    mongoose.connection.close();
+    // Close server
+    server.close();
+  });
 });
