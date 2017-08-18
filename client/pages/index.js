@@ -2,8 +2,6 @@ import React from 'react'
 
 import { Panel } from 'react-bootstrap';
 
-import Link from 'next/link';
-
 import Head from './../components/Head';
 import Footer from './../components/Footer';
 
@@ -33,10 +31,6 @@ class Page extends React.Component {
       <Head />
 
       <Header />
-
-      <Link href={{pathname: '/user', query: { id: '5995ad2dcc52d72699d51732' }}} as={'/user/mario'}>
-        <a>{'mario'}</a>
-      </Link>
 
       {content}
 

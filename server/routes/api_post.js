@@ -4,6 +4,8 @@ import jwtMiddleware from './jwt-middleware';
 import Post from './../models/post';
 import User from './../models/user';
 
+import mongoose from 'mongoose';
+
 import jwt from 'jsonwebtoken';
 
 import config from './../config';
@@ -14,16 +16,15 @@ router.use(bodyParser.urlencoded({extended:false}));
 router.use(bodyParser.json());
 
 // Query posts
-router.get('/posts', jwtMiddleware, function(req, res) {
-  if(!req.body)
-    return res.sendStatus(400); // Bad request
-
+router.get('/posts/:publisher', jwtMiddleware, function(req, res) {
   if(!(req.body.token || req.query.token || req.headers['x-access-token']))
     return res.sendStatus(401); // Unauthorized
 
-  Post.find(req.body, function(err, posts) {
+  let ObjectId = mongoose.Types.ObjectId;
+  let query= Post.find({publisher: ObjectId(req.params.publisher) });
+  query.exec((err, posts) => {
     return res.json({
-      posts: posts
+      posts
     });
   });
 });

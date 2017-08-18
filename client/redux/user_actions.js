@@ -76,16 +76,14 @@ export function profileRequest(userid, tk) {
 }
 
 export function userPostsRequest(userid, tk) {
-  const query = { "_id": userid };
   return {
     [CALL_API]: {
       method: 'get',
-      path: '/api/posts',
+      path: '/api/posts/' + userid,
       authToken: tk,
       sendingType: actionTypes.USER_POSTS_REQUEST,
       successType: actionTypes.USER_POSTS_SUCCESS,
       failureType: actionTypes.USER_POSTS_FAILURE,
-      query
     }
   };
 }

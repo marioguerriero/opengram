@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Router  from 'next/router';
+
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 
@@ -26,11 +28,12 @@ class UserProfile extends React.Component {
   }
 
   componentWillMount() {
-    // Request to load user's profile
-    this.props.profileRequest(this.props.id, this.props.user.token);
-
-    // Request to load posts of the given user
-    this.props.userPostsRequest(this.props.id, this.props.user.token);
+    if(this.props.user) {
+      // Request to load user's profile
+      this.props.profileRequest(this.props.id, this.props.user.token);
+      // Request to load posts of the given user
+      this.props.userPostsRequest(this.props.id, this.props.user.token);
+    }
   }
 
   componentWillReceiveProps(nextProp) {
@@ -42,7 +45,11 @@ class UserProfile extends React.Component {
   }
 
   render() {
-    let avatar = <Glyphicon style={{fontSize: 150}} glyph="picture" />;
+    if(!this.props.user) {
+      Router.push('/');
+    }
+
+    let avatar = <Glyphicon style={{fontSize: 150}} glyph="user" />;
     if(this.props.profile && this.props.profile.avatar) {
       avatar = <img src={this.props.profile.avatar} alt='Media file' />;
     }

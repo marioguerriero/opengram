@@ -104,9 +104,12 @@ export const reducer = (state = initialState, action) => {
         err: action.response
       };
     case UserAction.FOLLOW_SUCCESS:
+      let user = state.user;
+      user.following = action.response.following;
       return {
         ...state,
         isFetching: false,
+        user
       };
     case UserAction.FOLLOW_REQUEST:
       return {
@@ -120,9 +123,12 @@ export const reducer = (state = initialState, action) => {
         err: action.response
       };
     case UserAction.DEFOLLOW_SUCCESS:
+      user = state.user;
+      user.following = action.response.following;
       return {
         ...state,
         isFetching: false,
+        user
       };
     case UserAction.DEFOLLOW_REQUEST:
       return {
