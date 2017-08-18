@@ -209,9 +209,8 @@ describe('Test API', function() {
 
   it('Query posts for user', function(done) {
     request(url)
-      .get('/api/posts')
+      .get('/api/posts/' + user._id)
       .set('x-access-token', token)
-      .send({ publisher: user._id })
       .end(function(err, res) {
         if(err)
           throw err;
