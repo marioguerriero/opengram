@@ -10,7 +10,7 @@ import config from './config';
 
 import mongoose from 'mongoose';
 
-mongoose.connect(config.dbhost, { useMongoClient: true }); // Open database connection
+mongoose.connect(config.dbhost); // Open database connection
 
 const server = express();
 
